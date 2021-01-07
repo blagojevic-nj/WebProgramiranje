@@ -2,12 +2,20 @@ package beans;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import dao.LocalDateTimeDeserializer;
+import dao.LocalDateTimeSerializer;
+
 public class Manifestacija {
 
 	private int id;
 	private String naziv;
 	private int tip;
 	private int brojMesta;
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime datumVremeOdrzavanja;
 	private double cenaREGkarte;
 	private Boolean aktivno;

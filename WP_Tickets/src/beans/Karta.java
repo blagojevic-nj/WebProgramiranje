@@ -2,14 +2,21 @@ package beans;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import beans.enums.StatusKarte;
 import beans.enums.TipKarte;
+import dao.LocalDateTimeDeserializer;
+import dao.LocalDateTimeSerializer;
 
 public class Karta {
 
 	private String id;
 	private String prodavac;
 	private int manifestacija;
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime datumVremeManifestacije;
 	private double cena;
 	private String kupac;

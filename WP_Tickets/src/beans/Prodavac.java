@@ -1,6 +1,6 @@
 package beans;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import beans.enums.Pol;
@@ -14,7 +14,7 @@ public class Prodavac extends Korisnik {
 		super();
 	}
 
-	public Prodavac(String username, String password, String ime, String prezime, Pol pol, Date datumRodjenja,
+	public Prodavac(String username, String password, String ime, String prezime, Pol pol, LocalDate datumRodjenja,
 			Uloga uloga, Boolean obrisan, List<Integer> manifestacije, List<String> karte) {
 		super(username, password, ime, prezime, pol, datumRodjenja, uloga, obrisan);
 		this.manifestacije = manifestacije;

@@ -1,9 +1,14 @@
 package beans;
 
-import java.util.Date;
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import beans.enums.Pol;
 import beans.enums.Uloga;
+import dao.LocalDateDeserializer;
+import dao.LocalDateSerializer;
 
 public class Korisnik {
 
@@ -12,11 +17,13 @@ public class Korisnik {
 	private String ime;
 	private String prezime;
 	private Pol pol;
-	private Date datumRodjenja;
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
+	private LocalDate datumRodjenja;
 	private Uloga uloga;
 	private Boolean obrisan;
 
-	public Korisnik(String username, String password, String ime, String prezime, Pol pol, Date datumRodjenja,
+	public Korisnik(String username, String password, String ime, String prezime, Pol pol, LocalDate datumRodjenja,
 			Uloga uloga, Boolean obrisan) {
 		super();
 		this.username = username;
@@ -73,11 +80,11 @@ public class Korisnik {
 		this.pol = pol;
 	}
 
-	public Date getDatumRodjenja() {
+	public LocalDate getDatumRodjenja() {
 		return datumRodjenja;
 	}
 
-	public void setDatumRodjenja(Date datumRodjenja) {
+	public void setDatumRodjenja(LocalDate datumRodjenja) {
 		this.datumRodjenja = datumRodjenja;
 	}
 
@@ -99,8 +106,7 @@ public class Korisnik {
 
 	@Override
 	public String toString() {
-		return username + "," + password + "," + ime + "," + prezime
-				+ "," + pol + "," + datumRodjenja + "," + uloga;
+		return username + "," + password + "," + ime + "," + prezime + "," + pol + "," + datumRodjenja + "," + uloga;
 	}
 
 }
