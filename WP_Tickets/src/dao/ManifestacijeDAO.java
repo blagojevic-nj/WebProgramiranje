@@ -227,9 +227,12 @@ public class ManifestacijeDAO {
 				String[] tokens = naziv.split(" ");
 				for(String s : tokens)
 				{
-					if(s.equals(lokacija.strip()));
-					list.add(m);
-					break;
+					if(s.equals(lokacija.trim()))
+					{
+						list.add(m);
+						break;
+					}
+
 				}
 
 			}
