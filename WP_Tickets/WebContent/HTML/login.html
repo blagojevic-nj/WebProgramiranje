@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Prijava</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="../JS/jquery-3.3.1.min.js"></script>
+    <script src="../JS/login.js"></script>
+</head>
+<body>
+    <div id="blok-prijava">
+        <h1 id="naslov">Login</h1>
+        <form id="login-forma">
+            <label class="text-labela">Username</label><br><input type="text" name="username"/><br>
+            <label class="text-labela">Password</label><br><input type="password" name="password"/><br>
+            <p class="error" id="error" style="color: red;" hidden=true>Netacan username/password!</p>        
+            <input type="submit" value="Login">
+            <p id="not-a-usr">Nemate nalog?</p> <a href="registration.html">Registracija</a>
+        </form>
+    </div>
+</body>
+</html>
