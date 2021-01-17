@@ -1,1 +1,341 @@
-[]
+[ {
+  "id" : 0,
+  "naziv" : "ManifestacijaNo0",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 1,
+  "naziv" : "ManifestacijaNo1",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 2,
+  "naziv" : "ManifestacijaNo2",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 3,
+  "naziv" : "ManifestacijaNo3",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 4,
+  "naziv" : "ManifestacijaNo4",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 5,
+  "naziv" : "ManifestacijaNo5",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 6,
+  "naziv" : "ManifestacijaNo6",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 7,
+  "naziv" : "ManifestacijaNo7",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 8,
+  "naziv" : "ManifestacijaNo8",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 9,
+  "naziv" : "ManifestacijaNo9",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 10,
+  "naziv" : "ManifestacijaNo10",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 11,
+  "naziv" : "ManifestacijaNo11",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 12,
+  "naziv" : "ManifestacijaNo12",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 13,
+  "naziv" : "ManifestacijaNo13",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 14,
+  "naziv" : "ManifestacijaNo14",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 15,
+  "naziv" : "ManifestacijaNo15",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 16,
+  "naziv" : "ManifestacijaNo16",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 17,
+  "naziv" : "ManifestacijaNo17",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 18,
+  "naziv" : "ManifestacijaNo18",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+}, {
+  "id" : 19,
+  "naziv" : "ManifestacijaNo19",
+  "tip" : 0,
+  "brojMesta" : 1000,
+  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
+  "cenaREGkarte" : 500.0,
+  "aktivno" : true,
+  "lokacija" : {
+    "id" : 1,
+    "geoDuzina" : 0.0,
+    "geoSirina" : 0.0,
+    "adresa" : "adresa 10",
+    "obrisana" : false
+  },
+  "poster" : "C://putanjaNeka",
+  "obrisana" : false
+} ]
