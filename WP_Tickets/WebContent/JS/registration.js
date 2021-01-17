@@ -36,7 +36,18 @@ $(document).ready(function(){
         }
             
         if(!greska){
-            alert(datumRodjenja);
+            $.post({
+			url: "/WP_Tickets/rest/korisnici/registracija",
+			contentType: 'application/json',
+			data: JSON.stringify({"username": username, "password":password, "ime": ime, "prezime":prezime, "pol":pol, "datumRodjenja":datumRodjenja, "uloga":"KUPAC", "obrisan": false}),
+			success: function(korisnik){
+				if(korisnik == null){
+					$("#error").show();
+				}else{
+					alert("Uspesno dodat korisnik!");
+				}
+			}
+		})
         }
     });
 });

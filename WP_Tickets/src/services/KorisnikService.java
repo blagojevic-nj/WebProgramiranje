@@ -22,7 +22,7 @@ public class KorisnikService {
 	private KorisniciDAO getKorisnici() {
 		KorisniciDAO korisnici = (KorisniciDAO) ctx.getAttribute("KorisniciDAO");
 		if (korisnici == null) {
-			korisnici = new KorisniciDAO(ctx.getRealPath(""));
+			korisnici = new KorisniciDAO(ctx.getRealPath("."));
 			ctx.setAttribute("KorisniciDAO", korisnici);
 		}
 		return korisnici;
@@ -40,6 +40,6 @@ public class KorisnikService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Korisnik registracija(Korisnik k) {
-		return null;
+		return getKorisnici().registracija(k);
 	}
 }
