@@ -44,7 +44,9 @@ $(document).ready(function(){
 				if(korisnik == null){
 					$("#error").show();
 				}else{
-					alert("Uspesno dodat korisnik!");
+					var value = '@Request.RequestContext.HttpContext.Session["korisnik"]';
+					alert(korisnik.username);
+					window.location.href = "../HTML/home.html";
 				}
 			}
 		})

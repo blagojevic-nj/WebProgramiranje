@@ -1,6 +1,7 @@
 package services;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,6 +19,9 @@ public class KorisnikService {
 
 	@Context
 	ServletContext ctx;
+	
+	@Context
+	HttpServletRequest request;
 
 	private KorisniciDAO getKorisnici() {
 		KorisniciDAO korisnici = (KorisniciDAO) ctx.getAttribute("KorisniciDAO");
@@ -32,7 +36,12 @@ public class KorisnikService {
 	@Path("/prijava")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Korisnik prijava(@QueryParam("username") String username, @QueryParam("password") String password) {
-		return getKorisnici().prijava(username, password);
+		Korisnik user = getKorisnici().prijava(username, password);
+		
+		if(user != null)
+			request.getSession().setAttribute("korisnik", user);
+		
+		return user;
 	}
 	
 	@POST
@@ -40,6 +49,11 @@ public class KorisnikService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Korisnik registracija(Korisnik k) {
-		return getKorisnici().registracija(k);
+		Korisnik user = getKorisnici().registracija(k);
+		
+		if(user != null) {
+			request.getSession().setAttribute("korisnik", user);
+		}
+		return user;
 	}
 }

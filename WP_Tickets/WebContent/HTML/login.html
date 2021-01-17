@@ -7,17 +7,25 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src="../JS/jquery-3.3.1.min.js"></script>
     <script src="../JS/login.js"></script>
+    <link rel="stylesheet" href="../CSS/login.css">
 </head>
 <body>
+    <div id="bg-image"></div>
+    
     <div id="blok-prijava">
+        <img id="logo" src="../images/login.png">
         <h1 id="naslov">Login</h1>
         <form id="login-forma">
-            <label class="text-labela">Username</label><br><input type="text" name="username"/><br>
-            <label class="text-labela">Password</label><br><input type="password" name="password"/><br>
-            <p class="error" id="error" style="color: red;" hidden=true>Netacan username/password!</p>        
-            <input type="submit" value="Login">
-            <p id="not-a-usr">Nemate nalog?</p> <a href="registration.html">Registracija</a>
+           <input type="text" name="username" placeholder="Username"/>
+            <p class="error" id="username-error" style="color:red" hidden=true>*Obavezno</p>
+           <input type="password" name="password" placeholder="Password"/><br>
+            <p class="error" id="password-error" style="color: red;" hidden=true>*Obavezno</p>
+            <input id="login-btn" type="submit" value="Login"><br>
+            <span id="not-a-usr">Nemate nalog?</span> <a href="registration.html">Registracija</a>
         </form>
+        
+        <p class="error" id="error" style="color: red;" hidden=true>Netacno korisnicko ime ili lozinka!</p>
     </div>
+    
 </body>
 </html>

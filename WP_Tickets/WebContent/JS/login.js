@@ -4,11 +4,11 @@ $(document).ready(function(){
         var username = $("input[name='username']").val();
         var password = $("input[name='password']").val();
         if(!username){
-            $("input[name='username']").css("background-color", "red")
+            $("input[name='username']").css("border-bottom", "2px solid red")
         } 
         
         if(!password){
-            $("input[name='password']").css("background-color", "red")
+            $("input[name='password']").css("border-bottom", "2px solid red")
         }
         if(username && password){
             $.get({
@@ -19,7 +19,7 @@ $(document).ready(function(){
 				if(korisnik == null){
 					$("#error").show();
 				}else{
-					
+					window.location.href = "../HTML/home.html";
 				}
 			}
 		})
