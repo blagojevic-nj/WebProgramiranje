@@ -1,0 +1,21 @@
+[ {
+  "id" : 0,
+  "nazivTipa" : "Tip0",
+  "obrisan" : false
+}, {
+  "id" : 1,
+  "nazivTipa" : "Tip1",
+  "obrisan" : false
+}, {
+  "id" : 2,
+  "nazivTipa" : "Tip2",
+  "obrisan" : false
+}, {
+  "id" : 3,
+  "nazivTipa" : "Tip3",
+  "obrisan" : false
+}, {
+  "id" : 4,
+  "nazivTipa" : "Tip4",
+  "obrisan" : false
+} ]

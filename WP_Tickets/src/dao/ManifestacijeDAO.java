@@ -404,6 +404,7 @@ public class ManifestacijeDAO {
 	/**Izdvaja one koje nisu obrisane za dalji rad...*/
 	private void setNeobrisaneManifestacije()
 	{
+		neobrisaneManifestacije = new HashMap<Integer, Manifestacija>();
 		for(Manifestacija m : manifestacije.values())
 		{
 			if(!m.getObrisana())
@@ -418,14 +419,14 @@ public class ManifestacijeDAO {
 		manifestacije = new HashMap<Integer, Manifestacija>();
 		TipManifestacijeMapa = new HashMap<Integer, TipManifestacije>();
 		ObjectMapper mapper = new ObjectMapper();
-		String data = path + "data" + java.io.File.separator;
+		String data = path + java.io.File.separator+"data" + java.io.File.separator;
 		List<Manifestacija>lista = null;
 		List<TipManifestacije>listaTipova = null;
 		
 		try
 		{
 		
-			lista=Arrays.asList(mapper.readValue(Paths.get(data + "prodavci.json").toFile(), Manifestacija[].class));
+			lista=Arrays.asList(mapper.readValue(Paths.get(data + "manifestacije.json").toFile(), Manifestacija[].class));
 			
 			for(Manifestacija m : lista)				
 				{
@@ -442,7 +443,7 @@ public class ManifestacijeDAO {
 		try
 		{
 		
-			listaTipova=Arrays.asList(mapper.readValue(Paths.get(data + "prodavci.json").toFile(), TipManifestacije[].class));
+			listaTipova=Arrays.asList(mapper.readValue(Paths.get(data + "tipoviManifestacija.json").toFile(), TipManifestacije[].class));
 			
 			for(TipManifestacije t : listaTipova)				
 				{
