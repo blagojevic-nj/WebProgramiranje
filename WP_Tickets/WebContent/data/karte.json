@@ -1,0 +1,541 @@
+[ {
+  "id" : "0",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "1",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "2",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "3",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "4",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "5",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "6",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "7",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "8",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "9",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "10",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "11",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "12",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "13",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "14",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "15",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "16",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "17",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "18",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "19",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "20",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "21",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "22",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "23",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "24",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "25",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "26",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "27",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "28",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "29",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "30",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "31",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "32",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "33",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "34",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "35",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "36",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "37",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "38",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "39",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "40",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "41",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "42",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "43",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "44",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "45",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "46",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "47",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "48",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "49",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "50",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "51",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "52",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "53",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "54",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "55",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "56",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "57",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac0",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "58",
+  "prodavac" : "prodavac0",
+  "manifestacija" : 0,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac1",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+}, {
+  "id" : "59",
+  "prodavac" : "prodavac1",
+  "manifestacija" : 1,
+  "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
+  "cena" : 500.0,
+  "kupac" : "kupac2",
+  "status" : "REZERVISANA",
+  "tipKarte" : "REGULAR"
+} ]
