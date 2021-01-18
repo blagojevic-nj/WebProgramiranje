@@ -12,27 +12,27 @@ $(document).ready(function(){
 
         if(!username){
             greska = true;
-            $("input[name='username']").css("background-color", "red");
+            $("input[name='username']").css("border-bottom", "2px solid red");
         }
 
         if(!password){
             greska = true;
-            $("input[name='password']").css("background-color", "red");
+            $("input[name='password']").css("border-bottom", "2px solid red");
         }
 
         if(!ime){
             greska = true;
-            $("input[name='ime']").css("background-color", "red");
+            $("input[name='ime']").css("border-bottom", "2px solid red");
         }
 
         if(!prezime){
             greska = true;
-            $("input[name='prezime']").css("background-color", "red");
+            $("input[name='prezime']").css("border-bottom", "2px solid red");
         }
 
         if(!datumRodjenja){
             greska = true;
-            $("input[name='datum-rodjenja']").css("background-color", "red");
+            $("input[name='datum-rodjenja']").css("border-bottom", "2px solid red");
         }
             
         if(!greska){
@@ -43,9 +43,9 @@ $(document).ready(function(){
 			success: function(korisnik){
 				if(korisnik == null){
 					$("#error").show();
+					$("input[name='username']").css("border-bottom", "2px solid red");
 				}else{
 					var value = '@Request.RequestContext.HttpContext.Session["korisnik"]';
-					alert(korisnik.username);
 					window.location.href = "../HTML/home.html";
 				}
 			}
