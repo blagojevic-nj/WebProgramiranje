@@ -152,4 +152,27 @@ public class KorisniciDAO {
 		
 		return null;
 	}
+	
+	public void izmena(Korisnik k) {
+		if(!mapaKorisnika.containsKey(k.getUsername())) {
+			return;
+		}
+		
+		mapaKorisnika.get(k.getUsername()).setIme(k.getIme());
+		mapaKorisnika.get(k.getUsername()).setPrezime(k.getPrezime());
+		mapaKorisnika.get(k.getUsername()).setPassword(k.getPassword());
+		ObjectMapper maper = new ObjectMapper();
+		try {
+			if(k.getUloga() == Uloga.KUPAC) {
+				maper.writeValue(Paths.get(putanja + "kupci.json").toFile(), getKupci());
+			} else if(k.getUloga() == Uloga.PRODAVAC) {
+				maper.writeValue(Paths.get(putanja + "prodavci.json").toFile(), getKupci());
+			} else
+				maper.writeValue(Paths.get(putanja + "admini.json").toFile(), getKupci());
+		} catch (Exception e) {
+			System.out.println("Greska prilikom upisa u fajl!");
+		}
+		
+	}
+	
 }

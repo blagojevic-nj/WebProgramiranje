@@ -6,12 +6,14 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.Korisnik;
+import beans.enums.Uloga;
 import dao.KorisniciDAO;
 
 @Path("/korisnici")
@@ -55,5 +57,56 @@ public class KorisnikService {
 			request.getSession().setAttribute("korisnik", user);
 		}
 		return user;
+	}
+	
+	@GET
+	@Path("/pregled/{username}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Korisnik mojProfil(@PathParam("username") String username) {
+		Korisnik trenutni = (Korisnik)request.getSession().getAttribute("korisnik");
+		if(trenutni.equals(getKorisnici().getByUsername(username))) {
+			// sam registrovani korisnik zeli da vidi podatke o sebi
+			return trenutni;
+		}else {
+			if(trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername())) && trenutni.getUloga().equals(Uloga.ADMIN)) {
+				// sad admin hoce da pregleda nekog korisnika
+				return getKorisnici().getByUsername(username);
+			}
+			
+			else if(trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername())) && trenutni.getUloga().equals(Uloga.PRODAVAC)) {
+				// sad prodavac hoce da pregleda nekog korisnika
+				return getKorisnici().getByUsername(username);
+			}
+		}
+		
+		return null;
+	}
+	
+	@GET
+	@Path("/trenutni")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Korisnik trenutni() {
+		try {
+			Korisnik trenutni = (Korisnik)request.getSession().getAttribute("korisnik");
+			return trenutni;
+		} catch(Exception e){
+			return null;
+		}
+	}
+	
+	@GET
+	@Path("/izmena")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Korisnik izmena(@QueryParam("password") String password, @QueryParam("ime") String ime, @QueryParam("prezime") String prezime ) {
+		Korisnik trenutni = (Korisnik)request.getSession().getAttribute("korisnik");
+		if(trenutni != null && trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername()))) {
+			trenutni.setIme(ime);
+			trenutni.setPrezime(prezime);
+			trenutni.setPassword(password);
+			request.getSession().setAttribute("korisnik", trenutni);
+			getKorisnici().izmena(trenutni);
+			return trenutni;
+		}
+		return null;
 	}
 }

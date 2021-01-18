@@ -109,4 +109,17 @@ public class Korisnik {
 		return username + "," + password + "," + ime + "," + prezime + "," + pol + "," + datumRodjenja + "," + uloga;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		Korisnik k;
+		try {
+			k = (Korisnik) obj;
+		} catch (Exception e) {
+			return false;
+		}
+
+		return this.username.equals(k.username) && this.password.equals(k.password) && this.ime.equals(k.ime)
+				&& this.prezime.equals(k.prezime) && this.uloga.equals(k.uloga);
+	}
+
 }

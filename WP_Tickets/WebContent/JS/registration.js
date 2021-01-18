@@ -45,7 +45,8 @@ $(document).ready(function(){
 					$("#error").show();
 					$("input[name='username']").css("border-bottom", "2px solid red");
 				}else{
-					var value = '@Request.RequestContext.HttpContext.Session["korisnik"]';
+					var value = '<%= session.getAttribute("korisnik") %>';
+					alert(value);
 					window.location.href = "../HTML/home.html";
 				}
 			}
