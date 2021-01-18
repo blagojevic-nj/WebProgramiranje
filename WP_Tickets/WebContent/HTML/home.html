@@ -38,17 +38,26 @@
 
             <ul class="list-unstyled components"> 
                 <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">DummyDugme</a>
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Pretraga</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
                         <li>
-                            <a href="#">DummyDugme 1</a>
+                            <div class="input-group">
+                                <input type="text" class="form-control" aria-label="Pretraga po odabranom kriterijumu">
+                                <div class="input-group-append">
+                                  <button id="izaberiPretraga" class="btn btn-dark" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Izaberi</button>
+                                  <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Naziv</a>
+                                    <a class="dropdown-item" href="#">Lokacija</a>
+                                    <a class="dropdown-item" href="#">Cena</a>
+                                    <a class="dropdown-item" href="#">Datum</a>
+                                  </div>
+                                </div>
+                              </div>
                         </li>
-                        <li>
-                            <a href="#">DummyDugme 2</a>
-                        </li>
-                        <li>
-                            <a href="#">DummyDugme 3</a>
-                        </li>
+                        <button type="button" class="btn btn-dark" id="pretragaDugme">Pretraga</button>
+<!--                         <li>
+                            <div role="separator" class="dropdown-divider"></div>
+                        </li> -->
                     </ul>
                 </li>
                 <li>

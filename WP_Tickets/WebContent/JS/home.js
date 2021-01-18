@@ -17,18 +17,29 @@ $(document).ready(function () {
 
 
 	});
-
+/*Dodaj/ukloni meni dugme... */
 	$('#dismiss').on('click', function () {
 		$('#sidebarCollapse').removeClass('sakrijDugme');	
 		$('#sidebarCollapse').show();
-	
+
 	});
 
+	$('.overlay').on('click',function()
+	{
+		$('#sidebarCollapse').removeClass('sakrijDugme');	
+		$('#sidebarCollapse').show();
+	});
+/**Ucitavanje manifestacija */
 	$.get("/WP_Tickets/rest/Manifestacije/",function(manifestacije)
 		{
 			napraviTabelu(manifestacije)
 		}
 	);
+/*Pretraga*/
+$("#pretragaDugme").on('click',function()
+{
+	pretraga();
+});
 
 
 });
@@ -100,3 +111,13 @@ function napraviTabelu(m){
 		
 	} 
 }
+
+function pretraga(){
+	let opcija = $("#izaberiPretraga");
+	alert("bla");
+    let value=opcija.options[opcija.selectedIndex].value;
+	let text=opcija. options[opcija. selectedIndex].text;
+	alert(value);
+	alert(text);
+}
+
