@@ -1,0 +1,138 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap');
+
+html{
+	height: 100%;
+}
+
+body{
+	height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+#bg-image {
+    background-image: url("../images/bg.jfif");
+  
+    filter: blur(3px);
+    -webkit-filter: blur(3px);
+
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform: scale(1.1);
+  }
+
+
+#blok-prijava{
+    height: 70%;
+    width: 30%;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 20px;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#logo{
+    height: 100px;
+    width: 100px;
+    position: relative;
+    transform: translate(0, -50%);
+    margin: 0;
+}
+
+#naslov{
+    margin: 0;
+    color: white;
+    font-size: 30px;
+    margin-top: -30px;
+}
+
+input[type="text"]{
+    height: 30px;
+    width: 70%;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid white;
+    color: white;
+    font-size: 25px;
+    border-radius: 10px;
+    padding-left: 20px;
+    margin-top: 40px;
+}
+
+input[type="text"]:focus{
+    outline: none;
+}
+
+input[type="password"]{
+    height: 30px;
+    width: 70%;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid white;
+    color: white;
+    font-size: 25px;
+    border-radius: 10px;
+    margin-top: 50px;
+    padding-left: 20px;
+}
+
+input[type="password"]:focus{
+    outline: none;
+}
+
+.text-labela{
+    color: white;
+    margin: 20px;
+}
+
+#login-btn{
+    margin-top: 50px;
+    height: 50px;
+    width: 70%;
+    border-radius: 10px;
+    background-color: white;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    margin-bottom: 50px;
+}
+
+#login-btn:hover{
+    transition: 1s ease;
+    background-color: rgb(9, 16, 46);
+    color: white;
+    
+}
+
+#login-btn:focus{
+    outline: none;
+}
+
+#not-a-usr{
+    color: gray;
+    margin-right: 20px;
+}
+
+a{
+    text-decoration: none;
+    color: rgb(103, 187, 226);
+}
+
+#error{
+	margin-top: 50px;
+}

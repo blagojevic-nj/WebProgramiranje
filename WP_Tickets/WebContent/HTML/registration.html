@@ -7,20 +7,24 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src="../JS/jquery-3.3.1.min.js"></script>
     <script src="../JS/registration.js"></script>
+    <link rel="stylesheet" href="../CSS/registration.css">
 </head>
 <body>
+    <div id="bg-image"></div>
     <div id="blok-registracija">
+        <img id="logo" src="../images/reg.png" height="100px" width="100px">
         <h1 id='naslov'>Registracija</h1>
         <form id="registration-forma">
-            <label class="text-labela">Username</label><br><input type="text" name="username"/><br>
-            <p id="error" hidden=true>Korisnicko ime vec postoji.</p>
-            <label class="text-labela">Password</label><br><input type="password" name="password"/><br>
-            <label class="text-labela">Ime</label><br><input type="text" name="ime"/><br>
-            <label class="text-labela">Prezime</label><br><input type="text" name="prezime"/><br>
-            <label class="text-labela">Pol</label><select name="pol"><option value="MUSKO">MUSKO</option><option value="ZENSKO">ZENSKO</option></select><br>
-            <label class="text-labela">Datum rodjenja</label><br><input type="date" name="datum-rodjenja"/><br>
-            <input type="submit" value="Registruj se">
+      
+            <table>
+                <tr><td><input type="text" name="username" placeholder="Username"/></td><td><input type="password" name="password" placeholder="Password"/></td></tr>
+                <tr><td><input type="text" name="ime" placeholder="Ime"/></td><td><input type="text" name="prezime" placeholder="Prezime"/></td></tr>
+                <tr><td><label class="text-labela">Pol</label><select name="pol"><option value="MUSKO">MUSKO</option><option value="ZENSKO">ZENSKO</option></select></td><td><label id="datum">Datum rodjenja</label><input type="date" name="datum-rodjenja"/></td></tr>
+            </table>
+                <input type="submit" value="Registruj se">
+            
         </form>
+        <p id="error" style="color:red" hidden=true>Korisnicko ime vec postoji!</p>
     </div>
 </body>
 </html>
