@@ -13,8 +13,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+  "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 1,
   "naziv" : "ManifestacijaNo1",
@@ -30,8 +29,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 2,
   "naziv" : "ManifestacijaNo2",
@@ -47,8 +45,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 3,
   "naziv" : "ManifestacijaNo3",
@@ -64,8 +61,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 4,
   "naziv" : "ManifestacijaNo4",
@@ -81,8 +77,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 5,
   "naziv" : "ManifestacijaNo5",
@@ -98,8 +93,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 6,
   "naziv" : "ManifestacijaNo6",
@@ -115,8 +109,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 7,
   "naziv" : "ManifestacijaNo7",
@@ -132,8 +125,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 8,
   "naziv" : "ManifestacijaNo8",
@@ -149,8 +141,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 9,
   "naziv" : "ManifestacijaNo9",
@@ -166,8 +157,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 10,
   "naziv" : "ManifestacijaNo10",
@@ -183,8 +173,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 11,
   "naziv" : "ManifestacijaNo11",
@@ -200,8 +189,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 12,
   "naziv" : "ManifestacijaNo12",
@@ -217,8 +205,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 13,
   "naziv" : "ManifestacijaNo13",
@@ -234,8 +221,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 14,
   "naziv" : "ManifestacijaNo14",
@@ -251,8 +237,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 15,
   "naziv" : "ManifestacijaNo15",
@@ -268,8 +253,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 16,
   "naziv" : "ManifestacijaNo16",
@@ -285,8 +269,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 17,
   "naziv" : "ManifestacijaNo17",
@@ -302,8 +285,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 18,
   "naziv" : "ManifestacijaNo18",
@@ -319,8 +301,7 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 }, {
   "id" : 19,
   "naziv" : "ManifestacijaNo19",
@@ -336,6 +317,5 @@
     "adresa" : "adresa 10",
     "obrisana" : false
   },
-  "poster" : "C://putanjaNeka",
-  "obrisana" : false
+    "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
 } ]
