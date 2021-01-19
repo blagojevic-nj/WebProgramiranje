@@ -1,21 +1,21 @@
 [ {
   "id" : 0,
-  "nazivTipa" : "Tip0",
+  "nazivTipa" : "Koncert",
   "obrisan" : false
 }, {
   "id" : 1,
-  "nazivTipa" : "Tip1",
+  "nazivTipa" : "Predstava",
   "obrisan" : false
 }, {
   "id" : 2,
-  "nazivTipa" : "Tip2",
+  "nazivTipa" : "Sportski događaj",
   "obrisan" : false
 }, {
   "id" : 3,
-  "nazivTipa" : "Tip3",
+  "nazivTipa" : "Balet",
   "obrisan" : false
 }, {
   "id" : 4,
-  "nazivTipa" : "Tip4",
+  "nazivTipa" : "Film",
   "obrisan" : false
 } ]

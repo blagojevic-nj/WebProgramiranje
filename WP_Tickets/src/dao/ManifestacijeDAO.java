@@ -249,61 +249,52 @@ public class ManifestacijeDAO {
 //sortiranje****************************
 	
 	
-		/**T/F za najranije->starima / stare-> nove... 2.True ako hoces i obrisane*/
-	public List<Manifestacija> sortirajPoDatumu(boolean OdNajranijih,boolean ukljuciObrisane)
+		/**T/F za najranije->starima / stare-> nove...*/
+	public List<Manifestacija> sortirajPoDatumu(List<Manifestacija> kolekcija,boolean OdNajranijih)
 	{
-		Collection<Manifestacija>kolekcija = ukljuciObrisane ? manifestacije.values() : neobrisaneManifestacije.values() ;
-		List<Manifestacija> list = new ArrayList<Manifestacija>(kolekcija);
-		Collections.sort(list,sorterDatum);
+		Collections.sort(kolekcija,sorterDatum);
 		if(!OdNajranijih)
 		{
-			Collections.reverse(list);
+			Collections.reverse(kolekcija);
 		}
-		return list;
+		return kolekcija;
 		
 	}
 	
 	
 	/**T/F za najjeftinije->skupo / skupo-> jeftino... 2.True ako hoces i obrisane*/
-	public List<Manifestacija> sortirajPoCeni(boolean OdNajjeftinijif,boolean ukljuciObrisane)
+	public List<Manifestacija> sortirajPoCeni(List<Manifestacija> kolekcija,boolean OdNajjeftinijif)
 	{
-		Collection<Manifestacija>kolekcija = ukljuciObrisane ? manifestacije.values() : neobrisaneManifestacije.values() ;
-		List<Manifestacija> list = new ArrayList<Manifestacija>(kolekcija);
-		Collections.sort(list,sorterCena);
+		Collections.sort(kolekcija,sorterCena);
 		if(!OdNajjeftinijif)
 		{
-			Collections.reverse(list);
+			Collections.reverse(kolekcija);
 		}
-		return list;
-		
+		return kolekcija;
 	}
 	
 	
 	/**T/F <=> A->Z / Z-> A... 2.True ako hoces i obrisane*/
-	public List<Manifestacija> sortirajPoNazivu(boolean a_do_z,boolean ukljuciObrisane)
+	public List<Manifestacija> sortirajPoNazivu(List<Manifestacija> kolekcija,boolean a_do_z)
 	{
-		Collection<Manifestacija>kolekcija = ukljuciObrisane ? manifestacije.values() : neobrisaneManifestacije.values() ;
-		List<Manifestacija> list = new ArrayList<Manifestacija>(kolekcija);
-		Collections.sort(list,sorterNaziv);
+		Collections.sort(kolekcija,sorterNaziv);
 		if(!a_do_z)
 		{
-			Collections.reverse(list);
+			Collections.reverse(kolekcija);
 		}
-		return list;
+		return kolekcija;
 		
 	}
 	
 	/**T/F <=> A->Z / Z-> A... 2.True ako hoces i obrisane*/
-	public List<Manifestacija> sortirajPoLokaciji(boolean a_do_z,boolean ukljuciObrisane)
+	public List<Manifestacija> sortirajPoLokaciji(List<Manifestacija>kolekcija,boolean a_do_z)
 	{
-		Collection<Manifestacija>kolekcija = ukljuciObrisane ? manifestacije.values() : neobrisaneManifestacije.values() ;
-		List<Manifestacija> list = new ArrayList<Manifestacija>(kolekcija);
-		Collections.sort(list,sorterLokacija);
+		Collections.sort(kolekcija,sorterLokacija);
 		if(!a_do_z)
 		{
-			Collections.reverse(list);
+			Collections.reverse(kolekcija);
 		}
-		return list;
+		return kolekcija;
 		
 	}
 	
@@ -500,6 +491,10 @@ public class ManifestacijeDAO {
 		
 		
 		
+	}
+
+	public Collection<TipManifestacije> getAllManifestacijeTipovi() {
+		return TipManifestacijeMapa.values();
 	}
 }
 

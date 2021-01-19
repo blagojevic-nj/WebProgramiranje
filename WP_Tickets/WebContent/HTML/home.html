@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="../CSS/mojProfil.css">
 <!--Scripte-->
 <script defer src="../JS/home.js"></script>
+<script defer src="../JS/manifestacije.js"></script>
 <!-- Font -->
 <script defer
 	src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
@@ -136,7 +137,7 @@
                       <div id="filterPretraga" class="dropdown show">
                         <button  class="btn btn-outline-secondary" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-filter"></i></button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <select id="TipSelect"  class="multiselect-ui form-control" multiple="multiple"><option>Nerasprodate</option><option>Pozoriste</option><option>Film</option></select>
+                            <select id="TipSelect"  class="multiselect-ui form-control" multiple="multiple"></select>
                             <button id="filterButton" class="btn btn-outline-secondary btn-dark"><i class="fas fa-filter"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter</button>
                         </div>
                       </div>
@@ -145,14 +146,14 @@
                       <div id="filterPretraga" class="dropleft show">
                         <button id="sortPretraga" class="btn btn-outline-secondary" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-sort-amount-down"></i></button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">Ceni Rastuće</a>
-                            <a class="dropdown-item" href="#">Ceni Opadajuće</a>
-                            <a class="dropdown-item" href="#">Datumu Rastuće</a>
-                            <a class="dropdown-item" href="#">Datumu Opadajuće</a>
-                            <a class="dropdown-item" href="#">Naziv Rastuće</a>
-                            <a class="dropdown-item" href="#">Naziv Opadajuće</a>
-                            <a class="dropdown-item" href="#">Lokaciji Rastuće</a>
-                            <a class="dropdown-item" href="#">Lokaciji Opadajuće</a>
+                            <a id="sort1"class="dropdown-item" href="#">Ceni Rastuće</a>
+                            <a id="sort2" class="dropdown-item" href="#">Ceni Opadajuće</a>
+                            <a id="sort3" class="dropdown-item" href="#">Datumu Rastuće</a>
+                            <a id="sort4" class="dropdown-item" href="#">Datumu Opadajuće</a>
+                            <a id="sort5" class="dropdown-item" href="#">Naziv Rastuće</a>
+                            <a id="sort6" class="dropdown-item" href="#">Naziv Opadajuće</a>
+                            <a id="sort7" class="dropdown-item" href="#">Lokaciji Rastuće</a>
+                            <a id="sort8" class="dropdown-item" href="#">Lokaciji Opadajuće</a>
                         </div>
                         
                       </div>

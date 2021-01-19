@@ -1,3 +1,4 @@
+/// <reference path="C:\Users\PC\Desktop\plugIn\typings\globals\jquery\index.d.ts" />
 $.noConflict()
 $(document).ready(function () {
 	$.get({
@@ -127,12 +128,6 @@ $(document).ready(function () {
 		$('#sidebarCollapse').removeClass('sakrijDugme');	
 		$('#sidebarCollapse').show();
 	});
-/**Ucitavanje manifestacija */
-	$.get("/WP_Tickets/rest/Manifestacije/",function(manifestacije)
-		{
-			napraviTabelu(manifestacije)
-		}
-	);
 
 	/*Multiselect*/
 	$('#TipSelect').on('click',function(e)
@@ -140,8 +135,49 @@ $(document).ready(function () {
 	e.stopPropagation();
 	})
 
-
 });
+
+
+function postaviPolja(korisnik){
+	$("input[name='username']").val(korisnik.username);
+	$("input[name='password']").val(korisnik.password);
+	$("input[name='ime']").val(korisnik.ime);
+	$("input[name='prezime']").val(korisnik.prezime);
+	$("input[name='datum-rodjenja']").val(korisnik.datumRodjenja);
+	$("input[name='pol']").val(korisnik.pol);
+	$("input[name='uloga']").val(korisnik.uloga);
+}
+
+
+
+/**Test************************************************************************************************************************************* */
+
+/**Ucitavanje manifestacija */
+$.get("/WP_Tickets/rest/Manifestacije/",function(manifestacije)
+{
+	napraviTabelu(manifestacije)
+}
+);
+/**Ucitavanje tipova manifestacija */
+
+$.get("/WP_Tickets/rest/Manifestacije/Tipovi",function(tipovi)
+{
+dodajTipoveManifestacijaUFilterSelect(tipovi)
+}
+
+);
+
+
+function dodajTipoveManifestacijaUFilterSelect(tipovi)
+{
+	let select = $("#TipSelect");
+	for(tip of tipovi)
+	{
+		let opcija = $('<option>'+tip.nazivTipa+'</option>');
+		select.append(opcija);
+
+	}
+}
 
 
 function dodajManifestaciju(m){
@@ -212,14 +248,38 @@ function napraviTabelu(m){
 }
 
 
-function postaviPolja(korisnik){
-	$("input[name='username']").val(korisnik.username);
-	$("input[name='password']").val(korisnik.password);
-	$("input[name='ime']").val(korisnik.ime);
-	$("input[name='prezime']").val(korisnik.prezime);
-	$("input[name='datum-rodjenja']").val(korisnik.datumRodjenja);
-	$("input[name='pol']").val(korisnik.pol);
-	$("input[name='uloga']").val(korisnik.uloga);
+function skloniManifestacije(){
+	$("#tabelaManifestacija").empty();
+}
+
+function zameniManifestacije(noveManifestacije)
+{
+	if(noveManifestacije.length==0)
+	{
+		poruka = $("<p id='nemaRezultata'>Nema rezultata za datu pretragu...</p>");
+		backDugme = $("<button id='nazadManifestacije' class='btn btn-outline-secondary'><i class='fas fa-undo-alt'></i></button>")
+		$("#content").append(poruka).append(backDugme);
+	}else{
+		skloniManifestacije();
+		napraviTabelu(noveManifestacije);
+	}
 }
 
 
+
+$("#dugmePretraga").click(function()
+{
+	alert("BARBAR")
+});
+
+$("#nazadManifestacije").click(function()
+{
+	$.get("/WP_Tickets/rest/Manifestacije/",function(manifestacije)
+	{
+		napraviTabelu(manifestacije)
+	});
+
+	$("#nemaRezultata").remove();
+	$("#nazadManifestacije").remove();
+	
+});
