@@ -182,3 +182,58 @@ ul.CTAs a {
     top: 0;
     right: 0;
 }
+
+#nazivPretraga{
+    width: 12%;
+}
+#lokacijaPretraga{
+    width: 8%;
+}
+#cenaOdPretraga{
+    width: 1px;
+}
+
+
+.fa-search {
+    color: Black;
+    font-size: 24px;
+    align-self: center;
+}
+
+.fa-filter {
+    color: Black;
+    font-size: 24px;
+    align-self: center;
+    }
+
+.fa-sort-amount-down{
+    color: Black;
+    font-size: 24px;
+    align-self: center;
+}
+
+#PretragaContainer{
+width: 90%;
+margin: auto;
+}
+#TipSelect{
+width: 100%;
+overflow: hidden;
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+#TipSelect::-webkit-scrollbar {
+    display: none;
+  }
+
+#filterButton{
+    width: 100%;
+    padding-right: 10%;
+    padding-left: 10%;
+    color: black;
+    font-size: x-large;
+    margin-bottom: -5%;
+}
+  

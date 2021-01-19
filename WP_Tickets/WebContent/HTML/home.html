@@ -16,6 +16,7 @@
 <!-- Moj CSS -->
 <link rel="stylesheet" href="../CSS/home.css">
 <link rel="stylesheet" href="../CSS/MiniPrikazManifestacije.css">
+<link rel="stylesheet" href="../CSS/mojProfil.css">
 <!--Scripte-->
 <script defer src="../JS/home.js"></script>
 <!-- Font -->
@@ -27,13 +28,14 @@
 	src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
 	integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
 	crossorigin="anonymous"></script>
-<link rel="stylesheet" href="../CSS/mojProfil.css">
+<link href="https://use.fontawesome.com/releases/v5.0.7/css/all.css" rel="stylesheet">
+
+
 </head>
 
 <body>
 
 	<div class="wrapper">
-		<!-- Meni, mislim da je lakse da ovde radimo search  -->
 		<nav id="sidebar">
 			<div id="dismiss">
 				<i class="fas fa-arrow-left"></i>
@@ -110,6 +112,56 @@
 					</div>
 				</div>
 			</nav>
+			<div id="PretragaContainer">
+                <form id="formPretraga">
+                <div class="input-group">
+                    <input id="nazivPretraga" type="text" class="form-control" placeholder="Naziv Manifestacije" aria-label="Naziv Manifestacije" aria-describedby="basic-addon2">
+                    <input id="lokacijaPretraga" type="text" class="form-control" placeholder="Lokacija" aria-label="Lokacija" aria-describedby="basic-addon2">
+                    <input id="cenaOdPretraga" type="text" class="form-control" placeholder="Cena Od:" aria-label="Cena Od" aria-describedby="basic-addon2">
+                    <input id="cenaDoPretraga" type="text" class="form-control" placeholder="Cena Do:" aria-label="Cena Do" aria-describedby="basic-addon2">
+                    <!-- labela -->
+                    <div class="input-group-prepend"><div class="input-group-text">Od:</div></div>
+                    <input class="form-control col-10" type="date" aria-label="Datum Od:" placeholder="Cena Do:" id="datumOd">
+                    <!-- labela -->            
+                    <div class="input-group-prepend"><div class="input-group-text">Do:</div></div>
+                    <input class="form-control col-10" type="date" aria-label="Datum Do:" id="datumDo">
+
+
+                    <!--Dugmad...-->
+                    <div class="input-group-append">
+                        <!--Search...-->
+                      <button id="dugmePretraga" class="btn btn-outline-secondary" type="submit" ><i class="fas fa-search"></i></button>
+                      
+                      <!--Filter...-->
+                      <div id="filterPretraga" class="dropdown show">
+                        <button  class="btn btn-outline-secondary" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-filter"></i></button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <select id="TipSelect"  class="multiselect-ui form-control" multiple="multiple"><option>Nerasprodate</option><option>Pozoriste</option><option>Film</option></select>
+                            <button id="filterButton" class="btn btn-outline-secondary btn-dark"><i class="fas fa-filter"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter</button>
+                        </div>
+                      </div>
+
+                      <!--Sort...-->
+                      <div id="filterPretraga" class="dropleft show">
+                        <button id="sortPretraga" class="btn btn-outline-secondary" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-sort-amount-down"></i></button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#">Ceni Rastuće</a>
+                            <a class="dropdown-item" href="#">Ceni Opadajuće</a>
+                            <a class="dropdown-item" href="#">Datumu Rastuće</a>
+                            <a class="dropdown-item" href="#">Datumu Opadajuće</a>
+                            <a class="dropdown-item" href="#">Naziv Rastuće</a>
+                            <a class="dropdown-item" href="#">Naziv Opadajuće</a>
+                            <a class="dropdown-item" href="#">Lokaciji Rastuće</a>
+                            <a class="dropdown-item" href="#">Lokaciji Opadajuće</a>
+                        </div>
+                        
+                      </div>
+                  </div>
+                    
+                </div>
+                </form>  
+            </div>
+
 			<table id="tabelaManifestacija"></table>
 		</div>
 	</div>

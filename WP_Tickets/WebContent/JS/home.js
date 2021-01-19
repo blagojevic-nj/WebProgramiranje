@@ -134,6 +134,12 @@ $(document).ready(function () {
 		}
 	);
 
+	/*Multiselect*/
+	$('#TipSelect').on('click',function(e)
+	{
+	e.stopPropagation();
+	})
+
 
 });
 
