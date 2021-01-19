@@ -168,34 +168,7 @@ ul.CTAs a {
     border-radius: 5px;
     margin-bottom: 5px;
 }
-/*Izaberi dugme kod pretrage*/
-#izaberiPretraga{
-    color: black;
-    background-color: whitesmoke;
-    padding-left: 28px;
-    padding-right: 28px;
-}
-#pretragaDugme{
-    margin-top: 3%;
-    margin-left: 66%;
-    color: black;
-    background-color: whitesmoke;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-#pretragaDugme:hover{
-    background-color: rgba(40, 40, 63, 0.9);
-    color: White;
-}
-#izaberiPretraga:hover{
-    background-color: rgba(40, 40, 63, 0.9);
-    color: White;
 
-}
-.input-group{
-    left: 20px;
-    padding-right: 40px;
-}
 /* ---------------------------------------------------
                         CONTENT 
 ----------------------------------------------------- */

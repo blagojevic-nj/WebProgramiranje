@@ -113,7 +113,10 @@ function napraviTabelu(m){
 }
 
 function pretraga(){
-	let opcija = $("#izaberiPretraga");
+	let opcija;
+	$("#izaberiPretraga dropdown-menu dropdown-item").on('click',function(){
+		alert("1");
+	})
 	alert("bla");
     let value=opcija.options[opcija.selectedIndex].value;
 	let text=opcija. options[opcija. selectedIndex].text;
