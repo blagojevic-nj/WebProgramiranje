@@ -35,11 +35,6 @@ $(document).ready(function () {
 			napraviTabelu(manifestacije)
 		}
 	);
-/*Pretraga*/
-$("#pretragaDugme").on('click',function()
-{
-	pretraga();
-});
 
 
 });
@@ -110,17 +105,5 @@ function napraviTabelu(m){
  */		$("#tabelaManifestacija").append(tr);
 		
 	} 
-}
-
-function pretraga(){
-	let opcija;
-	$("#izaberiPretraga dropdown-menu dropdown-item").on('click',function(){
-		alert("1");
-	})
-	alert("bla");
-    let value=opcija.options[opcija.selectedIndex].value;
-	let text=opcija. options[opcija. selectedIndex].text;
-	alert(value);
-	alert(text);
 }
 
