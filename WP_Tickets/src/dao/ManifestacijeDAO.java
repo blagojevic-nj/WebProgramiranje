@@ -443,7 +443,7 @@ public class ManifestacijeDAO {
 		try
 		{
 		
-			listaTipova=Arrays.asList(mapper.readValue(Paths.get(data + "tipoviManifestacija.json").toFile(), TipManifestacije[].class));
+			listaTipova=Arrays.asList(mapper.readValue(Paths.get(data + "tipoviManifestacije.json").toFile(), TipManifestacije[].class));
 			
 			for(TipManifestacije t : listaTipova)				
 				{

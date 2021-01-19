@@ -1,0 +1,60 @@
+#moj-profil-tabela{
+	
+	margin-left: 20px;
+}
+
+#forma input{
+	height: 30px;
+	width: 100%;
+	float:right;
+	font-size: 15px;
+	color: white;
+	border:none;
+	border-bottom: 2px solid white;
+	background: transparent;
+	margin-top: 10px;
+}
+
+
+#forma input:disabled{
+    background: transparent;
+
+}
+
+#forma input[type="submit"]{
+	background-color: white;
+	color: black;
+	font-size: 20px;
+	cursor:pointer;
+	border-radius: 10px;
+}
+
+#forma input[type="submit"]:focus{
+	outline:none;
+}
+
+#izmena{
+	background-color: white;
+	color: black;
+	font-size: 20px;
+	cursor:pointer;
+	border-radius: 10px;
+	height: 30px;
+	margin-top: 10px;
+}
+
+#izmena:focus{
+	outline:none;
+}
+
+#moj-profil-tabela{
+	width: 90%;
+}
+
+#forma label{
+	
+	font-size: 15px;
+	float: left;
+}
+
+

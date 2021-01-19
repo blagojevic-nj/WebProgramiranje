@@ -39,7 +39,7 @@ public class KorisniciDAO {
 	}
 
 	public Collection<Korisnik> getAllUsers() {
-		return mapaKorisnika.values();
+		return sviKorisnici;
 	}
 
 	private void loadUsers(String path) {
@@ -173,6 +173,10 @@ public class KorisniciDAO {
 			System.out.println("Greska prilikom upisa u fajl!");
 		}
 		
+	}
+	
+	public Collection<Korisnik> zaProdavca(String username){
+		return null;
 	}
 	
 }

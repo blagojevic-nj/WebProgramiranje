@@ -1,5 +1,7 @@
 package services;
 
+import java.util.Collection;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -44,6 +46,14 @@ public class KorisnikService {
 			request.getSession().setAttribute("korisnik", user);
 		
 		return user;
+	}
+	
+	@GET
+	@Path("/odjava")
+	public void odjava() {
+		Korisnik trenutni = (Korisnik)request.getSession().getAttribute("korisnik");
+		if(trenutni != null)
+			request.getSession().setAttribute("korisnik", null);
 	}
 	
 	@POST
@@ -107,6 +117,22 @@ public class KorisnikService {
 			getKorisnici().izmena(trenutni);
 			return trenutni;
 		}
+		return null;
+	}
+	
+	@GET
+	@Path("/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Korisnik> getAll(){
+		Korisnik trenutni = (Korisnik)request.getSession().getAttribute("korisnik");
+		if(trenutni != null && trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername()))) {
+			if(trenutni.getUloga() == Uloga.ADMIN) {
+				return getKorisnici().getAllUsers();
+			}else if(trenutni.getUloga() == Uloga.PRODAVAC) {
+				return getKorisnici().zaProdavca(trenutni.getUsername());
+			}
+		}
+		
 		return null;
 	}
 }
