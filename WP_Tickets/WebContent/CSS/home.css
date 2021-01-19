@@ -16,7 +16,6 @@ a:focus {
     transition: all 0.3s;
 }
 
-
 .navbar {
     padding: 15px 10px;
     background: #fff;
@@ -237,3 +236,9 @@ scrollbar-width: none;  /* Firefox */
     margin-bottom: -5%;
 }
   
+#logo-wp-tickets{
+	position:relative;
+	left: 50%;
+	transform: translate(-50%, 0);
+	transition: 0.5s ease;
+}

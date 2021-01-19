@@ -149,7 +149,18 @@ public class KorisniciDAO {
 			return kupac;
 		}
 		// treba uraditi i za prodavca
-		
+		else if(k.getUloga() == Uloga.PRODAVAC) {
+			Prodavac prodavac = new Prodavac(k.getUsername(), k.getPassword(), k.getIme(), k.getPrezime(), k.getPol(), k.getDatumRodjenja(), k.getUloga(), k.getObrisan(), new ArrayList<>(), new ArrayList<>());
+			mapaKorisnika.put(k.getUsername(), prodavac);
+			ObjectMapper maper = new ObjectMapper();
+			try {
+				maper.writeValue(Paths.get(putanja + "prodavci.json").toFile(), getKupci());
+			} catch (IOException e) {
+				System.out.println("Greska prilikom dodavanja prodavaca!");
+				return null;
+			}
+			return prodavac;
+		}
 		return null;
 	}
 	
@@ -179,4 +190,11 @@ public class KorisniciDAO {
 		return null;
 	}
 	
+	public TipKupca getTip(String username) {
+		for(TipKupca tk: tipoviKupaca.values()) {
+			if(tk.getUsernameKupca().equals(username))
+				return tk;
+		}
+		return null;
+	}
 }
