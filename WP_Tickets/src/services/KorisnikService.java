@@ -15,6 +15,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.Korisnik;
+import beans.TipKupca;
 import beans.enums.Uloga;
 import dao.KorisniciDAO;
 
@@ -61,12 +62,23 @@ public class KorisnikService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Korisnik registracija(Korisnik k) {
-		Korisnik user = getKorisnici().registracija(k);
-		
-		if(user != null) {
-			request.getSession().setAttribute("korisnik", user);
+		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
+		if(trenutni == null) {
+			Korisnik user = getKorisnici().registracija(k);
+			
+			if(user != null) {
+				request.getSession().setAttribute("korisnik", user);
+			}
+			return user;
 		}
-		return user;
+		
+		if(trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername())) && trenutni.getUloga() == Uloga.ADMIN) {
+			k.setUloga(Uloga.PRODAVAC);
+			Korisnik user = getKorisnici().registracija(k);
+			return user;
+		}
+		
+		return null;
 	}
 	
 	@GET
@@ -131,6 +143,18 @@ public class KorisnikService {
 			}else if(trenutni.getUloga() == Uloga.PRODAVAC) {
 				return getKorisnici().zaProdavca(trenutni.getUsername());
 			}
+		}
+		
+		return null;
+	}
+	
+	@GET
+	@Path("/tip")
+	@Produces(MediaType.APPLICATION_JSON)
+	public TipKupca getTip(){
+		Korisnik trenutni = (Korisnik)request.getSession().getAttribute("korisnik");
+		if(trenutni != null && trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername())) && trenutni.getUloga() == Uloga.KUPAC) {
+			return getKorisnici().getTip(trenutni.getUsername());
 		}
 		
 		return null;

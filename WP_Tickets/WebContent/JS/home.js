@@ -1,4 +1,3 @@
-/// <reference path="C:\Users\PC\Desktop\plugIn\typings\globals\jquery\index.d.ts" />
 $.noConflict()
 $(document).ready(function () {
 	$.get({
@@ -32,7 +31,6 @@ $(document).ready(function () {
 					success: function(korisnik){
 							if(korisnik == null){
 								$("#error").show();
-								$("#content").remove();
 							}else{
 								postaviPolja(value);
 							}
@@ -89,7 +87,22 @@ $(document).ready(function () {
 		$("#forma input[name='password']").css("border-bottom", "2px solid green");
 		$("#forma input[name='ime']").css("border-bottom", "2px solid green");
 		$("#forma input[name='prezime']").css("border-bottom", "2px solid green");
-	})	
+	})
+	
+	$("#profil-dugme3").click( function(e){
+		e.preventDefault();
+		
+		if($("#profil-dugme3").text() == "Pogodnosti"){
+			$.get({
+				url: "/WP_Tickets/rest/korisnici/tip",
+				contentType: "application/json",
+				success: function(tip){
+					if(tip)
+						dodajPodatkeOTipu(tip);
+				}
+			})
+		}
+	})
 	
 	$('#dismiss, .overlay').on('click', function () {
 		$('#sidebar').removeClass('active');
@@ -128,6 +141,12 @@ $(document).ready(function () {
 		$('#sidebarCollapse').removeClass('sakrijDugme');	
 		$('#sidebarCollapse').show();
 	});
+/**Ucitavanje manifestacija */
+	$.get("/WP_Tickets/rest/Manifestacije/",function(manifestacije)
+		{
+			napraviTabelu(manifestacije)
+		}
+	);
 
 	/*Multiselect*/
 	$('#TipSelect').on('click',function(e)
@@ -135,49 +154,8 @@ $(document).ready(function () {
 	e.stopPropagation();
 	})
 
+
 });
-
-
-function postaviPolja(korisnik){
-	$("input[name='username']").val(korisnik.username);
-	$("input[name='password']").val(korisnik.password);
-	$("input[name='ime']").val(korisnik.ime);
-	$("input[name='prezime']").val(korisnik.prezime);
-	$("input[name='datum-rodjenja']").val(korisnik.datumRodjenja);
-	$("input[name='pol']").val(korisnik.pol);
-	$("input[name='uloga']").val(korisnik.uloga);
-}
-
-
-
-/**Test************************************************************************************************************************************* */
-
-/**Ucitavanje manifestacija */
-$.get("/WP_Tickets/rest/Manifestacije/",function(manifestacije)
-{
-	napraviTabelu(manifestacije)
-}
-);
-/**Ucitavanje tipova manifestacija */
-
-$.get("/WP_Tickets/rest/Manifestacije/Tipovi",function(tipovi)
-{
-dodajTipoveManifestacijaUFilterSelect(tipovi)
-}
-
-);
-
-
-function dodajTipoveManifestacijaUFilterSelect(tipovi)
-{
-	let select = $("#TipSelect");
-	for(tip of tipovi)
-	{
-		let opcija = $('<option>'+tip.nazivTipa+'</option>');
-		select.append(opcija);
-
-	}
-}
 
 
 function dodajManifestaciju(m){
@@ -248,38 +226,32 @@ function napraviTabelu(m){
 }
 
 
-function skloniManifestacije(){
-	$("#tabelaManifestacija").empty();
-}
-
-function zameniManifestacije(noveManifestacije)
-{
-	if(noveManifestacije.length==0)
-	{
-		poruka = $("<p id='nemaRezultata'>Nema rezultata za datu pretragu...</p>");
-		backDugme = $("<button id='nazadManifestacije' class='btn btn-outline-secondary'><i class='fas fa-undo-alt'></i></button>")
-		$("#content").append(poruka).append(backDugme);
+function postaviPolja(korisnik){
+	$("input[name='username']").val(korisnik.username);
+	$("input[name='password']").val(korisnik.password);
+	$("input[name='ime']").val(korisnik.ime);
+	$("input[name='prezime']").val(korisnik.prezime);
+	$("input[name='datum-rodjenja']").val(korisnik.datumRodjenja);
+	$("input[name='pol']").val(korisnik.pol);
+	$("input[name='uloga']").val(korisnik.uloga);
+	
+	if(korisnik.uloga == "KUPAC"){
+		$("#profil-dugme1").text("Moje manifestacije");
+		$("#profil-dugme2").text("Karte");
+		$("#profil-dugme3").text("Pogodnosti");
+	} else if(korisnik.uloga == "ADMIN"){
+		$("#profil-dugme1").text("Registruj prodavca");
+		$("#profil-dugme2").text("Aktivne manifestacije");
+		$("#profil-dugme3").text("Svi korisnici");
 	}else{
-		skloniManifestacije();
-		napraviTabelu(noveManifestacije);
+		$("#profil-dugme1").text("Registuj manifestaciju");
+		$("#profil-dugme2").text("Moje manifestacije");
+		$("#profil-dugme3").text("Prodate karte");
 	}
 }
 
+function dodajPodatkeOTipu(tip){
+	$("#podaci-o-tipu").text(tip.imeTipa + "  " + tip.popust + "  " + tip.brojBodova)
+}
 
 
-$("#dugmePretraga").click(function()
-{
-	alert("BARBAR")
-});
-
-$("#nazadManifestacije").click(function()
-{
-	$.get("/WP_Tickets/rest/Manifestacije/",function(manifestacije)
-	{
-		napraviTabelu(manifestacije)
-	});
-
-	$("#nemaRezultata").remove();
-	$("#nazadManifestacije").remove();
-	
-});
