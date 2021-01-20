@@ -10,7 +10,7 @@
     "id" : 1,
     "geoDuzina" : 0.0,
     "geoSirina" : 0.0,
-    "adresa" : "adresa 10",
+    "adresa" : "adresa 0",
     "obrisana" : false
   },
   "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
@@ -19,14 +19,14 @@
   "naziv" : "ManifestacijaNo1",
   "tip" : 0,
   "brojMesta" : 1000,
-  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
-  "cenaREGkarte" : 500.0,
+  "datumVremeOdrzavanja" : "2021-02-17T13:13:28.5239162",
+  "cenaREGkarte" : 600.0,
   "aktivno" : true,
   "lokacija" : {
     "id" : 1,
     "geoDuzina" : 0.0,
     "geoSirina" : 0.0,
-    "adresa" : "adresa 10",
+    "adresa" : "adresa 7",
     "obrisana" : false
   },
     "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
@@ -35,14 +35,14 @@
   "naziv" : "ManifestacijaNo2",
   "tip" : 0,
   "brojMesta" : 1000,
-  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
-  "cenaREGkarte" : 500.0,
+  "datumVremeOdrzavanja" : "2021-05-20T13:13:28.5239162",
+  "cenaREGkarte" : 700.0,
   "aktivno" : true,
   "lokacija" : {
     "id" : 1,
     "geoDuzina" : 0.0,
     "geoSirina" : 0.0,
-    "adresa" : "adresa 10",
+    "adresa" : "adresa 9",
     "obrisana" : false
   },
     "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
@@ -51,14 +51,14 @@
   "naziv" : "ManifestacijaNo3",
   "tip" : 0,
   "brojMesta" : 1000,
-  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
-  "cenaREGkarte" : 500.0,
+  "datumVremeOdrzavanja" : "2021-04-19T13:13:28.5239162",
+  "cenaREGkarte" : 800.0,
   "aktivno" : true,
   "lokacija" : {
     "id" : 1,
     "geoDuzina" : 0.0,
     "geoSirina" : 0.0,
-    "adresa" : "adresa 10",
+    "adresa" : "adresa 11",
     "obrisana" : false
   },
     "poster" : "../images/Manifestacije/prof.jpg",  "obrisana" : false
@@ -67,8 +67,8 @@
   "naziv" : "ManifestacijaNo4",
   "tip" : 0,
   "brojMesta" : 1000,
-  "datumVremeOdrzavanja" : "2021-01-17T13:13:28.5239162",
-  "cenaREGkarte" : 500.0,
+  "datumVremeOdrzavanja" : "2021-01-12T13:13:28.5239162",
+  "cenaREGkarte" : 900.0,
   "aktivno" : true,
   "lokacija" : {
     "id" : 1,

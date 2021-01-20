@@ -116,15 +116,22 @@
 			<div id="PretragaContainer">
                 <form id="formPretraga">
                 <div class="input-group">
-                    <input id="nazivPretraga" type="text" class="form-control" placeholder="Naziv Manifestacije" aria-label="Naziv Manifestacije" aria-describedby="basic-addon2">
+					<input id="nazivPretraga" type="text" class="form-control" placeholder="Naziv Manifestacije" aria-label="Naziv Manifestacije" aria-describedby="basic-addon2">
+					<div id="mapaDropdown" class="dropdown show">
+						<button  class="btn btn-outline-secondary" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-map-marker-alt"></i></button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+							<div id="lokaciijaSelectMapa"><p>Odve dodaj mapu html linija 123, id: #lokaciijaSelectMapa Nz jel potvrdi dugme potrebno ako hoces da se dropdown ne zatvori klikom e.stopPropagation </p></div>
+							<button id="mapaButton" class="btn btn-outline-secondary btn-dark"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Potvrdi</button>
+						</div>
+						</div>
                     <input id="lokacijaPretraga" type="text" class="form-control" placeholder="Lokacija" aria-label="Lokacija" aria-describedby="basic-addon2">
                     <input id="cenaOdPretraga" type="text" class="form-control" placeholder="Cena Od:" aria-label="Cena Od" aria-describedby="basic-addon2">
                     <input id="cenaDoPretraga" type="text" class="form-control" placeholder="Cena Do:" aria-label="Cena Do" aria-describedby="basic-addon2">
                     <!-- labela -->
-                    <div class="input-group-prepend"><div class="input-group-text">Od:</div></div>
+                    <div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Od:</div></div>
                     <input class="form-control col-10" type="date" aria-label="Datum Od:" placeholder="Cena Do:" id="datumOd">
                     <!-- labela -->            
-                    <div class="input-group-prepend"><div class="input-group-text">Do:</div></div>
+                    <div class="input-group-prepend"><div class="input-group-text"><i class="fas fa-calendar-alt"></i>&nbsp;&nbsp;Do:</div></div>
                     <input class="form-control col-10" type="date" aria-label="Datum Do:" id="datumDo">
 
 

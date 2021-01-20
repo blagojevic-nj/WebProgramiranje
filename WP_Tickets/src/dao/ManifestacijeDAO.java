@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -294,20 +295,18 @@ public class ManifestacijeDAO {
 		return list;
 	}
 
-	public List<Manifestacija> filtriranjePoTipu(ArrayList<Manifestacija> manifestacije, String nazivManifestacije) {
+	/*manifestacije i lista id-ova svih tipova koje ukljucujes*/
+	public List<Manifestacija> filtriranjePoTipu(ArrayList<Manifestacija> manifestacije, ArrayList<Integer> idoviTipaManifestacija) {
 		ArrayList<Manifestacija> list = new ArrayList<Manifestacija>();
-		ArrayList<Integer> listaTipovaManifestacija = new ArrayList<Integer>();
-		for (TipManifestacije tm : TipManifestacijeMapa.values()) {
-			if (tm.getNazivTipa().equals(nazivManifestacije))
-				listaTipovaManifestacija.add(tm.getId());
-		}
-		for (Manifestacija m : manifestacije) {
+		for(Integer id : idoviTipaManifestacija)
+		{
+			for (Manifestacija m : manifestacije) {
 
-			if (listaTipovaManifestacija.contains(m.getTip())) {
-				list.add(m);
-			}
+				if (m.getTip()==id) {
+					list.add(m);
+				}
+			}			
 		}
-
 		return list;
 	}
 

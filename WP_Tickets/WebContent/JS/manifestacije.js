@@ -25,12 +25,16 @@ $(document).ready(function (){
 
 function dodajTipoveManifestacijaUFilterSelect(tipovi)
 {
+	$("#TipSelect").append($('<option value="-1">Nerasprodate</option>'));
+	
 	for(tip of tipovi)
 	{
-		let opcija = $('<option>'+tip.nazivTipa+'</option>');
+		let opcija = $('<option value="'+tip.id+'">'+tip.nazivTipa+'</option>');
 		$("#TipSelect").append(opcija);
+		
 
 	}
+
 }
 
 
@@ -84,12 +88,12 @@ function napraviTabelu(m){
 		let tr = $('<tr></tr>');
 		for (j = 0; j < 4; j++) {
 			//dodaj manifestaciju od i*j ako je i*j<lenth else break
-			if(i*j>numOfElements)
+			if(i*4+j>numOfElements)
 			{
 				break;
 			}else{
 				let td = $('<td></td>');
-				let manifestacija = m[i*j];
+				let manifestacija = m[i*4+j];
 				td.append(dodajManifestaciju(manifestacija));
 				tr.append(td);
 			}
@@ -108,6 +112,7 @@ function skloniManifestacije(){
 
 function zameniManifestacije(noveManifestacije)
 {
+	alert("Menjam manifestacije")
 	if(noveManifestacije.length==0)
 	{
 		poruka = $("<p id='nemaRezultata'>Nema rezultata za datu pretragu...</p>");
@@ -226,5 +231,33 @@ $("#sort8").click(function()
 	});
 
 })
+
+$("#formPretraga").submit(function(e){
+	e.preventDefault();
+
+});
+
+
+$("#filterButton").click(function(e){
+	e.preventDefault();
+	let select = $("#TipSelect").prop("selectedOptions");
+	let lista=[];
+	for(s of select)
+	{
+		alert($(s).val());
+		lista.push($(s).val());
+	}
+	$.post({url:'/WP_Tickets/rest/Manifestacije/filter/',
+        data: JSON.stringify({lista}),
+        contentType: 'application/json',
+			success: function(noveManifestacije){
+				zameniManifestacije(noveManifestacije);
+				alert("Uspesan filter")
+			}
+        })
+	
+	
+
+});
 
 

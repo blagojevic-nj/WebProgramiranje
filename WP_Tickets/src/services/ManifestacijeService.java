@@ -2,11 +2,14 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -64,7 +67,7 @@ public class ManifestacijeService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Manifestacija getManifestacija(@PathParam("id") int id) {
-		ManifestacijeDAO manifestacije = new ManifestacijeDAO(ctx.getRealPath("."));
+		ManifestacijeDAO manifestacije = getManifestacije();
 		return manifestacije.getManifestacijaById(id);
 	}
 
@@ -72,9 +75,9 @@ public class ManifestacijeService {
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Manifestacija> getAllManifestacije() {
-		ManifestacijeDAO dao = new ManifestacijeDAO(ctx.getRealPath("."));
+		ManifestacijeDAO dao = getManifestacije();
 		Collection<Manifestacija> sveManifestacije = dao.getManifestacije().values();
-		request.getSession().setAttribute("manifestacije", sveManifestacije);
+		request.getSession().setAttribute("manifestacijeList", sveManifestacije);
 		return sveManifestacije;
 
 	}
@@ -83,7 +86,7 @@ public class ManifestacijeService {
 	@Path("/Tipovi")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<TipManifestacije> getAllManifestacijeTipovi() {
-		ManifestacijeDAO manifestacije = new ManifestacijeDAO(ctx.getRealPath("."));
+		ManifestacijeDAO manifestacije = getManifestacije();
 		return manifestacije.getAllManifestacijeTipovi();
 
 	}
@@ -92,9 +95,10 @@ public class ManifestacijeService {
 	@Path("/sort/{idSorta}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Manifestacija> sortManifestacije(@PathParam("idSorta") int idSorta) {
-		ManifestacijeDAO dao = new ManifestacijeDAO(ctx.getRealPath("."));
+		ManifestacijeDAO dao = getManifestacije();
 		@SuppressWarnings("unchecked")
-		List<Manifestacija> manifestacije = (List<Manifestacija>) request.getSession().getAttribute("manifestacije");
+		Collection<Manifestacija> kolekcija = ((Collection<Manifestacija>) request.getSession().getAttribute("manifestacijeList"));
+		ArrayList<Manifestacija>manifestacije = new ArrayList<Manifestacija>(kolekcija);
 		List<Manifestacija> sortirano = null;
 		switch (idSorta) {
 		case 1:
@@ -129,10 +133,26 @@ public class ManifestacijeService {
 		request.setAttribute("manifestacije", sortirano);
 		return sortirano;
 	}
+	
+	@POST
+	@Path("/filter")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Collection<Manifestacija> filterManifestacije(ArrayList<Integer> listaIdFiltera) {
+		ManifestacijeDAO dao = getManifestacije();
+		@SuppressWarnings("unchecked")
+		Collection<Manifestacija> kolekcija = ((Collection<Manifestacija>) request.getSession().getAttribute("manifestacijeList"));
+		ArrayList<Manifestacija>manifestacije = new ArrayList<Manifestacija>(kolekcija);
+		List<Manifestacija> filtrirano = dao.filtriranjePoTipu(manifestacije, listaIdFiltera);
+		request.setAttribute("manifestacije", filtrirano);
+		return filtrirano;
+		//Ne radi jos al nije ni zavrseno fali mi funkcija za nerasprodate iz karteDAO
+	}
 
 	@GET
 	@Path("/moje_manifestacije")
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Collection<Manifestacija> getMojeManifestacije() {
 		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
 		if (trenutni == null) {

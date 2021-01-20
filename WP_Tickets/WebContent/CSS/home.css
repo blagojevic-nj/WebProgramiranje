@@ -183,10 +183,10 @@ ul.CTAs a {
 }
 
 #nazivPretraga{
-    width: 12%;
+    width: 10%;
 }
 #lokacijaPretraga{
-    width: 8%;
+    width: 5%;
 }
 #cenaOdPretraga{
     width: 1px;
@@ -210,9 +210,14 @@ ul.CTAs a {
     font-size: 24px;
     align-self: center;
 }
+.fa-map-marker-alt{
+    color: Black;
+    font-size: 24px;
+    align-self: center;
+}
 
 #PretragaContainer{
-width: 90%;
+width: 95%;
 margin: auto;
 }
 #TipSelect{
@@ -235,6 +240,7 @@ scrollbar-width: none;  /* Firefox */
     font-size: x-large;
     margin-bottom: -5%;
 }
+
   
 #logo-wp-tickets{
 	position:relative;
@@ -247,4 +253,14 @@ scrollbar-width: none;  /* Firefox */
     width: 90%;
     margin-left: 5%;
     align-items: center;
+}
+
+#lokaciijaSelectMapa{
+    width: 25vw;
+    height: 25vh;
+    background-color: cornflowerblue;
+}
+
+#mapaButton{
+    margin-bottom: -2%;
 }
