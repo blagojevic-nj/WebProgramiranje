@@ -2,9 +2,43 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="../CSS/addEvent.css">
+<script src="../JS/jquery-3.3.1.min.js"></script>
+<script defer src="../JS/addEvent.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
 <title>Registracija manifestacije</title>
+
+<style>
+      .map {
+      	position: relative;
+      	left: 50%;
+      	transform: translate(-50%, 0);
+        height: 500px;
+        width:600px;
+        margin-left: 50px;
+      }
+</style>
 </head>
 <body>
-	<h1>REGISTRACIJA MANIFESTACIJE</h1>
+	 <div id="bg-image"></div>
+	 <p id="error" style="color:red" hidden="true">Nije vam dozvoljeno pristupati ovoj stranici!</p>
+	 <div id="blok-registracija-eventa">
+        <h1 id='naslov'>Dodavanje manifestacije</h1>
+        <form id="event-forma">
+      
+            <table>
+                <tr><td><label>Naziv: </label><input type="text" name="naziv" placeholder="Naziv manifestacije"/></td><td rowspan="6"><div id="map" class="map"></div></td></tr>
+                <tr><td><label>Tip dogadjaja: </label><select name="tip"></select></td><td></td></tr>
+                <tr><td><label>Broj mesta: </label><input type="number" name="brojMesta" placeholder="BrojMesta"/></td><td></tr>
+                <tr><td><label>Datum i vreme:</label><input type="datetime-local" name="datum-vreme"/></td><td></td></tr>
+                <tr><td><label>Cena karte: </label><input type="number" step="0.5" name="cena" placeholder="Cena REG karte"></td><td></td></tr>
+                <tr><td><label class="text-labela">Lokacija:</label><select name="lokacija"><option value="">Nova lokacija</option></select></td><td></td></tr>
+                <tr><td><input type="submit" value="Potvrdi"></td><td id="nova-lok-td"><label style="margin-left:100px">Unesite novu lokaciju:</label><input type="text" name="nova-lokacija"/></td></tr>
+            </table>            
+        </form>
+        
+    </div>
+  
 </body>
 </html>

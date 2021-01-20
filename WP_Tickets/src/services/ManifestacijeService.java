@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 
 import beans.Korisnik;
 import beans.Kupac;
+import beans.Lokacija;
 import beans.Manifestacija;
 import beans.Prodavac;
 import beans.TipManifestacije;
@@ -165,5 +166,13 @@ public class ManifestacijeService {
 					.filtrirajPoAktivnom(getManifestacije().getManifestacije().values(), false);
 		}
 		return null;
+	}
+	
+	@GET
+	@Path("/Lokacije")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Lokacija> getAllManifestacijeLokacije() {
+		return getManifestacije().getAllManifestacijeLokacije();
+
 	}
 }
