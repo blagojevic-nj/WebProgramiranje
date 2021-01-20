@@ -59,8 +59,7 @@ public class KorisniciDAO {
 				
 				sviKorisnici.add(k);
 			}
-				
-
+			System.out.println(putanja);
 			List<Prodavac> prodavci = Arrays
 					.asList(mapper.readValue(Paths.get(data + "prodavci.json").toFile(), Prodavac[].class));
 			for (Prodavac k : prodavci) {
@@ -69,7 +68,6 @@ public class KorisniciDAO {
 				
 				sviKorisnici.add(k);
 			}
-				
 
 			List<Kupac> kupci = Arrays.asList(mapper.readValue(Paths.get(data + "kupci.json").toFile(), Kupac[].class));
 			for (Kupac k : kupci) {
@@ -122,13 +120,24 @@ public class KorisniciDAO {
 		return retVal;
 	}
 	
+	private Collection<Prodavac> getProdavci(){
+		List<Prodavac> retVal = new ArrayList<>();
+		for(Korisnik k : mapaKorisnika.values()) {
+			if(k.getUloga() == Uloga.PRODAVAC) {
+				retVal.add((Prodavac) k);
+			}
+		}
+		
+		return retVal;
+	}
+	
 	public Korisnik registracija(Korisnik k) {
 		if(mapaKorisnika.containsKey(k.getUsername())) {
 			return null;
 		}
 		
 		if(k.getUloga() == Uloga.KUPAC) {
-			Kupac kupac = new Kupac(k.getUsername(), k.getPassword(), k.getIme(), k.getPrezime(), k.getPol(), k.getDatumRodjenja(), k.getUloga(), k.getObrisan(), new ArrayList<Integer>(), 0, -1);
+			Kupac kupac = new Kupac(k.getUsername(), k.getPassword(), k.getIme(), k.getPrezime(), k.getPol(), k.getDatumRodjenja(), k.getUloga(), k.getObrisan(), new ArrayList<String>(), 0, -1);
 			kupac.setBlokiran(false);
 			
 			int id = tipoviKupaca.size() + 1;
@@ -154,7 +163,7 @@ public class KorisniciDAO {
 			mapaKorisnika.put(k.getUsername(), prodavac);
 			ObjectMapper maper = new ObjectMapper();
 			try {
-				maper.writeValue(Paths.get(putanja + "prodavci.json").toFile(), getKupci());
+				maper.writeValue(Paths.get(putanja + "prodavci.json").toFile(), getProdavci());
 			} catch (IOException e) {
 				System.out.println("Greska prilikom dodavanja prodavaca!");
 				return null;

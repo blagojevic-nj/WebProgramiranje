@@ -242,3 +242,9 @@ scrollbar-width: none;  /* Firefox */
 	transform: translate(-50%, 0);
 	transition: 0.5s ease;
 }
+
+#pogodnosti-tabela{
+    width: 90%;
+    margin-left: 5%;
+    align-items: center;
+}

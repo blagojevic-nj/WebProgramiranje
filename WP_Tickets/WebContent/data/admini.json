@@ -1,1 +1,34 @@
-[]
+[
+	{
+		"username": "admin1",
+		"password": "pass1",
+		"ime" : "Mare",
+		"prezime": "Adminovic",
+		"pol": "MUSKO",
+		"datumRodjenja": "1999-02-19",
+		"uloga": "ADMIN",
+		"obrisan": false
+	},
+	
+	{
+		"username": "admin2",
+		"password": "pass2",
+		"ime" : "Milos",
+		"prezime": "Milovanovic",
+		"pol": "MUSKO",
+		"datumRodjenja": "1989-02-19",
+		"uloga": "ADMIN",
+		"obrisan": false
+	},
+	
+	{
+		"username": "admin3",
+		"password": "pass3",
+		"ime" : "Ankica",
+		"prezime": "Bjelica",
+		"pol": "ZENSKO",
+		"datumRodjenja": "1995-01-13",
+		"uloga": "ADMIN",
+		"obrisan": false
+	}
+]

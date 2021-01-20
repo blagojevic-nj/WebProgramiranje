@@ -369,7 +369,7 @@ public class ManifestacijeDAO {
 	 */
 
 	/**Iz liste svih uzmi samo one koje su Aktivne(T) ili neaktivne (F)!*/
-	public List<Manifestacija> filtrirajPoAktivnom(List<Manifestacija> manifestacije,boolean aktivna)
+	public List<Manifestacija> filtrirajPoAktivnom(Collection<Manifestacija> manifestacije,boolean aktivna)
 
 	{
 		List<Manifestacija> aktivne = new ArrayList<Manifestacija>();
@@ -495,6 +495,18 @@ public class ManifestacijeDAO {
 
 	public Collection<TipManifestacije> getAllManifestacijeTipovi() {
 		return TipManifestacijeMapa.values();
+	}
+
+	// ovde ide moj kod
+
+	public Collection<Manifestacija> getMojeManifestacije(Collection<Integer> lista){
+		ArrayList<Manifestacija> retVal = new ArrayList<>();
+		for(int i : lista){
+			if(neobrisaneManifestacije.containsKey(i))
+				retVal.add(neobrisaneManifestacije.get(i));
+		}
+
+		return retVal;
 	}
 }
 

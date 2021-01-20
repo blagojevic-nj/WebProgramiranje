@@ -7,7 +7,7 @@ import beans.enums.Pol;
 import beans.enums.Uloga;
 
 public class Kupac extends Korisnik {
-	private List<Integer> karte;
+	private List<String> karte;
 	private int brojBodova;
 	private int tip;
 	private Boolean blokiran;
@@ -17,18 +17,18 @@ public class Kupac extends Korisnik {
 	}
 
 	public Kupac(String username, String password, String ime, String prezime, Pol pol, LocalDate datumRodjenja, Uloga uloga,
-			Boolean obrisan, List<Integer> karte, int brojBodova, int tip) {
+			Boolean obrisan, List<String> karte, int brojBodova, int tip) {
 		super(username, password, ime, prezime, pol, datumRodjenja, uloga, obrisan);
 		this.karte = karte;
 		this.brojBodova = brojBodova;
 		this.tip = tip;
 	}
 
-	public List<Integer> getKarte() {
+	public List<String> getKarte() {
 		return karte;
 	}
 
-	public void setKarte(List<Integer> karte) {
+	public void setKarte(List<String> karte) {
 		this.karte = karte;
 	}
 

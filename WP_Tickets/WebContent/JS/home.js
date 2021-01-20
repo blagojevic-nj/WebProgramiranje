@@ -88,21 +88,69 @@ $(document).ready(function () {
 		$("#forma input[name='ime']").css("border-bottom", "2px solid green");
 		$("#forma input[name='prezime']").css("border-bottom", "2px solid green");
 	})
-	
-	$("#profil-dugme3").click( function(e){
-		e.preventDefault();
-		
-		if($("#profil-dugme3").text() == "Pogodnosti"){
+
+	$("#profil-dugme1").click(function(){
+
+		var val = $("#profil-dugme1").text();
+
+		if(val == "Moje manifestacije"){
 			$.get({
-				url: "/WP_Tickets/rest/korisnici/tip",
+				url: "/WP_Tickets/rest/Manifestacije/moje_manifestacije",
 				contentType: "application/json",
-				success: function(tip){
-					if(tip)
-						dodajPodatkeOTipu(tip);
+				success: function(manifestacije){
+					if(!manifestacije || manifestacije.length == 0){
+						alert("Nemate jos manifestacija!");
+					}
 				}
 			})
+		} else if(val == "Registruj prodavca"){
+			window.location.href = "../HTML/registration.html";
+		} else if(val == "Registruj manifestaciju"){
+			window.location.href = "../HTML/addEvent.html";
+		}		
+	});
+	
+	$("#profil-dugme2").click(function(){
+
+		var val = $("#profil-dugme2").text();
+
+		if(val == "Karte"){
+			alert("ovo nisam zavrsio")
+		} else if(val == "Nove manifestacije"){
+			$.get({
+				url: "/WP_Tickets/rest/Manifestacije/nove",
+				contentType: "application/json",
+				success: function(manifestacije){
+					if(!manifestacije || manifestacije.length == 0){
+						alert("Nema jos aktivnih manifestacija!");
+					} else{
+						alert("Nasao sam " + manifestacije.length + " aktivnih manifestacija!")
+					}
+				}
+			})
+		} else if(val == "Moje manifestacije"){
+			$.get({
+				url: "/WP_Tickets/rest/Manifestacije/moje_manifestacije",
+				contentType: "application/json",
+				success: function(manifestacije){
+					if(!manifestacije || manifestacije.length == 0){
+						alert("Nemate jos manifestacija!");
+					}
+				}
+			})
+		}		
+	});
+	
+	$("#profil-dugme3").click(function(){
+
+		var val = $("#profil-dugme3").text();
+
+		if(val == "Svi korisnici"){
+			alert("ovo nisam zavrsio")
+		} else if(val == "Prodate karte"){
+			alert("Ovde ce da ide request za listom karata koje je prodao prodavac!")
 		}
-	})
+	});
 	
 	$('#dismiss, .overlay').on('click', function () {
 		$('#sidebar').removeClass('active');
@@ -164,19 +212,33 @@ function postaviPolja(korisnik){
 		$("#profil-dugme1").text("Moje manifestacije");
 		$("#profil-dugme2").text("Karte");
 		$("#profil-dugme3").text("Pogodnosti");
+		$.get({
+				url: "/WP_Tickets/rest/korisnici/tip",
+				contentType: "application/json",
+				success: function(tip){
+					if(tip)
+						dodajPodatkeOTipu(tip);
+				}
+			})
 	} else if(korisnik.uloga == "ADMIN"){
 		$("#profil-dugme1").text("Registruj prodavca");
-		$("#profil-dugme2").text("Aktivne manifestacije");
+		$("#profil-dugme2").text("Nove manifestacije");
 		$("#profil-dugme3").text("Svi korisnici");
 	}else{
-		$("#profil-dugme1").text("Registuj manifestaciju");
+		$("#profil-dugme1").text("Registruj manifestaciju");
 		$("#profil-dugme2").text("Moje manifestacije");
 		$("#profil-dugme3").text("Prodate karte");
 	}
 }
 
 function dodajPodatkeOTipu(tip){
-	$("#podaci-o-tipu").text(tip.imeTipa + "  " + tip.popust + "  " + tip.brojBodova)
+	let tabela = $("<table id='pogodnosti-tabela'></table>");
+	let tr = $("<tr></tr>");
+	let imeTipa = $("<td><img src='../images/"+tip.imeTipa+".png' height='50px'></td>")
+	let popust = $("<td>Popust: "+tip.popust+"</td>");
+	let bodovi = $("<td>Bodovi: "+tip.brojBodova+"</td>")
+	tr.append(imeTipa).append(popust).append(bodovi);
+	tabela.append(tr);
+	$("#podaci-o-tipu").append(tabela);
 }
-
 
