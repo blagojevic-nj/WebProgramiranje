@@ -264,3 +264,15 @@ scrollbar-width: none;  /* Firefox */
 #mapaButton{
     margin-bottom: -2%;
 }
+
+#prazanReturnUpita{
+    margin: auto;
+    font-size: x-large;
+    background-color: whitesmoke;
+    padding: 10px;
+    width: 95%;
+}
+#nemaRezultata
+{
+    margin: auto;
+}

@@ -138,13 +138,30 @@ public class ManifestacijeService {
 	@Path("/filter")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Collection<Manifestacija> filterManifestacije(ArrayList<Integer> listaIdFiltera) {
-		ManifestacijeDAO dao = getManifestacije();
+	public Collection<Manifestacija> filterManifestacije(Collection<Integer> listaIdFiltera) {
 		@SuppressWarnings("unchecked")
 		Collection<Manifestacija> kolekcija = ((Collection<Manifestacija>) request.getSession().getAttribute("manifestacijeList"));
-		ArrayList<Manifestacija>manifestacije = new ArrayList<Manifestacija>(kolekcija);
-		List<Manifestacija> filtrirano = dao.filtriranjePoTipu(manifestacije, listaIdFiltera);
+		if(listaIdFiltera.isEmpty())
+		{
+			return kolekcija;
+		}
+		ArrayList<Integer>uslovi = (ArrayList<Integer>)listaIdFiltera;
+		ManifestacijeDAO dao = getManifestacije();
+		List<Manifestacija>manifestacije = new ArrayList(kolekcija);
+		List<Manifestacija> filtrirano=null;
+		if(uslovi.get(0)==-1)
+		{
+			uslovi.remove(0);
+			//filtriraj nerasprodate
+			filtrirano = dao.filtriranjePoTipu(filtrirano, uslovi);
+
+			
+		}else {
+			filtrirano = dao.filtriranjePoTipu(manifestacije, uslovi);
+		}
 		request.setAttribute("manifestacije", filtrirano);
+		
+		/**/
 		return filtrirano;
 		//Ne radi jos al nije ni zavrseno fali mi funkcija za nerasprodate iz karteDAO
 	}

@@ -392,7 +392,7 @@ public class ManifestacijeDAO {
 	}
 
 	/*manifestacije i lista id-ova svih tipova koje ukljucujes*/
-	public List<Manifestacija> filtriranjePoTipu(ArrayList<Manifestacija> manifestacije, ArrayList<Integer> idoviTipaManifestacija) {
+	public List<Manifestacija> filtriranjePoTipu(List<Manifestacija> manifestacije, ArrayList<Integer> idoviTipaManifestacija) {
 		ArrayList<Manifestacija> list = new ArrayList<Manifestacija>();
 		for(Integer id : idoviTipaManifestacija)
 		{

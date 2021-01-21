@@ -88,7 +88,7 @@ function napraviTabelu(m){
 		let tr = $('<tr></tr>');
 		for (j = 0; j < 4; j++) {
 			//dodaj manifestaciju od i*j ako je i*j<lenth else break
-			if(i*4+j>numOfElements)
+			if(i*4+j>=numOfElements)
 			{
 				break;
 			}else{
@@ -112,17 +112,24 @@ function skloniManifestacije(){
 
 function zameniManifestacije(noveManifestacije)
 {
-	alert("Menjam manifestacije")
+	skloniManifestacije();
 	if(noveManifestacije.length==0)
 	{
 		poruka = $("<p id='nemaRezultata'>Nema rezultata za datu pretragu...</p>");
 		backDugme = $("<button id='nazadManifestacije' class='btn btn-outline-secondary'><i class='fas fa-undo-alt'></i></button>")
-		$("#content").append(poruka).append(backDugme);
+		div=$("<div id=prazanReturnUpita></div>")
+		div.append(poruka).append(backDugme);
+		$("#content").append(div);
 	}else{
-		skloniManifestacije();
 		napraviTabelu(noveManifestacije);
 	}
 }
+
+$("#nazadManifestacije").click(function()
+{
+	$("#prazanReturnUpita").remove();
+	window.location.href("/WP_Tickets/HTML/home.html");	
+});
 
 
 
@@ -244,15 +251,13 @@ $("#filterButton").click(function(e){
 	let lista=[];
 	for(s of select)
 	{
-		alert($(s).val());
 		lista.push($(s).val());
 	}
 	$.post({url:'/WP_Tickets/rest/Manifestacije/filter/',
-        data: JSON.stringify({lista}),
+        data: JSON.stringify(lista),
         contentType: 'application/json',
 			success: function(noveManifestacije){
 				zameniManifestacije(noveManifestacije);
-				alert("Uspesan filter")
 			}
         })
 	
