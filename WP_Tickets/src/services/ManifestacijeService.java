@@ -199,8 +199,8 @@ public class ManifestacijeService {
 
 		if (trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername()))
 				&& trenutni.getUloga() == Uloga.ADMIN) {
-			return getManifestacije()
-					.filtrirajPoAktivnom(getManifestacije().getManifestacije().values(), false);
+			ManifestacijeDAO dao = getManifestacije();
+			return dao.getNeobrisaneManifestacije().values();
 		}
 		return null;
 	}

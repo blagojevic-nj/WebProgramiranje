@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -34,6 +35,10 @@ public class ManifestacijeDAO {
 	
 	public HashMap<Integer, Manifestacija> getManifestacije() {
 		return manifestacije;
+	}
+	
+	public HashMap<Integer, Manifestacija> getHomePageManifestacije() {
+		return filtrirajPoAktivnom(neobrisaneManifestacije, true);
 	}
 
 	public void setManifestacije(HashMap<Integer, Manifestacija> manifestacije) {
@@ -421,19 +426,21 @@ public class ManifestacijeDAO {
 	 */
 
 	/** Iz liste svih uzmi samo one koje su Aktivne(T) ili neaktivne (F)! */
-	public List<Manifestacija> filtrirajPoAktivnom(Collection<Manifestacija> manifestacije, boolean aktivna)
+	public HashMap<Integer, Manifestacija> filtrirajPoAktivnom(HashMap<Integer, Manifestacija> manifestacije, boolean aktivna)
 
 	{
-		List<Manifestacija> aktivne = new ArrayList<Manifestacija>();
-		List<Manifestacija> neaktivne = new ArrayList<Manifestacija>();
+		HashMap<Integer, Manifestacija> aktivne = new HashMap<Integer, Manifestacija>();
+		HashMap<Integer, Manifestacija> neaktivne = new HashMap<Integer, Manifestacija>();
 
-		for (Manifestacija m : manifestacije) {
-			if (m.getAktivno())
-				aktivne.add(m);
+		for (HashMap.Entry<Integer, Manifestacija> m : manifestacije.entrySet()) {
+		    
+			Manifestacija val = m.getValue();
+		    if (val.getAktivno())
+				aktivne.put(m.getKey(),m.getValue());
 			else
-				neaktivne.add(m);
+				neaktivne.put(m.getKey(),m.getValue());
 		}
-
+		
 		if (aktivna)
 			return aktivne;
 		else
@@ -560,4 +567,20 @@ public class ManifestacijeDAO {
 	public Collection<Lokacija> getAllManifestacijeLokacije(){
 		return sveLokacije;
 	}
+	
+	
+	
+	public HashMap<Integer, Manifestacija> getNeobrisaneManifestacije() {
+		return neobrisaneManifestacije;
+	}
+
+	public void setNeobrisaneManifestacije(HashMap<Integer, Manifestacija> neobrisaneManifestacije) {
+		this.neobrisaneManifestacije = neobrisaneManifestacije;
+	}
+	
+	
+	
+	
 }
+
+

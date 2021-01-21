@@ -129,6 +129,11 @@ $("#nazadManifestacije").click(function()
 {
 	$("#prazanReturnUpita").remove();
 	window.location.href("/WP_Tickets/HTML/home.html");	
+	$.get("/WP_Tickets/rest/Manifestacije/",function(manifestacije)
+    {
+        napraviTabelu(manifestacije)
+    }
+    );
 });
 
 
