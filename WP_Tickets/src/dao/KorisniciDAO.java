@@ -159,7 +159,7 @@ public class KorisniciDAO {
 		}
 		// treba uraditi i za prodavca
 		else if(k.getUloga() == Uloga.PRODAVAC) {
-			Prodavac prodavac = new Prodavac(k.getUsername(), k.getPassword(), k.getIme(), k.getPrezime(), k.getPol(), k.getDatumRodjenja(), k.getUloga(), k.getObrisan(), new ArrayList<>(), new ArrayList<>());
+			Prodavac prodavac = new Prodavac(k.getUsername(), k.getPassword(), k.getIme(), k.getPrezime(), k.getPol(), k.getDatumRodjenja(), k.getUloga(), k.getObrisan(), new ArrayList<>(), new ArrayList<>(), false);
 			mapaKorisnika.put(k.getUsername(), prodavac);
 			ObjectMapper maper = new ObjectMapper();
 			try {
@@ -205,5 +205,46 @@ public class KorisniciDAO {
 				return tk;
 		}
 		return null;
+	}
+	
+	public void brisanjeKorisnika(String username) {
+		Korisnik k = mapaKorisnika.get(username);
+		k.setObrisan(true);
+		ObjectMapper maper = new ObjectMapper();
+		if(k.getUloga() == Uloga.KUPAC) {
+			try {
+				maper.writeValue(Paths.get(putanja + "kupci.json").toFile(), getKupci());
+			} catch (IOException e) {
+				System.out.println("Greska prilikom brisanja kupca!");
+			}
+		}else if(k.getUloga() == Uloga.PRODAVAC) {
+			try {
+				maper.writeValue(Paths.get(putanja + "prodavci.json").toFile(), getProdavci());
+			} catch (IOException e) {
+				System.out.println("Greska prilikom brisanja prodavca!");
+			}
+		}
+	}
+	
+	public void blokiranjeKorisnika(String username) {
+		Korisnik k = mapaKorisnika.get(username);
+		ObjectMapper maper = new ObjectMapper();
+		if(k.getUloga() == Uloga.KUPAC) {
+			Kupac kupac = (Kupac) k;
+			kupac.setBlokiran(!kupac.getBlokiran());
+			try {
+				maper.writeValue(Paths.get(putanja + "kupci.json").toFile(), getKupci());
+			} catch (IOException e) {
+				System.out.println("Greska prilikom blokiranja kupca!");
+			}
+		}else if(k.getUloga() == Uloga.PRODAVAC) {
+			try {
+				Prodavac kupac = (Prodavac) k;
+				kupac.setBlokiran(!kupac.getBlokiran());
+				maper.writeValue(Paths.get(putanja + "prodavci.json").toFile(), getProdavci());
+			} catch (IOException e) {
+				System.out.println("Greska prilikom blokiranja prodavca!");
+			}
+		}
 	}
 }

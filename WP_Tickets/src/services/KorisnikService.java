@@ -159,4 +159,22 @@ public class KorisnikService {
 		
 		return null;
 	}
+	
+	@GET
+	@Path("/brisanje")
+	public void brisanje(@QueryParam("username") String username ) {
+		Korisnik trenutni = (Korisnik)request.getSession().getAttribute("korisnik");
+		if(trenutni != null && trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername())) && trenutni.getUloga() == Uloga.ADMIN) {
+			getKorisnici().brisanjeKorisnika(username);
+		}
+	}
+	
+	@GET
+	@Path("/blokiranje")
+	public void blokiranje(@QueryParam("username") String username ) {
+		Korisnik trenutni = (Korisnik)request.getSession().getAttribute("korisnik");
+		if(trenutni != null && trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername())) && trenutni.getUloga() == Uloga.ADMIN) {
+			getKorisnici().blokiranjeKorisnika(username);
+		}
+	}
 }

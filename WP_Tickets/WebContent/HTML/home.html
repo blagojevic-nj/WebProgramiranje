@@ -9,6 +9,18 @@
 <meta http-equiv="cache-control" content="no-cache"> <!-- tells browser not to cache -->
 <meta http-equiv="expires" content="0"> <!-- says that the cache expires 'now' -->
 <meta http-equiv="pragma" content="no-cache"> <!-- says not to use cached stuff, if there is any -->
+<!-- Ovde sam dodao za mape! -->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 250px;
+        width: 100%;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+</head>
+
 
 
 <title>Tickets|Home</title>
@@ -125,7 +137,7 @@
 					<div id="mapaDropdown" class="dropdown show">
 						<button  class="btn btn-outline-secondary" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-map-marker-alt"></i></button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-							<div id="lokaciijaSelectMapa"><p>Odve dodaj mapu html linija 123, id: #lokaciijaSelectMapa Nz jel potvrdi dugme potrebno ako hoces da se dropdown ne zatvori klikom e.stopPropagation </p></div>
+							<div id="lokaciijaSelectMapa" class="map"></div>
 							<button id="mapaButton" class="btn btn-outline-secondary btn-dark"><i class="fas fa-check-circle"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Potvrdi</button>
 						</div>
 						</div>

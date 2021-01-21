@@ -1,4 +1,49 @@
-/// <reference path="C:\Users\PC\Desktop\plugIn\typings\globals\jquery\index.d.ts" />
+var map;
+var marker;
+var markers;
+var markerVectorLayer;
+var mapaKoordinate = [];
+map = new ol.Map({
+	        view: new ol.View({center: ol.proj.transform([19.84, 45.25], 'EPSG:4326', 'EPSG:3857'), zoom:14}),
+	        layers: [new ol.layer.Tile({
+	                source: new ol.source.OSM()
+	        })],
+	        target:'lokaciijaSelectMapa'
+	    });
+	
+	marker = new ol.Feature({
+	    geometry: new ol.geom.Point(ol.proj.transform([19.84, 45.25], 'EPSG:4326', 'EPSG:3857')),
+	});
+	
+	markers = new ol.source.Vector({
+	    features: []
+	});
+	
+	markerVectorLayer = new ol.layer.Vector({
+	    source: markers,
+	});
+	map.addLayer(markerVectorLayer);
+
+map.on('singleclick', function(evt){ 		
+   		
+		map.removeLayer(markerVectorLayer);
+    	var coor = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+    	mapaKoordinate = coor;
+    	marker = new ol.Feature({
+            geometry: new ol.geom.Point(ol.proj.transform(coor, 'EPSG:4326', 'EPSG:3857')),
+        });
+        
+        markers = new ol.source.Vector({
+            features: [marker]
+        });
+
+        markerVectorLayer = new ol.layer.Vector({
+            source: markers,
+        });
+        map.addLayer(markerVectorLayer);
+   		
+  	});
+  	
 $(document).ready(function (){
 
 /**Ucitavanje manifestacija */
@@ -270,4 +315,11 @@ $("#filterButton").click(function(e){
 
 });
 
+$('#lokaciijaSelectMapa').on('click',function(e)
+	{
+	e.stopPropagation();
+	})
 
+$("#mapaButton").click(function(){
+	alert(mapaKoordinate)
+})
