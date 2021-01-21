@@ -195,4 +195,21 @@ public class ManifestacijeService {
 		return getManifestacije().getAllManifestacijeLokacije();
 
 	}
+	
+	@POST
+	@Path("/registracija")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public boolean registracija(Manifestacija m) {
+		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
+		if (trenutni == null) {
+			return false;
+		}
+
+		if (trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername()))
+				&& trenutni.getUloga() == Uloga.PRODAVAC) {
+			return getManifestacije().RegistracijaNoveManifestacije(m);
+		}
+		return false;
+	}
+	
 }

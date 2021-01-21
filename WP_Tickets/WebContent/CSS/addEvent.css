@@ -90,8 +90,8 @@ label{
 }
 
 table td{
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 table{
@@ -164,4 +164,9 @@ input[type="submit"]:hover{
     transition: 1s ease;
     background-color:rgba(71, 71, 105, 0.336);
     color:white;
+}
+
+#poster{
+	width: 307px;
+	float:right;
 }

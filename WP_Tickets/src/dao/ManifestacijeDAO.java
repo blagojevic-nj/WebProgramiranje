@@ -1,7 +1,12 @@
 package dao;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +14,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +29,9 @@ public class ManifestacijeDAO {
 	HashMap<Integer, Manifestacija> neobrisaneManifestacije;
 	HashMap<Integer, TipManifestacije> TipManifestacijeMapa;
 	Comparator<Manifestacija> sorterDatum, sorterCena, sorterLokacija, sorterNaziv;
-
+	ArrayList<Lokacija> sveLokacije = new ArrayList<>(); 
+	String putanja;
+	
 	public HashMap<Integer, Manifestacija> getManifestacije() {
 		return manifestacije;
 	}
@@ -43,14 +49,104 @@ public class ManifestacijeDAO {
 
 	public ManifestacijeDAO(String path) {
 		super();
+		putanja = path;
 		load(path);
 		setNeobrisaneManifestacije();
 		initSorter();
+		loadLokacije(path);
 	}
 
 	/** Registracija sa proverom da li se moze reg nova manifestacija */
 	public boolean RegistracijaNoveManifestacije(Manifestacija m) {
-
+		if(!proveraVremena(m.getDatumVremeOdrzavanja(), m.getLokacija().getId()))
+			return false;
+		
+		if(!postojiLokacija(m.getLokacija().getId())) {
+			dodajLokaciju(m.getLokacija());
+		}
+		
+		m.setId(manifestacije.values().size()+1);
+		//String putanja = prebaciSliku(m.getPoster(), m.getId());
+		System.out.println("Putanja do slike: " + m.getPoster());
+//		if(putanja == null) {
+//			return false;
+//		}
+		manifestacije.put(m.getId(), m);
+		neobrisaneManifestacije.put(m.getId(), m);
+		
+		upisiManifestacije();
+		return true;
+	}
+	
+	private boolean postojiLokacija(int id) {
+		for(Lokacija lok: sveLokacije) {
+			if(lok.getId() == id){
+				return true;
+			}
+		}
+		
+		return false;	
+	}
+	
+	private void dodajLokaciju(Lokacija lok) {
+		System.out.println("Ne mogu da dodam lokaciju!");
+		sveLokacije.add(lok);
+		System.out.println("...Ipak mogy");
+		ObjectMapper maper = new ObjectMapper();
+		try {
+			maper.writeValue(Paths.get(putanja+File.separator + "data" + File.separator + "lokacije.json").toFile(), sveLokacije);
+		} catch (IOException e) {
+			System.out.println("Greska prilikom dodavanja lokacije!");
+		}
+	}
+	
+	private String prebaciSliku(String poster, int id) {
+		String images = putanja + File.separator + "images" + File.separator;
+		FileInputStream fileInputStream = null;
+		FileOutputStream fileOutputStream = null;
+		try {
+			fileInputStream = new FileInputStream(new File(poster));
+			fileOutputStream = new FileOutputStream(new File(images+id+".png"));
+		} catch (FileNotFoundException e) {
+			return null;
+		}
+		int bufferSize;
+		byte[] buffer = new byte[1024];
+		try {
+			while ((bufferSize = fileInputStream.read(buffer)) > 0) {
+			    fileOutputStream.write(buffer, 0, bufferSize);
+			}
+			fileInputStream.close();
+			fileOutputStream.close();
+		} catch (IOException e) {
+			return null;
+		}
+		
+		return images+id+".png";
+	}
+	
+	private void upisiManifestacije() {
+		String data = putanja+File.separator + "data" + File.separator;
+		ObjectMapper maper = new ObjectMapper();
+		try {
+			maper.writeValue(Paths.get(data+ "manifestacije.json").toFile(), manifestacije.values());
+		} catch (IOException e) {
+			System.out.println("Greska prilikom dodavanja manifestacije!");
+		}
+		
+	}
+	
+	public boolean proveraVremena(LocalDateTime dt, int id) {
+		for(Manifestacija man: neobrisaneManifestacije.values()) {
+			if(dt.toLocalDate().equals(man.getDatumVremeOdrzavanja().toLocalDate()) && man.getLokacija().getId() == id) {
+				
+				long duration = Duration.between(dt.toLocalTime(), man.getDatumVremeOdrzavanja().toLocalTime()).toMinutes();
+				
+				if(Math.abs(duration) < 60) {
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 
@@ -393,6 +489,20 @@ public class ManifestacijeDAO {
 		}
 
 	}
+	
+	private void loadLokacije(String path) {
+		ObjectMapper mapper = new ObjectMapper();
+		String data = path + java.io.File.separator + "data" + java.io.File.separator;
+		List<Lokacija> temp;
+		try {
+			temp = Arrays
+					.asList(mapper.readValue(Paths.get(data + "lokacije.json").toFile(), Lokacija[].class));
+			for(Lokacija l: temp)
+				sveLokacije.add(l);
+		} catch (IOException e) {
+			System.out.println("Greska prilikom ucitavanja lokacija!");		
+		}
+	}
 
 	private void initSorter() {
 
@@ -448,17 +558,6 @@ public class ManifestacijeDAO {
 	}
 
 	public Collection<Lokacija> getAllManifestacijeLokacije(){
-		ArrayList<Lokacija> retVal = new ArrayList<>();
-		ArrayList<Integer> temp = new ArrayList<>();
-		for(Manifestacija man: manifestacije.values()) {
-			if(!man.getLokacija().getObrisana()) {
-				if(!temp.contains(man.getLokacija().getId())) {
-					retVal.add(man.getLokacija());
-					temp.add(man.getLokacija().getId());
-				}
-			}
-		}
-
-		return retVal;
+		return sveLokacije;
 	}
 }
