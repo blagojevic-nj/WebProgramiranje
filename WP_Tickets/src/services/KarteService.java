@@ -18,12 +18,14 @@ import beans.Karta;
 import beans.Korisnik;
 import beans.Kupac;
 import beans.Prodavac;
+import beans.TipKupca;
 import beans.enums.Uloga;
 import dao.KarteDAO;
 import dao.KorisniciDAO;
+import dao.ManifestacijeDAO;
 
 
-@Path("/KarteService")
+@Path("/Karte")
 public class KarteService {
 
 	@Context
@@ -41,8 +43,16 @@ public class KarteService {
 		return dao;
 	}
 	
+	private ManifestacijeDAO getManifestacijeDAO() {
+		ManifestacijeDAO manifestacije = (ManifestacijeDAO) ctx.getAttribute("manifestacije");
+		if (manifestacije == null) {
+			manifestacije = new ManifestacijeDAO(ctx.getRealPath("."));
+			ctx.setAttribute("manifestacije", manifestacije);
+		}
+		return manifestacije;
+	}
 	
-	private KorisniciDAO getKorisnici() {
+	private KorisniciDAO getKorisniciDAO() {
 		KorisniciDAO korisnici = (KorisniciDAO) ctx.getAttribute("KorisniciDAO");
 		if (korisnici == null) {
 			korisnici = new KorisniciDAO(ctx.getRealPath("."));
@@ -63,11 +73,11 @@ public class KarteService {
 			return null;
 		}
 
-		if (trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername()))&& trenutni.getUloga() == Uloga.KUPAC)
+		if (trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername()))&& trenutni.getUloga() == Uloga.KUPAC)
 		{
 			karte = dao.getKarte(2, trenutni.getUsername());
 		} 
-		else if (trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername()))&& trenutni.getUloga() == Uloga.PRODAVAC)
+		else if (trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername()))&& trenutni.getUloga() == Uloga.PRODAVAC)
 		{
 			karte = dao.getKarte(1, trenutni.getUsername());		
 		}
@@ -83,10 +93,32 @@ public class KarteService {
 
 	}
 	@GET
-	@Path("/otkazi/{id}")
+	@Path("/kupi/{id}/{broj}/{tipKarte}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean otkaziKartu(@PathParam("id")String idKarte)
+	public boolean otkaziKartu(@PathParam("id")String id,@PathParam("broj")int broj,@PathParam("tipKarte")int tipKarte)
 	{
+		KarteDAO daoKarte = getKarteDAO();
+		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
+		if (!(trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername()))&&trenutni.getUloga() == Uloga.KUPAC))
+		{
+			return false;
+		}
+		ManifestacijeDAO daoManifestacije = getManifestacijeDAO();
+		//if(daoManifestacije.kupiKartu(id,broj,daoKarte,trenutni)==null)
+		//	{
+		//		return false;
+		//	}
+		//karte kupljene u manifestacije dao!!!
+		
+		
+		
+		
+		
+		KorisniciDAO daoKorisnici = getKorisniciDAO();
+		//daoKorisnici.kupiKarte()
+		
+		
+		
 		return false;
 	}
 	

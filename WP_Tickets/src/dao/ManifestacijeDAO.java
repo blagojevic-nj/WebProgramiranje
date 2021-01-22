@@ -22,10 +22,16 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.org.apache.xml.internal.security.signature.Manifest;
 
+import beans.Karta;
+import beans.Korisnik;
 import beans.Lokacija;
 import beans.Manifestacija;
 import beans.TipManifestacije;
+import beans.enums.StatusKarte;
+import beans.enums.TipKarte;
+import sun.jvm.hotspot.utilities.KlassArray;
 
 public class ManifestacijeDAO {
 
@@ -703,6 +709,26 @@ public class ManifestacijeDAO {
 		}
 		return nove;
 	}
+
+	
+	/*
+	 * public ArrayList<Karta> kupiKartu(String id, int broj,KarteDAO
+	 * daoKarte,Korisnik kupac,Korisnik prodavac) { HashMap<Integer,
+	 * Manifestacija>manifestacije = filtrirajPoAktivnom(neobrisaneManifestacije,
+	 * true); Manifestacija m; try{ m = manifestacije.get(Integer.parseInt(id));
+	 * }catch (Exception e) { return null; } if(m!=null && m.getBrojMesta()>broj) {
+	 * m.setBrojMesta(m.getBrojMesta()-broj); return
+	 * napraviKarte(broj,daoKarte,m,kupac); } return null; }
+	 */
+
+	/*
+	 * private ArrayList<Karta> napraviKarte(int broj,KarteDAO
+	 * daoKarte,Manifestacija m,Korisnik kupac) { ArrayList<Karta>noveKarte = new
+	 * ArrayList<Karta>(); for(int i=0;i<broj;i++) { //daoKarte.generisiIdNoveKarte
+	 * Karta k = new
+	 * Karta("0123456789",prod,m.getId(),m.getDatumVremeOdrzavanja(),1.000,"Kupac",
+	 * StatusKarte.REZERVISANA,TipKarte.REGULAR); } return null; }
+	 */
 	
 	
 	

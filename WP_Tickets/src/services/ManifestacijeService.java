@@ -254,7 +254,6 @@ public class ManifestacijeService {
 		
 		if(!naziv.equals(""))
 		{
-			empty = false;
 			kolekcija = dao.searchNaziv(kolekcija,naziv);
 			if(kolekcija.isEmpty())
 				{
@@ -264,7 +263,6 @@ public class ManifestacijeService {
 		}
 		if(!cenaOd.equals(""))
 		{
-			empty = false;
 			kolekcija = dao.searchCenaOd(kolekcija,cenaOd);
 			if(kolekcija.isEmpty())
 			{
@@ -274,7 +272,6 @@ public class ManifestacijeService {
 		}
 		if(!cenaDo.equals(""))
 		{
-			empty = false;
 			kolekcija = dao.searchCenaDo(kolekcija,cenaDo);
 			if(kolekcija.isEmpty())
 			{
@@ -284,7 +281,6 @@ public class ManifestacijeService {
 		}
 		if(!datumOd.equals(""))
 		{
-			empty = false;
 			kolekcija = dao.searchDatumOd(kolekcija,datumOd);
 			if(kolekcija.isEmpty())
 			{
@@ -294,7 +290,6 @@ public class ManifestacijeService {
 		}
 		if(!datumDo.equals(""))
 		{
-			empty = false;
 			kolekcija = dao.searchDatumDo(kolekcija,datumDo);
 			if(kolekcija.isEmpty())
 			{
@@ -304,7 +299,6 @@ public class ManifestacijeService {
 		}
 		if(!lokacija.equals(""))
 		{
-			empty = false;
 			kolekcija = dao.searchLokacija(kolekcija,lokacija,tipLokacije);
 			if(kolekcija.isEmpty())
 			{
@@ -312,20 +306,10 @@ public class ManifestacijeService {
 				return kolekcija;
 			}
 		}
-		if(empty)
-		{
-			kolekcija.clear();
-		}
+
 		request.setAttribute("manifestacije", kolekcija);
 		return kolekcija;
-	
-	
-	
-	
-	
-	
-	
-	
+
 	}
 	
 }

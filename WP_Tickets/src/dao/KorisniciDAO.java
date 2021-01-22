@@ -247,4 +247,25 @@ public class KorisniciDAO {
 			}
 		}
 	}
+
+	public void setNoviBodovi(String username,double cena,boolean odustaje)
+	{
+		//broj_bodova = cena_jedne_karte/1000 * 133		--kupuje
+		//broj_bodova = cena_jedne_karte/1000 * 133*4	--odustaje
+		int bodovi = (int)(cena/1000)*133;
+		Kupac k = (Kupac)mapaKorisnika.get(username);
+		if(odustaje) {
+			k.setBrojBodova(k.getBrojBodova()-4*bodovi);
+			if(k.getBrojBodova()<0)
+				k.setBrojBodova(0);
+		}else
+		{
+			k.setBrojBodova(k.getBrojBodova()+bodovi);
+		}
+		
+	}
+	public boolean kupiKarte(double cenaREGKarte) {
+
+		return false;
+	}
 }
