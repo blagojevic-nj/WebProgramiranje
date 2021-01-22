@@ -12,6 +12,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.Karta;
+import beans.Manifestacija;
 
 
 public class KarteDAO {
@@ -27,6 +28,7 @@ public class KarteDAO {
 
 		loadTickets(path);
 	}
+	
 
 	public HashMap<String, Karta> getMapaKarata() {
 		return mapaKarata;
@@ -67,5 +69,43 @@ public class KarteDAO {
 			retVal.add(mapaKarata.get(s).getManifestacija());
 		}
 		return retVal;
+	}
+	
+	/**Tip korisnika:
+	 * 0-ADMIN
+	 * 1-PRODAVAC
+	 * 2-KUPAC*/
+	public Collection<Karta>getKarte(int TipKorisnika,String username ){
+		ArrayList<Karta>cardList = new ArrayList<Karta>();
+		
+		//admin
+		if(TipKorisnika==0)
+		{
+			return mapaKarata.values();
+		}
+		//Prodavac
+		else if(TipKorisnika == 1)
+		{
+			for(Karta k : mapaKarata.values())
+			{
+				if(k.getProdavac().equals(username))
+				{
+					cardList.add(k);
+				}
+			}
+			
+		}
+		else {
+			for(Karta k : mapaKarata.values())
+			{
+				if(k.getKupac().equals(username))
+				{
+					cardList.add(k);
+				}
+			}
+		}
+		
+		return cardList;
+		
 	}
 }
