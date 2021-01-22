@@ -163,7 +163,7 @@ function zameniManifestacije(noveManifestacije)
 	if(noveManifestacije.length==0)
 	{
 		poruka = $("<p id='nemaRezultata'>Nema rezultata za datu pretragu...</p>");
-		backDugme = $("<button id='nazadManifestacije' class='btn btn-outline-secondary'><i class='fas fa-undo-alt'></i></button>")
+		backDugme = $("<button id='reloadManifestacije' class='btn btn-outline-secondary'><i class='fas fa-undo-alt'></i></button>")
 		div=$("<div id=prazanReturnUpita></div>")
 		div.append(poruka).append(backDugme);
 		$("#content").append(div);
@@ -172,7 +172,7 @@ function zameniManifestacije(noveManifestacije)
 	}
 }
 
-$("#nazadManifestacije").click(function()
+$("#reloadManifestacije").click(function()
 {
 	$("#prazanReturnUpita").remove();
 	window.location.href("/WP_Tickets/HTML/home.html");	
@@ -184,7 +184,7 @@ $("#nazadManifestacije").click(function()
 });
 
 
-$("#nazadManifestacije").click(function()
+$("#reloadManifestacije").click(function()
 {
 	$.get("/WP_Tickets/rest/Manifestacije/",function(manifestacije)
 	{
@@ -192,7 +192,7 @@ $("#nazadManifestacije").click(function()
 	});
 
 	$("#nemaRezultata").remove();
-	$("#nazadManifestacije").remove();
+	$("#reloadManifestacije").remove();
 	
 });
 
@@ -331,10 +331,7 @@ $("#formPretraga").submit(function(e){
 	let datumOd = $("#datumOd").val();
 	let datumDo = $("#datumDo").val();
 
-/* 	alert(naziv);
-	alert(lokacija);
-	alert(cenaOd);
-	alert(datumDo); */
+
 	alert(lokacija);
 	if(tipLokacije !='koordinate')
 	{
@@ -356,3 +353,4 @@ $("#formPretraga").submit(function(e){
 $("#dugmePretraga").click(function()
 {
 });
+

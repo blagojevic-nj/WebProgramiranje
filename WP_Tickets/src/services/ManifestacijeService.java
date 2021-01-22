@@ -240,7 +240,7 @@ public class ManifestacijeService {
 		@SuppressWarnings("unchecked")
 		Collection<Manifestacija> kolekcija = ((Collection<Manifestacija>) request.getSession().getAttribute("manifestacijeList"));
 		ManifestacijeDAO dao = getManifestacije();
-
+		boolean empty = true;
 	//let upit = {naziv:naziv, lokacija:lokacija, tipLokacije:"adresa",cenaOd:cenaOd, cenaDo:cenaDo,datumOd:datumOd,datumDo:datumDo}
 
 		String naziv = mapa.get("naziv").trim();
@@ -254,6 +254,7 @@ public class ManifestacijeService {
 		
 		if(!naziv.equals(""))
 		{
+			empty = false;
 			kolekcija = dao.searchNaziv(kolekcija,naziv);
 			if(kolekcija.isEmpty())
 				{
@@ -263,6 +264,7 @@ public class ManifestacijeService {
 		}
 		if(!cenaOd.equals(""))
 		{
+			empty = false;
 			kolekcija = dao.searchCenaOd(kolekcija,cenaOd);
 			if(kolekcija.isEmpty())
 			{
@@ -272,6 +274,7 @@ public class ManifestacijeService {
 		}
 		if(!cenaDo.equals(""))
 		{
+			empty = false;
 			kolekcija = dao.searchCenaDo(kolekcija,cenaDo);
 			if(kolekcija.isEmpty())
 			{
@@ -281,6 +284,7 @@ public class ManifestacijeService {
 		}
 		if(!datumOd.equals(""))
 		{
+			empty = false;
 			kolekcija = dao.searchDatumOd(kolekcija,datumOd);
 			if(kolekcija.isEmpty())
 			{
@@ -290,6 +294,7 @@ public class ManifestacijeService {
 		}
 		if(!datumDo.equals(""))
 		{
+			empty = false;
 			kolekcija = dao.searchDatumDo(kolekcija,datumDo);
 			if(kolekcija.isEmpty())
 			{
@@ -299,6 +304,7 @@ public class ManifestacijeService {
 		}
 		if(!lokacija.equals(""))
 		{
+			empty = false;
 			kolekcija = dao.searchLokacija(kolekcija,lokacija,tipLokacije);
 			if(kolekcija.isEmpty())
 			{
@@ -306,7 +312,10 @@ public class ManifestacijeService {
 				return kolekcija;
 			}
 		}
-		
+		if(empty)
+		{
+			kolekcija.clear();
+		}
 		request.setAttribute("manifestacije", kolekcija);
 		return kolekcija;
 	
