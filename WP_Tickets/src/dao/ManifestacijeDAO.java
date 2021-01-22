@@ -6,13 +6,17 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -576,6 +580,128 @@ public class ManifestacijeDAO {
 
 	public void setNeobrisaneManifestacije(HashMap<Integer, Manifestacija> neobrisaneManifestacije) {
 		this.neobrisaneManifestacije = neobrisaneManifestacije;
+	}
+/*-****************Search************/
+	
+	
+	public Collection<Manifestacija> searchNaziv(Collection<Manifestacija> kolekcija, String naziv) {
+		List<Manifestacija>nove = new ArrayList<Manifestacija>();
+		naziv= naziv.trim().toLowerCase();
+		if(naziv.equals("")) return kolekcija;
+		for(Manifestacija m : kolekcija)
+		{
+			if(m.getNaziv().toLowerCase().equals(naziv)) nove.add(m);
+		}
+		
+		
+	return nove;	
+	}
+
+	public Collection<Manifestacija> searchCenaOd(Collection<Manifestacija> kolekcija, String CenaOd) {
+		List<Manifestacija>nove = new ArrayList<Manifestacija>();
+
+		try {
+			int cena=Integer.parseInt(CenaOd);
+			for(Manifestacija m : kolekcija)
+				{
+					if(m.getCenaREGkarte()>cena) nove.add(m);
+				}
+			return nove;
+			}
+		catch (Exception e){
+			return kolekcija;
+		}
+	}
+
+	public Collection<Manifestacija> searchCenaDo(Collection<Manifestacija> kolekcija, String CenaDo) {
+		List<Manifestacija>nove = new ArrayList<Manifestacija>();
+
+		try {
+			int cena=Integer.parseInt(CenaDo);
+			for(Manifestacija m : kolekcija)
+				{
+					if(m.getCenaREGkarte()<cena) nove.add(m);
+				}
+			return nove;
+			}
+		catch (Exception e){
+			return kolekcija;
+		}
+	}
+
+	public Collection<Manifestacija> searchDatumOd(Collection<Manifestacija> kolekcija, String DatumOd) {
+		List<Manifestacija>nove = new ArrayList<Manifestacija>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dt;
+		try {
+			dt=sdf.parse(DatumOd);
+			for(Manifestacija m : kolekcija)
+				{				
+				//Prevesti u date...
+					if(java.sql.Timestamp.valueOf(m.getDatumVremeOdrzavanja()).after(dt)) nove.add(m);
+				}
+			return nove;
+			}
+		catch (Exception e){
+			return kolekcija;
+		}
+	}
+
+	public Collection<Manifestacija> searchDatumDo(Collection<Manifestacija> kolekcija, String DatumDo) {
+		List<Manifestacija>nove = new ArrayList<Manifestacija>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dt;
+		try {
+			dt=sdf.parse(DatumDo);
+			for(Manifestacija m : kolekcija)
+				{				
+				//Prevesti u date...
+					if(java.sql.Timestamp.valueOf(m.getDatumVremeOdrzavanja()).before(dt)) nove.add(m);
+				}
+			return nove;
+			}
+		catch (Exception e){
+			return kolekcija;
+		}
+	}
+
+	public Collection<Manifestacija> searchLokacija(Collection<Manifestacija> kolekcija, String lokacija,String tipLokacije) {
+		List<Manifestacija>nove = new ArrayList<Manifestacija>();
+
+		if(tipLokacije.equals("koordinate"))
+		{
+			try {
+			     DecimalFormat df = new DecimalFormat("#.###");		//greska oko 50m
+					double prvaKoordinata = Double.parseDouble(lokacija.split(",")[0]);
+					double drugaKoordinata = Double.parseDouble(lokacija.split(",")[1]);
+					String prva = df.format(prvaKoordinata);
+					String druga = df.format(drugaKoordinata);
+					
+					for(Manifestacija m : kolekcija)
+					{				
+						 
+						String prviDuzina =df.format( m.getLokacija().getGeoDuzina());
+						String drugiDuzina =df.format( m.getLokacija().getGeoSirina());
+						if(prviDuzina.equals(prva)&& drugiDuzina.equals(drugiDuzina)) {
+							nove.add(m);
+						}
+					}
+				return nove;
+			}catch (Exception e) {
+				return kolekcija;
+				}
+
+		}else {
+			for(Manifestacija m : kolekcija)
+			{		
+			if(m.getLokacija().getAdresa().toLowerCase().equals(lokacija))
+				{
+					nove.add(m);
+				}
+			}
+			
+		}
+		return nove;
 	}
 	
 	

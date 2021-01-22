@@ -3,6 +3,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -227,6 +228,95 @@ public class ManifestacijeService {
 			return getManifestacije().RegistracijaNoveManifestacije(m);
 		}
 		return false;
+	}
+	
+	
+	@POST
+	@Path("/search")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Collection<Manifestacija>search(Object upit) {
+		LinkedHashMap<String,String> mapa=(LinkedHashMap<String,String>)upit;
+		@SuppressWarnings("unchecked")
+		Collection<Manifestacija> kolekcija = ((Collection<Manifestacija>) request.getSession().getAttribute("manifestacijeList"));
+		ManifestacijeDAO dao = getManifestacije();
+
+	//let upit = {naziv:naziv, lokacija:lokacija, tipLokacije:"adresa",cenaOd:cenaOd, cenaDo:cenaDo,datumOd:datumOd,datumDo:datumDo}
+
+		String naziv = mapa.get("naziv").trim();
+		String cenaOd = mapa.get("cenaOd").trim();
+		String cenaDo = mapa.get("cenaDo").trim();
+		String datumOd = mapa.get("datumOd").trim();
+		String datumDo = mapa.get("datumDo").trim();
+		String lokacija = mapa.get("lokacija").trim();
+		String tipLokacije = mapa.get("tipLokacije").trim();
+
+		
+		if(!naziv.equals(""))
+		{
+			kolekcija = dao.searchNaziv(kolekcija,naziv);
+			if(kolekcija.isEmpty())
+				{
+					request.setAttribute("manifestacije", kolekcija);
+					return kolekcija;
+				}
+		}
+		if(!cenaOd.equals(""))
+		{
+			kolekcija = dao.searchCenaOd(kolekcija,cenaOd);
+			if(kolekcija.isEmpty())
+			{
+				request.setAttribute("manifestacije", kolekcija);
+				return kolekcija;
+			}
+		}
+		if(!cenaDo.equals(""))
+		{
+			kolekcija = dao.searchCenaDo(kolekcija,cenaDo);
+			if(kolekcija.isEmpty())
+			{
+				request.setAttribute("manifestacije", kolekcija);
+				return kolekcija;
+			}
+		}
+		if(!datumOd.equals(""))
+		{
+			kolekcija = dao.searchDatumOd(kolekcija,datumOd);
+			if(kolekcija.isEmpty())
+			{
+				request.setAttribute("manifestacije", kolekcija);
+				return kolekcija;
+			}
+		}
+		if(!datumDo.equals(""))
+		{
+			kolekcija = dao.searchDatumDo(kolekcija,datumDo);
+			if(kolekcija.isEmpty())
+			{
+				request.setAttribute("manifestacije", kolekcija);
+				return kolekcija;
+			}
+		}
+		if(!lokacija.equals(""))
+		{
+			kolekcija = dao.searchLokacija(kolekcija,lokacija,tipLokacije);
+			if(kolekcija.isEmpty())
+			{
+				request.setAttribute("manifestacije", kolekcija);
+				return kolekcija;
+			}
+		}
+		
+		request.setAttribute("manifestacije", kolekcija);
+		return kolekcija;
+	
+	
+	
+	
+	
+	
+	
+	
 	}
 	
 }

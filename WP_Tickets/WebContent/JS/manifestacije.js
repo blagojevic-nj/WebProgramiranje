@@ -1,8 +1,10 @@
+/// <reference path="C:\Users\PC\Desktop\plugIn\typings\globals\jquery\index.d.ts" />
 var map;
 var marker;
 var markers;
 var markerVectorLayer;
 var mapaKoordinate = [];
+var tipLokacije;
 map = new ol.Map({
 	        view: new ol.View({center: ol.proj.transform([19.84, 45.25], 'EPSG:4326', 'EPSG:3857'), zoom:14}),
 	        layers: [new ol.layer.Tile({
@@ -182,12 +184,6 @@ $("#nazadManifestacije").click(function()
 });
 
 
-
-$("#dugmePretraga").click(function()
-{
-	alert("PRETRYYY")
-});
-
 $("#nazadManifestacije").click(function()
 {
 	$.get("/WP_Tickets/rest/Manifestacije/",function(manifestacije)
@@ -289,11 +285,6 @@ $("#sort8").click(function()
 
 })
 
-$("#formPretraga").submit(function(e){
-	e.preventDefault();
-
-});
-
 
 $("#filterButton").click(function(e){
 	e.preventDefault();
@@ -320,6 +311,48 @@ $('#lokaciijaSelectMapa').on('click',function(e)
 	e.stopPropagation();
 	})
 
-$("#mapaButton").click(function(){
-	alert(mapaKoordinate)
+$("#mapaButton").click(function(e){
+	e.preventDefault();
+	alert(mapaKoordinate);
+	$("#lokacijaPretraga").val(mapaKoordinate);
+	tipLokacije = 'koordinate';
+
 })
+
+
+/*****************************************************    PRETRAGA    ********************************************************************/
+
+$("#formPretraga").submit(function(e){
+	e.preventDefault();
+	let naziv = $("#nazivPretraga").val();
+	let lokacija = $("#lokacijaPretraga").val();
+	let cenaOd = $("#cenaOdPretraga").val();
+	let cenaDo = $("#cenaDoPretraga").val();
+	let datumOd = $("#datumOd").val();
+	let datumDo = $("#datumDo").val();
+
+/* 	alert(naziv);
+	alert(lokacija);
+	alert(cenaOd);
+	alert(datumDo); */
+	alert(lokacija);
+	if(tipLokacije !='koordinate')
+	{
+		tipLokacije='adresa'
+	}
+	let upit = {naziv:naziv, lokacija:lokacija, tipLokacije:tipLokacije,cenaOd:cenaOd, cenaDo:cenaDo,datumOd:datumOd,datumDo:datumDo}
+	$.post({url:'/WP_Tickets/rest/Manifestacije/search/',
+        data: JSON.stringify(upit),
+        contentType: 'application/json',
+			success: function(obj){
+				alert("sucess");
+				zameniManifestacije(obj);
+			}
+        })
+	tipLokacije='adresa'
+});
+
+
+$("#dugmePretraga").click(function()
+{
+});
