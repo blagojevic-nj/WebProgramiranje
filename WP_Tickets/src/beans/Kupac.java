@@ -10,15 +10,14 @@ public class Kupac extends Korisnik {
 	private List<String> karte;
 	private int brojBodova;
 	private int tip;
-	private Boolean blokiran;
 
 	public Kupac() {
 		super();
 	}
 
 	public Kupac(String username, String password, String ime, String prezime, Pol pol, LocalDate datumRodjenja, Uloga uloga,
-			Boolean obrisan, List<String> karte, int brojBodova, int tip) {
-		super(username, password, ime, prezime, pol, datumRodjenja, uloga, obrisan);
+			Boolean obrisan, Boolean blokiran, List<String> karte, int brojBodova, int tip) {
+		super(username, password, ime, prezime, pol, datumRodjenja, uloga, obrisan, blokiran);
 		this.karte = karte;
 		this.brojBodova = brojBodova;
 		this.tip = tip;
@@ -46,14 +45,6 @@ public class Kupac extends Korisnik {
 
 	public void setTip(int tip) {
 		this.tip = tip;
-	}
-
-	public Boolean getBlokiran() {
-		return blokiran;
-	}
-
-	public void setBlokiran(Boolean blokiran) {
-		this.blokiran = blokiran;
 	}
 
 }

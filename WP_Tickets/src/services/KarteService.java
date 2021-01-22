@@ -12,13 +12,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import org.glassfish.jersey.server.model.ParamQualifier;
 
 import beans.Karta;
 import beans.Korisnik;
-import beans.Kupac;
-import beans.Prodavac;
-import beans.TipKupca;
 import beans.enums.Uloga;
 import dao.KarteDAO;
 import dao.KorisniciDAO;

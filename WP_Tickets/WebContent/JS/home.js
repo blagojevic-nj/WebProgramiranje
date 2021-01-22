@@ -1,4 +1,80 @@
 $.noConflict()
+
+function getDatumVreme(datumvreme){	
+	var meseci={"01": "Januar",
+            "02": "Februar",
+            "03": "Mart",
+            "04": "April",
+            "05": "Maj",
+            "06": "Jun",
+            "07": "Jul",
+            "08": "Avgust",
+            "09": "Septembar",
+            "10": "Oktobar",
+            "11": "Novembar",
+            "12": "Decembar"}
+
+	
+    var date = datumvreme.split("T")[0];
+    var time = datumvreme.split("T")[1];
+
+    return date.split("-")[2] + ". "+meseci[date.split("-")[1]] + " " + date.split("-")[0] + ". u " + time.split(":")[0] +":"+time.split(":")[1];
+}
+
+function otkazi(id){
+	alert("Sad kao otkazujem kartu " + id)
+}
+
+
+function dodajRedKarte(karta){
+    let tr;
+    
+    if(karta.tipKarte == "REGULAR"){
+    	 tr = $("<tr class='reg-tr' id='"+karta.id+"'></tr>");
+    } else if(karta.tipKarte == "FAN_PIT"){
+    	tr = $("<tr class='fan-tr' id='"+karta.id+"'></tr>");
+    }else if(karta.tipKarte == "VIP"){
+    	tr = $("<tr class='vip-tr' id='"+karta.id+"'></tr>");
+    }
+    let slika = $("<td><img class='slika-karta' src='../images/ticket.png' height='50px'></td>")
+    let idKarte = $("<td><p class='idKarte'>"+karta.id+"</p></td>")
+    let prodavac = $("<td><p class='prodavac'>Prodaje: "+karta.prodavac+"</p></td>")
+    let kupac =  $("<td><p class='kupac'>Kupuje: "+karta.kupac+"</p></td>")
+    
+    let manifestacija =  $("<td><p class='man'>"+karta.manifestacija+"</p></td>")
+    let datumVreme = $("<td><p class='datum-vreme'>"+ getDatumVreme(karta.datumVremeManifestacije)+"</p></td>")
+    let cena =  $("<td><p class='cenaKarte'>"+ karta.cena + " din</p></td>")
+	let tipKarte = $("<td><p class='tip'>"+ karta.tipKarte + "</p></td>");
+	let status = $("<td><p class='tip'>"+ karta.status + "</p></td>");
+	
+	
+	let otkazi = $("<td></td>");
+	tr.append(slika);
+    tr.append(idKarte);
+    tr.append(prodavac);
+    tr.append(kupac);
+    tr.append(manifestacija);
+    tr.append(datumVreme);
+    tr.append(cena);
+    tr.append(tipKarte);
+    tr.append(status);
+    if(karta.status == "REZERVISANA"){
+    	$.get({
+    		url:"/WP_Tickets/rest/korisnici/trenutni",
+    		contentType: "application/json",
+    		success: function(kor){
+    			if(kor.uloga == "KUPAC" && kor.username == karta.kupac){
+    				otkazi =  $("<td><button class='otkazi' onclick='otkazi(\""+karta.id+"\")'>Otkazi</button></td>")			
+    				tr.append(otkazi);
+    			}
+    		}
+    	})
+    }
+    	
+
+    $("#tabela-karata").append(tr);
+}
+
 $(document).ready(function () {
 	$.get({
 		url: "/WP_Tickets/rest/korisnici/trenutni",
@@ -98,8 +174,13 @@ $(document).ready(function () {
 				url: "/WP_Tickets/rest/Manifestacije/moje_manifestacije",
 				contentType: "application/json",
 				success: function(manifestacije){
+					skloniManifestacije();
+					$("#tabela-karata").empty();
 					if(!manifestacije || manifestacije.length == 0){
-						alert("Nemate jos manifestacija!");
+						let greska = $("<tr><td><p class='error'>Nemate rezervisanu nijednu manifestaciju!</p></td></tr>");
+						$("#tabelaManifestacija").append(greska);
+					}else{
+						napraviTabelu(manifestacije);
 					}
 				}
 			})
@@ -115,16 +196,34 @@ $(document).ready(function () {
 		var val = $("#profil-dugme2").text();
 
 		if(val == "Karte"){
-			alert("ovo nisam zavrsio")
+			$("#formPretraga").remove();
+			$("#tabelaManifestacija").empty()
+			$.get({
+				url: "/WP_Tickets/rest/Karte/",
+				contentType: "application/json",
+				success: function(karte){
+					if(karte.length == 0)
+					{
+						let error = $("<tr><td><p class='error'>Nemate jos uvek nijednu kartu!</p></td></tr>")
+						$("#tabela-karata").append(error);
+					}else{
+						for(let kart of karte)
+							dodajRedKarte(kart);
+					}
+				}
+			})
 		} else if(val == "Nove manifestacije"){
 			$.get({
 				url: "/WP_Tickets/rest/Manifestacije/nove",
 				contentType: "application/json",
 				success: function(manifestacije){
+					skloniManifestacije();
+					$("#tabela-karata").empty();
 					if(!manifestacije || manifestacije.length == 0){
-						alert("Nema jos aktivnih manifestacija!");
-					} else{
-						alert("Nasao sam " + manifestacije.length + " aktivnih manifestacija!")
+						let greska = $("<tr><td><p class='error'>Nema novih manifestacija!</p></td></tr>");
+						$("#tabelaManifestacija").append(greska);
+					}else{
+						napraviTabelu(manifestacije);
 					}
 				}
 			})
@@ -133,8 +232,13 @@ $(document).ready(function () {
 				url: "/WP_Tickets/rest/Manifestacije/moje_manifestacije",
 				contentType: "application/json",
 				success: function(manifestacije){
+					skloniManifestacije();
+					$("#tabela-karata").empty();
 					if(!manifestacije || manifestacije.length == 0){
-						alert("Nemate jos manifestacija!");
+						let greska = $("<tr><td><p class='error'>Jos uvek nemate nijednu manifestaciju!</p></td></tr>");
+						$("#tabelaManifestacija").append(greska);
+					}else{
+						napraviTabelu(manifestacije);
 					}
 				}
 			})
@@ -146,9 +250,39 @@ $(document).ready(function () {
 		var val = $("#profil-dugme3").text();
 
 		if(val == "Svi korisnici"){
-			alert("ovo nisam zavrsio")
+			$("#formPretraga").remove();
+			$("#tabelaManifestacija").empty()
+			$.get({
+				url: "/WP_Tickets/rest/korisnici/",
+				contentType: "application/json",
+				success: function(korisnici){
+					$("#tabela-karata").empty();
+					if(!korisnici || korisnici.length == 0){
+						alert("Nema nijednog reg korisnika!")
+					}else{
+						 for(let kor of korisnici)
+        					dodajRedKorisnika(kor)
+					}
+				}
+			})
 		} else if(val == "Prodate karte"){
-			alert("Ovde ce da ide request za listom karata koje je prodao prodavac!")
+			$("#formPretraga").remove();
+			$("#tabelaManifestacija").empty()
+			$.get({
+				url: "/WP_Tickets/rest/Karte/",
+				contentType: "application/json",
+				success: function(karte){
+					$("#tabela-karata").empty();
+					if(karte.length == 0)
+					{
+						let error = $("<tr><td><p class='error'>Nemate jos uvek nijednu prodatu kartu!</p></td></tr>")
+						$("#tabela-karata").append(error);
+					}else{
+						for(let kart of karte)
+							dodajRedKarte(kart);
+					}
+				}
+			})
 		}
 	});
 	
@@ -242,3 +376,59 @@ function dodajPodatkeOTipu(tip){
 	$("#podaci-o-tipu").append(tabela);
 }
 
+function dodajRedKorisnika(korisnik){
+    let tr;
+    if(korisnik.uloga == "PRODAVAC")
+        tr = $("<tr class='td-korisnik prodavac' id='"+korisnik.username+"'></tr>");
+    else
+        tr = $("<tr class='td-korisnik kupac' id='"+korisnik.username+"'></tr>");
+    let slika = $("<td><img class='slika-user' src='../images/"+korisnik.pol+".png' height='50px'></td>")
+    let username = $("<td><p class='username'>"+korisnik.username+"</p></td>")
+    let imePrezime =  $("<td><p class='imepre'>"+korisnik.ime + " " + korisnik.prezime+"</p></td>")
+    let rodjen = $("<td><p class='rodjen'>Rodjen:"+ korisnik.datumRodjenja+"</p></td>")
+    let uloga =  $("<td><p class='uloga'>"+ korisnik.uloga+"</p></td>")
+    let blok = $("<td></td>");
+    if(korisnik.blokiran){
+		if(korisnik.uloga != "ADMIN")
+        	blok =  $("<td><button class='odblok' onclick='blok(\""+korisnik.username+"\")'>Odblokiraj</button></td>")
+    } else{
+    	if(korisnik.uloga != "ADMIN")
+       		 blok =  $("<td><button class='blok' onclick='blok(\""+korisnik.username+"\")'>Blokiraj</button></td>")
+    }
+
+    let brisi = $("<td></td>");
+    if(korisnik.uloga != "ADMIN")
+   		brisi =  $("<td><button class='brisi' onclick='brisi(\""+korisnik.username+"\")'>Obrisi</button></td>")
+
+    
+    tr.append(slika);
+    tr.append(username);
+    tr.append(imePrezime)
+    tr.append(rodjen);
+    tr.append(uloga);
+    tr.append(blok);
+    tr.append(brisi);
+    $("#tabela-karata").append(tr);
+}
+
+function blok(username){
+   $.get({
+        url: "/WP_Tickets/rest/korisnici/blokiranje?username=" + username,
+        contentType: "application/json",
+        success: function(){
+
+            alert("uspesno smo blokirali korisnika")
+        }
+   })
+}
+
+function brisi(username){
+    $.get({
+        url: "/WP_Tickets/rest/korisnici/brisanje?username=" + username,
+        contentType: "application/json",
+        success: function(){
+
+            alert("uspesno smo obrisali korisnika")
+        }
+   })
+}

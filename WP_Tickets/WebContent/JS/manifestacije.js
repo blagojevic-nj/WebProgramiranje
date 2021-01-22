@@ -1,4 +1,3 @@
-/// <reference path="C:\Users\PC\Desktop\plugIn\typings\globals\jquery\index.d.ts" />
 var map;
 var marker;
 var markers;
@@ -87,7 +86,7 @@ function dodajTipoveManifestacijaUFilterSelect(tipovi)
 
 function dodajManifestaciju(m){
 
-	let manifestacija = $("<div class='manifestacija'></div>");
+	let manifestacija = $("<div class='manifestacija' onclick='pregledaj("+m.id+")'></div>");
 	let slikaContainer = $("<div class='slikaContainer'></div>");
 	let slika = $('<img  class="slika" src='+m.poster+' alt="Slika Manifestacije"></img>');
 	
@@ -354,3 +353,16 @@ $("#dugmePretraga").click(function()
 {
 });
 
+/*******************************************************    PREGLED     ********************************************************************/
+
+function pregledaj(id){
+	$.post({
+		url: "/WP_Tickets/rest/Manifestacije/pregled/"+id,
+		contentType: "application/json",
+		success: function(validacija){
+			if(validacija){
+				window.location.href = "../HTML/manifestacija.html";
+			}
+		}
+	})
+}

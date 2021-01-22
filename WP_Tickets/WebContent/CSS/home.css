@@ -275,3 +275,136 @@ scrollbar-width: none;  /* Firefox */
 {
     margin: auto;
 }
+
+/*iz tabela karata.css*/
+
+#tabela-karata{
+    width: 80%;
+    padding: 0;
+    margin: auto;
+    text-align: center;
+}
+
+#tabela-karata td{
+    height: 100%;
+    padding: 0;
+    font-size: 20px;
+    border: none;
+    margin-top: 20px;
+}
+#tabela-karata tr{
+    border: none;
+}
+
+td p{
+	
+	margin-top: 10px;
+}
+
+.otkazi{
+    height: 100%;
+    width: 100%;
+    background-color: gray;
+    font-size: 25px;
+    border: none;
+    transition: .5s ease;
+    margin: 0;
+    padding: 10px;
+    color:white;
+}
+
+.otkazi:hover{
+    background-color: rgb(255, 0, 0);
+    cursor: pointer;
+}
+
+.regular{
+    color: rgb(122, 72, 31);
+}
+
+.fan_pit{
+    color: rgb(114, 117, 101);
+}
+
+.vip{
+    color: rgb(224, 203, 106);
+}
+
+.reg-tr{
+    background-color: rgb(179, 172, 156);
+}
+
+.fan-tr{
+    background-color: rgb(241, 240, 238);
+}
+
+.vip-tr{
+    background-color: rgb(248, 250, 158);
+}
+
+.reg-tr:hover{
+    background-color:rgb(189, 189, 189);
+}
+
+.fan-tr:hover{
+    background-color: rgb(189, 189, 189);
+}
+
+.vip-tr:hover{
+    background-color: rgb(189, 189, 189);
+}
+
+.error{
+	font-size:25px;
+	color:red;
+}
+
+.blok{
+    height: 100%;
+    width: 100%;
+    background-color: gray;
+    font-size: 25px;
+    border: none;
+    transition: .5s ease;
+    margin: 0;
+    padding: 10px;
+}
+
+.blok:hover{
+    background-color: rgb(241, 207, 95);
+    cursor: pointer;
+}
+
+.odblok{
+    height: 100%;
+    width: 100%;
+    background-color: gray;
+    font-size: 25px;
+    border: none;
+    transition: .5s ease;
+    margin: 0;
+    padding: 10px;
+}
+
+.odblok:hover{
+    background-color: rgb(241, 207, 95);
+    cursor: pointer;
+}
+
+
+.brisi{
+    height: 100%;
+    width: 100%;
+    background-color: gray;
+    font-size: 25px;
+    border: none;
+    transition: .5s ease;
+    margin: 0;
+    padding: 10px;
+}
+
+.brisi:hover{
+    background-color: rgb(248, 74, 74);
+    color:white;
+    cursor: pointer;
+}

@@ -4,7 +4,7 @@
   "manifestacija" : 0,
   "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
   "cena" : 500.0,
-  "kupac" : "kupac0",
+  "kupac" : "user1",
   "status" : "REZERVISANA",
   "tipKarte" : "REGULAR"
 }, {
@@ -13,7 +13,7 @@
   "manifestacija" : 1,
   "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
   "cena" : 500.0,
-  "kupac" : "kupac1",
+  "kupac" : "user1",
   "status" : "REZERVISANA",
   "tipKarte" : "REGULAR"
 }, {
@@ -22,7 +22,7 @@
   "manifestacija" : 0,
   "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
   "cena" : 500.0,
-  "kupac" : "kupac2",
+  "kupac" : "user1",
   "status" : "REZERVISANA",
   "tipKarte" : "REGULAR"
 }, {
@@ -31,7 +31,7 @@
   "manifestacija" : 1,
   "datumVremeManifestacije" : "2021-01-17T13:22:22.0192841",
   "cena" : 500.0,
-  "kupac" : "kupac0",
+  "kupac" : "user1",
   "status" : "REZERVISANA",
   "tipKarte" : "REGULAR"
 }, {

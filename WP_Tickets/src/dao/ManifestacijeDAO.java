@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,19 +18,13 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.org.apache.xml.internal.security.signature.Manifest;
 
-import beans.Karta;
-import beans.Korisnik;
 import beans.Lokacija;
 import beans.Manifestacija;
 import beans.TipManifestacije;
-import beans.enums.StatusKarte;
-import beans.enums.TipKarte;
-import sun.jvm.hotspot.utilities.KlassArray;
+
 
 public class ManifestacijeDAO {
 

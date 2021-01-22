@@ -1,0 +1,234 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap');
+
+html{
+    height: 100%;
+}
+
+
+body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+#bg-image {
+    background-image: url("../images/bg.jfif");
+  
+    filter: blur(3px);
+    -webkit-filter: blur(3px);
+
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform: scale(1.1);
+  }
+
+#blok-pregled-eventa{
+	height: 90%;
+	width: 80%;
+	
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	
+	background-color: rgba(0, 0, 0, 0.7);
+	border-radius: 20px;
+	transform: translate(-50%, -50%);
+	text-align:center;
+}
+#levi-blok{
+	width: 45%;
+	float: left;
+	margin-left: 50px;
+	margin-top: 50px;
+}
+
+#desni_blok{
+	width: 45%;
+	float:right;
+	margin-right:50px;
+	margin-top: 50px;
+}
+
+#naslov{
+    margin: 0;
+    color: white;
+    font-size: 30px;
+}
+
+p{
+   padding:10px;
+   margin: 0;
+   font-size: 25px;
+   color: white;
+}
+
+p:hover{
+	transition: 1s ease;
+	background-color: white;
+	color:black;
+	cursor:pointer;
+}
+
+label{
+	float: left;
+    font-size: 25px;
+    color: white;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+#img-postera{
+	border: 5px solid gray;
+	margin-left: 20px;
+	border-radius:20px;
+}
+#tip{
+	height: 30px;
+	width: 150px;
+	font-size: 20px;
+	background-color: white;
+	color:black;
+	position: relative;
+	left: 50%;
+	transform: translate(-50%, 0);
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#logo-lok{
+	margin-right: 20px;
+}
+
+#logo-tip{
+	margin-right: 20px;
+}
+
+#info{
+	margin-top: 50px;
+	background-color: rgba(0,0,0,0.5);
+}
+
+#komentari{
+	margin-top: 50px;
+	height: 200px;
+	background-color: rgba(0,0,0,0.5);
+	color:white;
+	font-size: 25;
+}
+
+#opcije{
+	background-color: rgba(0,0,0,0.5);
+	color:white;
+	height:100px;
+	margin-top: 40px;
+}
+
+#prijava-btn{
+	background-color: rgba(255,255,255, 0.7);
+	color: black;
+	border: none;
+	height: 60%;
+	width: 80%;
+	font-size: 30px;
+	margin-top: 20px;
+	
+}
+
+#prijava-btn:hover{
+	cursor: pointer;
+	background-color:white;
+}
+
+#izmena-btn{
+	background-color: rgba(255,255,255, 0.7);
+	color: black;
+	border: none;
+	height: 60%;
+	width: 40%;
+	font-size: 30px;
+	margin-top: 20px;
+	margin-right: 20px;
+	
+}
+
+#izmena-btn:hover{
+	cursor: pointer;
+	background-color:white;
+}
+
+#brisanje-btn{
+	background-color: rgba(255,255,255, 0.7);
+	color: black;
+	border: none;
+	height: 60%;
+	width: 40%;
+	font-size: 30px;
+	margin-top: 20px;
+	
+}
+
+#brisanje-btn:hover{
+	cursor: pointer;
+	background-color:white;
+}
+
+#kupi-btn{
+	
+	background-color: rgba(255,255,255, 0.7);
+	color: black;
+	border: none;
+	height: 50%;
+	width: 15%;
+	font-size: 20px;
+	margin-top: 20px;
+}
+
+#kupi-btn:hover{
+	cursor: pointer;
+	background-color:white;
+}
+
+#cena, #popust{	
+	font-size: 15px;
+	color:white;
+	float:left;
+	margin-left: 20px;
+	position:relative;
+	transform: translate(0, -50%);
+	top:50%;
+}
+
+input[type="number"]{
+	background-color: rgba(255,255,255, 0.7);
+	color: black;
+	border: none;
+	height: 50%;
+	width: 60px;
+	font-size: 20px;
+	margin-top: 20px;
+	padding-left: 10px;
+}
+input[type="number"]:focus{
+	outline:none;
+}
+
+select{
+		
+	background-color: rgba(255,255,255, 0.7);
+	color: black;
+	border: none;
+	height: 50%;
+	width: 15%;
+	font-size: 20px;
+	margin-top: 20px;
+	
+}

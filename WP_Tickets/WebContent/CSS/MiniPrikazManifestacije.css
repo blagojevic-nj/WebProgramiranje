@@ -16,6 +16,14 @@ padding-bottom: 5vh;
     width: 20vw;
     font-family: sans-serif;
 }
+
+.manifestacija:hover{
+ 	transition: 0.5s ease;
+ 	cursor: pointer;
+ 	
+ 	background-color:  rgb(226, 176, 147);
+}
+
 .slikaContainer{
 
     border-radius: 10px;

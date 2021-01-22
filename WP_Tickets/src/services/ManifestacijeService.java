@@ -2,7 +2,6 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -98,8 +97,9 @@ public class ManifestacijeService {
 	public Collection<Manifestacija> sortManifestacije(@PathParam("idSorta") int idSorta) {
 		ManifestacijeDAO dao = getManifestacije();
 		@SuppressWarnings("unchecked")
-		Collection<Manifestacija> kolekcija = ((Collection<Manifestacija>) request.getSession().getAttribute("manifestacijeList"));
-		ArrayList<Manifestacija>manifestacije = new ArrayList<Manifestacija>(kolekcija);
+		Collection<Manifestacija> kolekcija = ((Collection<Manifestacija>) request.getSession()
+				.getAttribute("manifestacijeList"));
+		ArrayList<Manifestacija> manifestacije = new ArrayList<Manifestacija>(kolekcija);
 		List<Manifestacija> sortirano = null;
 		switch (idSorta) {
 		case 1:
@@ -134,37 +134,35 @@ public class ManifestacijeService {
 		request.setAttribute("manifestacije", sortirano);
 		return sortirano;
 	}
-	
+
 	@POST
 	@Path("/filter")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Collection<Manifestacija> filterManifestacije(Collection<Integer> listaIdFiltera) {
 		@SuppressWarnings("unchecked")
-		Collection<Manifestacija> kolekcija = ((Collection<Manifestacija>) request.getSession().getAttribute("manifestacijeList"));
-		if(listaIdFiltera.isEmpty())
-		{
+		Collection<Manifestacija> kolekcija = ((Collection<Manifestacija>) request.getSession()
+				.getAttribute("manifestacijeList"));
+		if (listaIdFiltera.isEmpty()) {
 			return kolekcija;
 		}
-		ArrayList<Integer>uslovi = (ArrayList<Integer>)listaIdFiltera;
+		ArrayList<Integer> uslovi = (ArrayList<Integer>) listaIdFiltera;
 		ManifestacijeDAO dao = getManifestacije();
-		List<Manifestacija>manifestacije = new ArrayList(kolekcija);
-		List<Manifestacija> filtrirano=null;
-		if(uslovi.get(0)==-1)
-		{
+		List<Manifestacija> manifestacije = new ArrayList<>(kolekcija);
+		List<Manifestacija> filtrirano = null;
+		if (uslovi.get(0) == -1) {
 			uslovi.remove(0);
-			//filtriraj nerasprodate
+			// filtriraj nerasprodate
 			filtrirano = dao.filtriranjePoTipu(filtrirano, uslovi);
 
-			
-		}else {
+		} else {
 			filtrirano = dao.filtriranjePoTipu(manifestacije, uslovi);
 		}
 		request.setAttribute("manifestacije", filtrirano);
-		
+
 		/**/
 		return filtrirano;
-		//Ne radi jos al nije ni zavrseno fali mi funkcija za nerasprodate iz karteDAO
+		// Ne radi jos al nije ni zavrseno fali mi funkcija za nerasprodate iz karteDAO
 	}
 
 	@GET
@@ -180,10 +178,14 @@ public class ManifestacijeService {
 		if (trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername()))
 				&& trenutni.getUloga() == Uloga.KUPAC) {
 			Kupac kupac = (Kupac) getKorisnici().getByUsername(trenutni.getUsername());
+			request.getSession().setAttribute("manifestacijeList",
+					getManifestacije().getMojeManifestacije(getKarte().getManifestacijeZaKarte(kupac.getKarte())));
 			return getManifestacije().getMojeManifestacije(getKarte().getManifestacijeZaKarte(kupac.getKarte()));
 		} else if (trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername()))
 				&& trenutni.getUloga() == Uloga.PRODAVAC) {
 			Prodavac prodavac = (Prodavac) getKorisnici().getByUsername(trenutni.getUsername());
+			request.getSession().setAttribute("manifestacijeList",
+					getManifestacije().getMojeManifestacije(prodavac.getManifestacije()));
 			return getManifestacije().getMojeManifestacije(prodavac.getManifestacije());
 		}
 		return null;
@@ -201,11 +203,13 @@ public class ManifestacijeService {
 		if (trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername()))
 				&& trenutni.getUloga() == Uloga.ADMIN) {
 			ManifestacijeDAO dao = getManifestacije();
+			request.getSession().setAttribute("manifestacijeList",
+					dao.filtrirajPoAktivnom(dao.getNeobrisaneManifestacije(), false).values());
 			return dao.filtrirajPoAktivnom(dao.getNeobrisaneManifestacije(), false).values();
 		}
 		return null;
 	}
-	
+
 	@GET
 	@Path("/Lokacije")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -213,7 +217,7 @@ public class ManifestacijeService {
 		return getManifestacije().getAllManifestacijeLokacije();
 
 	}
-	
+
 	@POST
 	@Path("/registracija")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -229,19 +233,22 @@ public class ManifestacijeService {
 		}
 		return false;
 	}
-	
-	
+
 	@POST
 	@Path("/search")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Collection<Manifestacija>search(Object upit) {
-		LinkedHashMap<String,String> mapa=(LinkedHashMap<String,String>)upit;
+	public Collection<Manifestacija> search(Object upit) {
 		@SuppressWarnings("unchecked")
-		Collection<Manifestacija> kolekcija = ((Collection<Manifestacija>) request.getSession().getAttribute("manifestacijeList"));
+		LinkedHashMap<String, String> mapa = (LinkedHashMap<String, String>) upit;
+		@SuppressWarnings("unchecked")
+		Collection<Manifestacija> kolekcija = ((Collection<Manifestacija>) request.getSession()
+				.getAttribute("manifestacijeList"));
 		ManifestacijeDAO dao = getManifestacije();
 		boolean empty = true;
-	//let upit = {naziv:naziv, lokacija:lokacija, tipLokacije:"adresa",cenaOd:cenaOd, cenaDo:cenaDo,datumOd:datumOd,datumDo:datumDo}
+		// let upit = {naziv:naziv, lokacija:lokacija,
+		// tipLokacije:"adresa",cenaOd:cenaOd,
+		// cenaDo:cenaDo,datumOd:datumOd,datumDo:datumDo}
 
 		String naziv = mapa.get("naziv").trim();
 		String cenaOd = mapa.get("cenaOd").trim();
@@ -251,57 +258,44 @@ public class ManifestacijeService {
 		String lokacija = mapa.get("lokacija").trim();
 		String tipLokacije = mapa.get("tipLokacije").trim();
 
-		
-		if(!naziv.equals(""))
-		{
-			kolekcija = dao.searchNaziv(kolekcija,naziv);
-			if(kolekcija.isEmpty())
-				{
-					request.setAttribute("manifestacije", kolekcija);
-					return kolekcija;
-				}
-		}
-		if(!cenaOd.equals(""))
-		{
-			kolekcija = dao.searchCenaOd(kolekcija,cenaOd);
-			if(kolekcija.isEmpty())
-			{
+		if (!naziv.equals("")) {
+			kolekcija = dao.searchNaziv(kolekcija, naziv);
+			if (kolekcija.isEmpty()) {
 				request.setAttribute("manifestacije", kolekcija);
 				return kolekcija;
 			}
 		}
-		if(!cenaDo.equals(""))
-		{
-			kolekcija = dao.searchCenaDo(kolekcija,cenaDo);
-			if(kolekcija.isEmpty())
-			{
+		if (!cenaOd.equals("")) {
+			kolekcija = dao.searchCenaOd(kolekcija, cenaOd);
+			if (kolekcija.isEmpty()) {
 				request.setAttribute("manifestacije", kolekcija);
 				return kolekcija;
 			}
 		}
-		if(!datumOd.equals(""))
-		{
-			kolekcija = dao.searchDatumOd(kolekcija,datumOd);
-			if(kolekcija.isEmpty())
-			{
+		if (!cenaDo.equals("")) {
+			kolekcija = dao.searchCenaDo(kolekcija, cenaDo);
+			if (kolekcija.isEmpty()) {
 				request.setAttribute("manifestacije", kolekcija);
 				return kolekcija;
 			}
 		}
-		if(!datumDo.equals(""))
-		{
-			kolekcija = dao.searchDatumDo(kolekcija,datumDo);
-			if(kolekcija.isEmpty())
-			{
+		if (!datumOd.equals("")) {
+			kolekcija = dao.searchDatumOd(kolekcija, datumOd);
+			if (kolekcija.isEmpty()) {
 				request.setAttribute("manifestacije", kolekcija);
 				return kolekcija;
 			}
 		}
-		if(!lokacija.equals(""))
-		{
-			kolekcija = dao.searchLokacija(kolekcija,lokacija,tipLokacije);
-			if(kolekcija.isEmpty())
-			{
+		if (!datumDo.equals("")) {
+			kolekcija = dao.searchDatumDo(kolekcija, datumDo);
+			if (kolekcija.isEmpty()) {
+				request.setAttribute("manifestacije", kolekcija);
+				return kolekcija;
+			}
+		}
+		if (!lokacija.equals("")) {
+			kolekcija = dao.searchLokacija(kolekcija, lokacija, tipLokacije);
+			if (kolekcija.isEmpty()) {
 				request.setAttribute("manifestacije", kolekcija);
 				return kolekcija;
 			}
@@ -311,5 +305,28 @@ public class ManifestacijeService {
 		return kolekcija;
 
 	}
-	
+
+	@POST
+	@Path("/pregled/{id}")
+	public boolean postavi(@PathParam("id") int id) {
+		if (getManifestacije().getManifestacije().keySet().contains(id)) {
+			Manifestacija m = getManifestacije().getManifestacije().get(id);
+			if (!m.getObrisana()) {
+				System.out.println("Postavljam manifestaciju " + m.getNaziv());
+				request.getSession().setAttribute("manifestacija", m);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@GET
+	@Path("/pregled")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Manifestacija dobavi() {
+		Manifestacija man =  (Manifestacija) request.getSession().getAttribute("manifestacija");
+		System.out.println(man.getNaziv());
+		return (Manifestacija) request.getSession().getAttribute("manifestacija");
+	}
+
 }

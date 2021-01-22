@@ -137,8 +137,7 @@ public class KorisniciDAO {
 		}
 		
 		if(k.getUloga() == Uloga.KUPAC) {
-			Kupac kupac = new Kupac(k.getUsername(), k.getPassword(), k.getIme(), k.getPrezime(), k.getPol(), k.getDatumRodjenja(), k.getUloga(), k.getObrisan(), new ArrayList<String>(), 0, -1);
-			kupac.setBlokiran(false);
+			Kupac kupac = new Kupac(k.getUsername(), k.getPassword(), k.getIme(), k.getPrezime(), k.getPol(), k.getDatumRodjenja(), k.getUloga(), k.getObrisan(), false, new ArrayList<String>(), 0, -1);
 			
 			int id = tipoviKupaca.size() + 1;
 			
@@ -146,6 +145,7 @@ public class KorisniciDAO {
 			tipoviKupaca.put(id,  tk);
 			kupac.setTip(id);
 			mapaKorisnika.put(k.getUsername(), kupac);
+			sviKorisnici.add(kupac);
 			ObjectMapper maper = new ObjectMapper();
 			try {
 				System.out.println(putanja + "kupci.json");
@@ -159,8 +159,9 @@ public class KorisniciDAO {
 		}
 		// treba uraditi i za prodavca
 		else if(k.getUloga() == Uloga.PRODAVAC) {
-			Prodavac prodavac = new Prodavac(k.getUsername(), k.getPassword(), k.getIme(), k.getPrezime(), k.getPol(), k.getDatumRodjenja(), k.getUloga(), k.getObrisan(), new ArrayList<>(), new ArrayList<>(), false);
+			Prodavac prodavac = new Prodavac(k.getUsername(), k.getPassword(), k.getIme(), k.getPrezime(), k.getPol(), k.getDatumRodjenja(), k.getUloga(), k.getObrisan(), false, new ArrayList<>(), new ArrayList<>());
 			mapaKorisnika.put(k.getUsername(), prodavac);
+			sviKorisnici.add(prodavac);
 			ObjectMapper maper = new ObjectMapper();
 			try {
 				maper.writeValue(Paths.get(putanja + "prodavci.json").toFile(), getProdavci());

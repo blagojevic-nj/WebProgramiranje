@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../CSS/manifestacija.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script defer src="../JS/manifestacija.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+<title>Pregled manifestacije</title>
+<script defer
+	src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+	integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+	crossorigin="anonymous"></script>
+<script defer
+	src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+	integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+	crossorigin="anonymous"></script>
+<link href="https://use.fontawesome.com/releases/v5.0.7/css/all.css" rel="stylesheet">
+
+<style>
+      .map {
+      	position: relative;
+        height: 200px;
+        width:100%;
+      }
+</style>
+</head>
+<body>
+	 <div id="bg-image"></div>
+	 <div id="blok-pregled-eventa">
+	 	<h1 id='naslov'>Pregled manifestacije</h1>
+	 	<div id="levi-blok">
+	 		<div id="slika"><img id='img-postera' height=300px;><div id="tip"><i class="fas fa-calendar" id="logo-tip"></i></div></div>
+	 		<div id="info">
+	 			<p id="naziv"></p>
+	 			<p id="datum-vreme"></p>
+	 			<p id="brojMesta"></p>
+	 			<p id="lokacija"><i class="fas fa-location-arrow" id="logo-lok"></i></p>
+	 		</div>
+	 	</div>
+	 	<div id="desni_blok">
+	 		<div id="map" class="map">
+	 		</div>
+	 		<div id="komentari">
+	 			<h2>Komentari</h2>
+	 			<ul>
+	 				<li>Za sada nisu uradjeni komentari!</li>
+	 			</ul>
+	 		</div>
+	 		
+	 		<div id="opcije">
+	 		
+	 		</div>
+	 	</div>
+    </div>
+  
+</body>
+</html>

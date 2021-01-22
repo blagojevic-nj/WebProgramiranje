@@ -22,9 +22,10 @@ public class Korisnik {
 	private LocalDate datumRodjenja;
 	private Uloga uloga;
 	private Boolean obrisan;
-
+	private Boolean blokiran;
+	
 	public Korisnik(String username, String password, String ime, String prezime, Pol pol, LocalDate datumRodjenja,
-			Uloga uloga, Boolean obrisan) {
+			Uloga uloga, Boolean obrisan, Boolean blokiran) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -34,6 +35,7 @@ public class Korisnik {
 		this.datumRodjenja = datumRodjenja;
 		this.uloga = uloga;
 		this.obrisan = obrisan;
+		this.blokiran = blokiran;
 	}
 
 	public Korisnik() {
@@ -102,6 +104,16 @@ public class Korisnik {
 
 	public void setObrisan(Boolean obrisan) {
 		this.obrisan = obrisan;
+	}
+	
+	
+
+	public Boolean getBlokiran() {
+		return blokiran;
+	}
+
+	public void setBlokiran(Boolean blokiran) {
+		this.blokiran = blokiran;
 	}
 
 	@Override
