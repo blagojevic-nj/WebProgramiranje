@@ -12,13 +12,16 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.Karta;
+import beans.Korisnik;
 import beans.Manifestacija;
 
 
 public class KarteDAO {
 	private HashMap<String, Karta> mapaKarata;
 	private String putanja;
-
+	private static final long DUZINASIFRE = 10000000000L;
+	private static long last = 0;
+	
 	public KarteDAO() {
 		mapaKarata = new HashMap<>();
 	}
@@ -108,4 +111,30 @@ public class KarteDAO {
 		return cardList;
 		
 	}
+	
+	public String generisiId() {
+		
+		String sifra;
+		while(true)
+		{
+			long id = System.currentTimeMillis() % DUZINASIFRE;
+			sifra = String.valueOf(id);
+			if(!mapaKarata.containsKey(sifra)) break;
+		}
+		
+		System.out.println(sifra);
+		return sifra;
+
+		
+	}
+	
+	
+	public void DodajNoveKarte(ArrayList<Karta>noveKarte)
+	{
+		for(Karta k : noveKarte)
+		{
+			mapaKarata.put(k.getId(), k);
+		}
+	}
+
 }

@@ -14,6 +14,9 @@ public class Manifestacija {
 	private String naziv;
 	private int tip;
 	private int brojMesta;
+	private int brojPreostalihMesta;
+
+
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime datumVremeOdrzavanja;
@@ -34,6 +37,7 @@ public class Manifestacija {
 		this.naziv = naziv;
 		this.tip = tip;
 		this.brojMesta = brojMesta;
+		this.brojPreostalihMesta = brojMesta;
 		this.datumVremeOdrzavanja = datumVremeOdrzavanja;
 		this.cenaREGkarte = cenaREGkarte;
 		this.aktivno = aktivno;
@@ -120,6 +124,14 @@ public class Manifestacija {
 
 	public void setObrisana(Boolean obrisana) {
 		this.obrisana = obrisana;
+	}
+	
+	public int getBrojPreostalihMesta() {
+		return brojPreostalihMesta;
+	}
+
+	public void setBrojPreostalihMesta(int brojPreostalihMesta) {
+		this.brojPreostalihMesta = brojPreostalihMesta;
 	}
 
 }

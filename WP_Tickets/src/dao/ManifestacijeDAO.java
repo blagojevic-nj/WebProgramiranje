@@ -21,9 +21,13 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import beans.Karta;
+import beans.Korisnik;
 import beans.Lokacija;
 import beans.Manifestacija;
 import beans.TipManifestacije;
+import beans.enums.StatusKarte;
+import beans.enums.TipKarte;
 
 
 public class ManifestacijeDAO {
@@ -704,25 +708,77 @@ public class ManifestacijeDAO {
 	}
 
 	
-	/*
-	 * public ArrayList<Karta> kupiKartu(String id, int broj,KarteDAO
-	 * daoKarte,Korisnik kupac,Korisnik prodavac) { HashMap<Integer,
-	 * Manifestacija>manifestacije = filtrirajPoAktivnom(neobrisaneManifestacije,
-	 * true); Manifestacija m; try{ m = manifestacije.get(Integer.parseInt(id));
-	 * }catch (Exception e) { return null; } if(m!=null && m.getBrojMesta()>broj) {
-	 * m.setBrojMesta(m.getBrojMesta()-broj); return
-	 * napraviKarte(broj,daoKarte,m,kupac); } return null; }
-	 */
-
-	/*
-	 * private ArrayList<Karta> napraviKarte(int broj,KarteDAO
-	 * daoKarte,Manifestacija m,Korisnik kupac) { ArrayList<Karta>noveKarte = new
-	 * ArrayList<Karta>(); for(int i=0;i<broj;i++) { //daoKarte.generisiIdNoveKarte
-	 * Karta k = new
-	 * Karta("0123456789",prod,m.getId(),m.getDatumVremeOdrzavanja(),1.000,"Kupac",
-	 * StatusKarte.REZERVISANA,TipKarte.REGULAR); } return null; }
-	 */
 	
+	  public ArrayList<Karta> kupiKarte(String idManifestacije, int brojKarata,KarteDAO daoKarte,Korisnik kupac,Korisnik prodavac,int tipKarte,double cena)
+	  {
+		  //dobavi samo aktivne
+		  HashMap<Integer,Manifestacija>manifestacije = filtrirajPoAktivnom(neobrisaneManifestacije, true); 
+		  Manifestacija m; 
+		  //nadji manifestaciju
+		  try
+		  {
+			  m = manifestacije.get(Integer.parseInt(idManifestacije));
+			  
+		  }catch (Exception e)
+		  { 
+			  return null;
+		  } 
+		  //vidi da li ima dovoljno karata, ako ima smanji za taj broj u manifestaciji!
+		  if(m!=null && m.getBrojPreostalihMesta()>brojKarata)
+		  {
+			  m.setBrojPreostalihMesta(m.getBrojPreostalihMesta()-brojKarata); 
+			  //vrati sve nove karte
+			  return napraviKarte(brojKarata,daoKarte,m,kupac,prodavac,tipKarte,cena);
+		  } 
+		  return null;
+		  
+	  }
+	 
+
+	/**Nikad ne vraca null, samo praznu listu*/
+	  private ArrayList<Karta> napraviKarte(int brojKarata,KarteDAO daoKarte,Manifestacija m, Korisnik kupac, Korisnik prodavac,int tipKarte,double cena)
+	  {
+		  ArrayList<Karta>noveKarte = new ArrayList<Karta>();
+		  TipKarte tip = getTipFromInt(tipKarte);
+		  for(int i=0;i<brojKarata;i++) 
+		  { 
+			  String newId=daoKarte.generisiId();
+			  Karta k = new Karta(newId,prodavac.getUsername(),m.getId(),m.getDatumVremeOdrzavanja(),cena,kupac.getUsername(),StatusKarte.REZERVISANA,tip);		  
+		  }
+		  
+		  return noveKarte;
+	  }
+	  
+	  
+	  public TipKarte getTipFromInt(int tipKarte)
+	  {
+		  //vip,regular,fanpit
+		  TipKarte tip;
+		  if(tipKarte == 0)
+		  {
+			  tip = TipKarte.VIP;
+		  }
+		  else if(tipKarte == 1)
+		  {
+			  tip = TipKarte.REGULAR;
+		  }
+		  else {
+			  tip = TipKarte.FAN_PIT;
+		  }
+		  
+		  return tip;
+	  }
+	 
+	  public Double getCenaZaManifestaciju(String idManifestacije)
+	  {
+		  try {
+			  return manifestacije.get(Integer.parseInt(idManifestacije)).getCenaREGkarte();
+
+		  }catch (Exception e) {
+			  	return 0.0;
+			  	}
+	  }
+
 	
 	
 	

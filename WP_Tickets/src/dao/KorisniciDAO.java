@@ -11,8 +11,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import beans.Karta;
 import beans.Korisnik;
 import beans.Kupac;
+import beans.Manifestacija;
 import beans.Prodavac;
 import beans.TipKupca;
 import beans.enums.ImeTipa;
@@ -269,4 +271,106 @@ public class KorisniciDAO {
 
 		return false;
 	}
+	
+	public double getCenaForKupac(Korisnik trenutni, double cenaRegKarte, int tipKarte)
+	{
+		Kupac kupac = (Kupac)trenutni;
+		int koeficijent=1;
+		if(tipKarte==0)
+		{
+			koeficijent = 4;
+		}
+		else if(tipKarte==2)
+		{
+			koeficijent = 2;
+		}
+		
+		int popust = 0;
+		//zlatni
+		if(kupac.getTip()==0)
+		{
+			popust=10;
+		}
+		//srebrni
+		else if(kupac.getTip()==1)
+		{
+			popust = 5;
+		}
+		
+		double cena = koeficijent*cenaRegKarte*(100-popust)/100;
+		
+		
+		return cena;
+	}
+
+	public Korisnik getProdavacZaManifestaciju(String idManifestacije) {
+		
+		for(Korisnik k : sviKorisnici)
+		{
+			//ako je prodavac
+			if(k.getUloga()==Uloga.PRODAVAC)
+			{
+				Prodavac prodavac = (Prodavac)k;
+				for(int id : prodavac.getManifestacije())
+				{
+					//id manifestacije se podudara??
+					if(id == Integer.parseInt(idManifestacije))
+					{
+						return prodavac;
+					}
+					
+				}
+				
+			}
+			
+		}
+		
+		return null;
+	}
+	
+	public void dodajKarteKupcu(Korisnik trenutni, ArrayList<Karta>noveKarte)
+	{
+		Kupac kupac = (Kupac)trenutni;	
+		for(Karta k : noveKarte)
+			kupac.getKarte().add(k.getId());		
+		
+	}
+
+	public void dodajBodove(int broj, double cenaForKupac, Korisnik trenutni) {
+
+		Kupac kupac = (Kupac)trenutni;
+		int noviBodovi = broj*(int)cenaForKupac/1000 * 133;
+		kupac.setBrojBodova(kupac.getBrojBodova()+noviBodovi);
+		checkAndSetTipKorisnika(kupac);
+	}
+
+	private void checkAndSetTipKorisnika(Kupac kupac) {
+		int bodovi = kupac.getBrojBodova();
+		TipKupca tipKupca = tipoviKupaca.get(kupac.getUsername());
+		
+		//ako je zlatni ne proveravaj nista
+		if(tipKupca.getImeTipa() == ImeTipa.ZLATNI)
+			return;
+		else if(tipKupca.getImeTipa() == ImeTipa.SREBRNI)
+		{
+			if(kupac.getBrojBodova()>tipKupca.getBrojBodova())
+			{
+				tipKupca.setImeTipa(ImeTipa.ZLATNI);
+				kupac.setBrojBodova(0);
+			}
+			return;
+		}
+		else if(tipKupca.getImeTipa() == ImeTipa.BRONZANI)
+		{
+			if(kupac.getBrojBodova()>tipKupca.getBrojBodova())
+			{
+				tipKupca.setImeTipa(ImeTipa.SREBRNI);
+				kupac.setBrojBodova(0);
+			}
+			return;
+		}
+		return;
+	}
+	
+	
 }
