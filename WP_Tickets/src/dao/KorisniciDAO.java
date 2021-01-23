@@ -14,7 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import beans.Karta;
 import beans.Korisnik;
 import beans.Kupac;
-import beans.Manifestacija;
 import beans.Prodavac;
 import beans.TipKupca;
 import beans.enums.ImeTipa;
@@ -133,6 +132,17 @@ public class KorisniciDAO {
 		return retVal;
 	}
 	
+	private Collection<Korisnik> getAdmini(){
+		List<Korisnik> retVal = new ArrayList<>();
+		for(Korisnik k : mapaKorisnika.values()) {
+			if(k.getUloga() == Uloga.ADMIN) {
+				retVal.add((Korisnik) k);
+			}
+		}
+		
+		return retVal;
+	}
+	
 	public Korisnik registracija(Korisnik k) {
 		if(mapaKorisnika.containsKey(k.getUsername())) {
 			return null;
@@ -189,9 +199,9 @@ public class KorisniciDAO {
 			if(k.getUloga() == Uloga.KUPAC) {
 				maper.writeValue(Paths.get(putanja + "kupci.json").toFile(), getKupci());
 			} else if(k.getUloga() == Uloga.PRODAVAC) {
-				maper.writeValue(Paths.get(putanja + "prodavci.json").toFile(), getKupci());
+				maper.writeValue(Paths.get(putanja + "prodavci.json").toFile(), getProdavci());
 			} else
-				maper.writeValue(Paths.get(putanja + "admini.json").toFile(), getKupci());
+				maper.writeValue(Paths.get(putanja + "prodavci.json").toFile(), getAdmini());
 		} catch (Exception e) {
 			System.out.println("Greska prilikom upisa u fajl!");
 		}
@@ -334,6 +344,16 @@ public class KorisniciDAO {
 		for(Karta k : noveKarte)
 			kupac.getKarte().add(k.getId());		
 		
+		izmena(kupac);
+	}
+
+	public void dodajKarteProdavcu(ArrayList<Karta>noveKarte)
+	{
+		Prodavac p = (Prodavac)mapaKorisnika.get(noveKarte.get(0).getProdavac());	
+		for(Karta k : noveKarte)
+			p.getKarte().add(k.getId());		
+		
+		izmena(p);
 	}
 
 	public void dodajBodove(int broj, double cenaForKupac, Korisnik trenutni) {
@@ -346,7 +366,7 @@ public class KorisniciDAO {
 
 	private void checkAndSetTipKorisnika(Kupac kupac) {
 		int bodovi = kupac.getBrojBodova();
-		TipKupca tipKupca = tipoviKupaca.get(kupac.getUsername());
+		TipKupca tipKupca = tipoviKupaca.get(kupac.getTip());
 		
 		//ako je zlatni ne proveravaj nista
 		if(tipKupca.getImeTipa() == ImeTipa.ZLATNI)
@@ -372,5 +392,8 @@ public class KorisniciDAO {
 		return;
 	}
 	
+	public void upisiKorisnike() {
+		
+	}
 	
 }

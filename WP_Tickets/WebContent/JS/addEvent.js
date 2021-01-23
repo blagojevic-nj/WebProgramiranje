@@ -203,7 +203,7 @@ $(document).ready(function() {
 			
 			$.post({
 				url: "/WP_Tickets/rest/Manifestacije/registracija",
-				data: JSON.stringify({"id": -1, "naziv": naziv, "tip": tip, "brojMesta": brojMesta, "datumVremeOdrzavanja": datumVreme, "cenaREGkarte":cena, "aktivno":false, "lokacija":lok, "poster": poster, "obrisana":false}),
+				data: JSON.stringify({"id": -1, "naziv": naziv, "tip": tip, "brojMesta": brojMesta, "brojPreostalihMesta": brojMesta, "datumVremeOdrzavanja": datumVreme, "cenaREGkarte":cena, "aktivno":false, "lokacija":lok, "poster": poster, "obrisana":false}),
 				contentType: "application/json",
 				success: function(bul){
 					if(bul == "false")

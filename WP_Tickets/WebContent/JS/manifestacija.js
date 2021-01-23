@@ -26,7 +26,7 @@ $(document).ready(function(){
 					})
 				}
 			})
-	podesiMarker([manifestacija.lokacija.geoSirina, manifestacija.lokacija.geoDuzina])
+	podesiMarker([manifestacija.lokacija.geoDuzina, manifestacija.lokacija.geoSirina])
 	$("#img-postera").attr("src", manifestacija.poster)
 	$("#naziv").text(manifestacija.naziv);
 	$("#brojMesta").text("Broj slobodnih mesta: " + manifestacija.brojMesta);
@@ -102,7 +102,7 @@ function dodajOpcijeZaKorisnika(manifestacija){
 		$("#opcije").append(button);
 	}else if(tipKorisnika == "ADMIN"){
 		if(!manifestacija.aktivno){
-			let button = $("<button id='prijava-btn' onclick='aktiviraj()'>Aktivirajte ovu manifestaciju</button>")
+			let button = $("<button id='prijava-btn' onclick='aktiviraj("+manifestacija.id+")'>Aktivirajte ovu manifestaciju</button>")
 			$("#opcije").append(button);	
 		}
 	} else if(tipKorisnika == "PRODAVAC"){
@@ -120,8 +120,8 @@ function dodajOpcijeZaKorisnika(manifestacija){
 				contentType: "application/json",
 				success: function(type){
 					let cena = $("<span id='cena'>Cena: "+manifestacija.cenaREGkarte * (100-type.popust)/100+"  dinara</span>");
-					let select = $("<select name='tipKarte' onchange='promeniCenu("+manifestacija.cenaREGkarte+")'><option value='REGULAR'>Regular</option><option value='FAN_PIT'>Fan-Pit</option><option value='VIP'>Vip</option></select>")
-					let button = $("<button id='kupi-btn' onclick='kupi("+manifestacija.brojMesta+")'>Kupi</button>")
+					let select = $("<select name='tipKarte' onchange='promeniCenu("+manifestacija.cenaREGkarte+")'><option value='1'>Regular</option><option value='FAN_PIT'>2</option><option value='0'>Vip</option></select>")
+					let button = $("<button id='kupi-btn' onclick='kupi("+manifestacija.brojMesta+","+manifestacija.id+")'>Kupi</button>")
 					let kolicina = $("<input type='number' name='kolicina' min='0' value='0'>")
 					let popust = $("<span id='popust'>Popust: "+type.popust+" %</span>");
 					$("#opcije").append(cena).append(popust).append(button).append(select).append(kolicina);
@@ -135,8 +135,13 @@ function prijava(){
 	window.location.href ="../HTML/login.html";
 }
 
-function aktiviraj(){
-	alert("Ovde cemo da saljemo zahtjev serveru da aktivira manifestaciju!");
+function aktiviraj(manId){
+	$.post({
+		url: "/WP_Tickets/rest/Manifestacije/aktivacija/"+manId,
+		success: function(){
+			window.location.href == "../HTML/manifestacija.html";
+		}
+	})
 }
 
 function izmeni(){
@@ -147,7 +152,7 @@ function obrisi(){
 	alert("Sad saljemo za brisanje zahtev");
 }
 
-function kupi(brojMesta){
+function kupi(brojMesta, idMan){
 	if(!$("input[name='kolicina']").val())
 		{
 			$("input[name='kolicina']").css("border", "2px solid red");
@@ -159,9 +164,20 @@ function kupi(brojMesta){
 	}
 	
 	var kol = parseInt($("input[name='kolicina']").val());
+	var tip = $("select[name='tipKarte'] option:selected").val();
 	
-	alert("Ovde saljemo zahtev za rezervisanje "+kol+" karata!")
-}
+	$.get({
+		url: "/WP_Tickets/rest/Karte/kupi/"+idMan +"/"+kol+"/"+tip,
+		contentType: "application/json",
+		success: function(ok){
+			if(ok){
+				alert("Potvrdjeno!")
+			}else{
+				alert("Neka greska!")
+			}
+		}
+	})
+}	
 
 function promeniCenu(cena){
 	var popust = $("#popust").text();

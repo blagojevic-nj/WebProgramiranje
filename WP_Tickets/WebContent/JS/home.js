@@ -1,4 +1,3 @@
-/// <reference path="C:\Users\PC\Desktop\plugIn\typings\globals\jquery\index.d.ts" />
 $.noConflict()
 
 function getDatumVreme(datumvreme){	
@@ -23,7 +22,15 @@ function getDatumVreme(datumvreme){
 }
 
 function otkazi(id){
-	alert("Sad kao otkazujem kartu " + id)
+	$.post({
+		url: "/WP_Tickets/rest/Karte/otkazi/" + id,
+		success: function(ok){
+			if(ok == 'true')
+				alert("Otkazana je karta!");
+			else if(ok == 'false')
+				alert('neka greska!')
+		}
+	})
 }
 
 

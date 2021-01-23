@@ -229,7 +229,7 @@ public class ManifestacijeService {
 
 		if (trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername()))
 				&& trenutni.getUloga() == Uloga.PRODAVAC) {
-			return getManifestacije().RegistracijaNoveManifestacije(m);
+			return getManifestacije().RegistracijaNoveManifestacije(m, getKorisnici(), trenutni.getUsername());
 		}
 		return false;
 	}
@@ -312,7 +312,6 @@ public class ManifestacijeService {
 		if (getManifestacije().getManifestacije().keySet().contains(id)) {
 			Manifestacija m = getManifestacije().getManifestacije().get(id);
 			if (!m.getObrisana()) {
-				System.out.println("Postavljam manifestaciju " + m.getNaziv());
 				request.getSession().setAttribute("manifestacija", m);
 				return true;
 			}
@@ -324,9 +323,14 @@ public class ManifestacijeService {
 	@Path("/pregled")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Manifestacija dobavi() {
-		Manifestacija man =  (Manifestacija) request.getSession().getAttribute("manifestacija");
-		System.out.println(man.getNaziv());
 		return (Manifestacija) request.getSession().getAttribute("manifestacija");
 	}
 
+	@POST
+	@Path("/aktivacija/{id}")
+	public void aktiviraj(@PathParam("id") int id) {
+		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
+		if(trenutni != null && trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername())) && trenutni.getUloga() == Uloga.ADMIN)
+			getManifestacije().aktiviraj(id);
+	}
 }

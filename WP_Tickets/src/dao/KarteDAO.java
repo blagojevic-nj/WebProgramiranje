@@ -3,33 +3,40 @@ package dao;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import beans.Karta;
-import beans.Korisnik;
-import beans.Manifestacija;
+import beans.Kupac;
+import beans.enums.StatusKarte;
 
 
 public class KarteDAO {
 	private HashMap<String, Karta> mapaKarata;
+	private HashMap<String, ArrayList<String>> mapaOdustajanja;
 	private String putanja;
 	private static final long DUZINASIFRE = 10000000000L;
 	private static long last = 0;
 	
 	public KarteDAO() {
 		mapaKarata = new HashMap<>();
+		mapaOdustajanja = new HashMap<>();
 	}
 
 	public KarteDAO(String path) {
 		mapaKarata = new HashMap<>();
-
+		mapaOdustajanja = new HashMap<>();
 		loadTickets(path);
+		loadOdustajanje(path);
 	}
 	
 
@@ -63,6 +70,26 @@ public class KarteDAO {
 
 		} catch (IOException e) {
 			System.out.println("Nesto se dogodilo");
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void loadOdustajanje(String path) {
+		ObjectMapper mapper = new ObjectMapper();
+		String data = path + File.separator + "data" + File.separator;
+
+		putanja = data;
+		try {
+			Map<String, Object> tempMap = mapper.readValue(new File( putanja +
+                    "odustajanje.json"), new TypeReference<Map<String, Object>>() {
+            });
+
+			for(String kor: tempMap.keySet()) {
+				mapaOdustajanja.put(kor, (ArrayList<String>) tempMap.get(kor));
+			}
+
+		} catch (IOException e) {
+			System.out.println("Nesto se dogodilo prilikom ucitavanja odustajanja");
 		}
 	}
 	
@@ -135,6 +162,80 @@ public class KarteDAO {
 		{
 			mapaKarata.put(k.getId(), k);
 		}
+		
+		upisiKarte();
 	}
+	
+	public void upisiKarte() {
+		
+		ObjectMapper maper = new ObjectMapper();
+		try {
+			maper.writeValue(Paths.get(putanja+"karte.json").toFile(), mapaKarata.values());
+		} catch (IOException e) {
+			System.out.println("Greska prilikom upisivanja karata!");
+		}
+	}
+	
+	public boolean otkazi(String id, ManifestacijeDAO dao) {
+		
+		Karta k = mapaKarata.get(id);
+		LocalDateTime now = LocalDateTime.now();
 
+	    if(k.getDatumVremeManifestacije().isAfter(now)) {
+	    	dao.proveriKartu(k.getManifestacija());
+	    	k.setStatus(StatusKarte.ODUSTANAK);
+			upisiKarte();
+			
+			System.out.println(mapaKarata.get(id).getStatus());
+			// ovde ide ono za sredjivanje tipa
+			if(mapaOdustajanja.containsKey(k.getKupac())) {
+				mapaOdustajanja.get(k.getKupac()).add(now.toString());
+			}else {
+				ArrayList<String> tmp = new ArrayList<String>();
+				tmp.add(now.toString());
+				mapaOdustajanja.put(k.getKupac(), tmp);
+			}
+			upisiOdustajanje();
+			return true;
+	    }
+		
+		return false;
+	}
+	
+	public void upisiOdustajanje() {
+		ObjectMapper maper = new ObjectMapper();
+		try {
+			maper.writeValue(new File(putanja+"odustajanje.json"), mapaOdustajanja);
+		} catch (IOException e) {
+			System.out.println("Greska prilikom upisivanja!");
+		}
+	}
+	
+	public Collection<Kupac> getSumljiviKorisnici(Collection<Kupac> kupci) {
+		ArrayList<Kupac> retVal = new ArrayList<Kupac>();
+		for(Kupac k: kupci) {
+			if(sumnjivKupac(k.getUsername()))
+				retVal.add(k);
+		}
+		return retVal;
+	}
+	
+	private boolean sumnjivKupac(String username) {
+		if(mapaOdustajanja.containsKey(username)) {
+			LocalDateTime now = LocalDateTime.now();
+			int brojac = 0;
+			
+			for(String datumOtkazivanja: mapaOdustajanja.get(username)) {
+				LocalDateTime temp = LocalDateTime.parse(datumOtkazivanja);
+				long days = temp.until( now, ChronoUnit.DAYS );
+				if(days < 30) {
+					brojac++;
+				}
+				
+				if(brojac > 5)
+					return true;
+			}			
+		}
+		return false;
+	}
 }

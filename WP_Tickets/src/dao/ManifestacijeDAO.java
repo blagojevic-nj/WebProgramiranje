@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -25,6 +26,7 @@ import beans.Karta;
 import beans.Korisnik;
 import beans.Lokacija;
 import beans.Manifestacija;
+import beans.Prodavac;
 import beans.TipManifestacije;
 import beans.enums.StatusKarte;
 import beans.enums.TipKarte;
@@ -69,7 +71,7 @@ public class ManifestacijeDAO {
 	}
 
 	/** Registracija sa proverom da li se moze reg nova manifestacija */
-	public boolean RegistracijaNoveManifestacije(Manifestacija m) {
+	public boolean RegistracijaNoveManifestacije(Manifestacija m, KorisniciDAO dao, String prodavac) {
 		if(!proveraVremena(m.getDatumVremeOdrzavanja(), m.getLokacija().getId()))
 			return false;
 		
@@ -85,8 +87,11 @@ public class ManifestacijeDAO {
 //		}
 		manifestacije.put(m.getId(), m);
 		neobrisaneManifestacije.put(m.getId(), m);
-		
+		Prodavac p = (Prodavac) dao.getByUsername(prodavac);
+		p.getManifestacije().add(m.getId());
+		dao.izmena(p);
 		upisiManifestacije();
+		
 		return true;
 	}
 	
@@ -744,6 +749,7 @@ public class ManifestacijeDAO {
 		  { 
 			  String newId=daoKarte.generisiId();
 			  Karta k = new Karta(newId,prodavac.getUsername(),m.getId(),m.getDatumVremeOdrzavanja(),cena,kupac.getUsername(),StatusKarte.REZERVISANA,tip);		  
+			  noveKarte.add(k);
 		  }
 		  
 		  return noveKarte;
@@ -780,8 +786,15 @@ public class ManifestacijeDAO {
 	  }
 
 	
+	public void proveriKartu(int id) {
+		getManifestacije().get(id).setBrojPreostalihMesta(getManifestacije().get(id).getBrojPreostalihMesta()+1);
+		upisiManifestacije();
+	}
 	
-	
+	public void aktiviraj(int id) {
+		manifestacije.get(id).setAktivno(true);
+		upisiManifestacije();
+	}
 }
 
 

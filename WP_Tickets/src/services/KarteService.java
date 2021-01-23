@@ -6,12 +6,12 @@ import java.util.Collection;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-
 
 import beans.Karta;
 import beans.Korisnik;
@@ -122,12 +122,19 @@ public class KarteService {
 		daoKarte.DodajNoveKarte(noveKarte);
 		//dodaj nove karte kupcu
 		getKorisniciDAO().dodajKarteKupcu(trenutni,noveKarte);
+		getKorisniciDAO().dodajKarteProdavcu(noveKarte);
 		//dodaj kupcu bodove i proveri status
-		getKorisniciDAO().dodajBodove(broj,cenaForKupac,trenutni);
+		//getKorisniciDAO().dodajBodove(broj,cenaForKupac,trenutni);
 
 		return true;
 	}
 	
+	
+	@POST
+	@Path("/otkazi/{id}")
+	public boolean otkazi(@PathParam("id") String id) {
+		return getKarteDAO().otkazi(id,  getManifestacijeDAO());
+	}
 	
 	
 }
