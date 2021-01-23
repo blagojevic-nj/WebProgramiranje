@@ -18,6 +18,7 @@ import beans.Prodavac;
 import beans.TipKupca;
 import beans.enums.ImeTipa;
 import beans.enums.Uloga;
+import sun.nio.cs.ext.ISCII91;
 
 public class KorisniciDAO {
 	private HashMap<String, Korisnik> mapaKorisnika;
@@ -394,6 +395,104 @@ public class KorisniciDAO {
 	
 	public void upisiKorisnike() {
 		
+	}
+
+	public Collection<Korisnik> getByName(Collection<Korisnik> kolekcija, String name) {
+		ArrayList<Korisnik>filteredList = new ArrayList<Korisnik>(); 
+		for(Korisnik k : kolekcija) {
+			if(k.getIme().equals(name))
+			{
+				filteredList.add(k);
+			}
+		}
+		return filteredList;
+	}
+
+	public Collection<Korisnik> getBySurname(Collection<Korisnik> kolekcija, String prezime) {
+		ArrayList<Korisnik>filteredList = new ArrayList<Korisnik>(); 
+		for(Korisnik k : kolekcija) {
+			if(k.getPrezime().equals(prezime))
+			{
+				filteredList.add(k);
+			}
+		}
+		return filteredList;
+	}
+
+	public Collection<Korisnik> filtriraj(Collection<Korisnik> kolekcija, Collection<String> uslovi) {
+		ArrayList<Korisnik> filtrirano = new ArrayList<Korisnik>();
+		ArrayList<String>listaUslova = (ArrayList<String>)uslovi;
+		boolean admin,prodavac,kupac,zlatni,srebrni,bronzani;
+		admin = imaUslov("admin", listaUslova);
+		prodavac = imaUslov("prodavac", listaUslova);
+		kupac = imaUslov("kupac", listaUslova);
+		zlatni = imaUslov("zlatni", listaUslova);
+		srebrni = imaUslov("srebrni", listaUslova);
+		bronzani = imaUslov("bronzani", listaUslova);
+		
+		if(admin) {
+			for(Korisnik k : kolekcija)
+			{
+				if(k.getUloga()==Uloga.ADMIN)
+					filtrirano.add(k);
+			}
+		}
+		if(prodavac) {
+			for(Korisnik k : kolekcija)
+			{
+				if(k.getUloga()==Uloga.PRODAVAC)
+					filtrirano.add(k);
+			}
+		}
+		if(kupac) {
+			for(Korisnik k : kolekcija)
+			{
+				//ako je kupac ako nije stavio nista onda sve kupce ako je stavio nesto onda samo njih
+				if(k.getUloga()==Uloga.KUPAC)
+					{
+						Kupac kupac1 = (Kupac)k;
+						if(!zlatni  && !srebrni && !bronzani )
+							{
+								filtrirano.add(k);
+							}
+						else {
+							if(zlatni)
+							{
+								if(kupac1.getTip()==0)
+								{
+									filtrirano.add(k);
+								}
+							}
+							if(srebrni)
+							{
+								if(kupac1.getTip()==1)
+								{
+									filtrirano.add(k);
+								}
+							}
+							if(bronzani)
+							{
+								if(kupac1.getTip()==2)
+								{
+									filtrirano.add(k);
+								}
+							}
+						}
+					}
+			}
+		}
+				
+		return filtrirano;
+	}
+	
+	private boolean imaUslov(String uslov,ArrayList<String>listaUslova ) {
+		for(String s : listaUslova)
+		{
+			if(s.equals(uslov))
+				return true;
+		}
+		
+		return false;
 	}
 	
 }

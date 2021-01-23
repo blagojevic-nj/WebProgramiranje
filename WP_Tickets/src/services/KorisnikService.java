@@ -1,6 +1,8 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.Korisnik;
+import beans.Manifestacija;
 import beans.TipKupca;
 import beans.enums.Uloga;
 import dao.KorisniciDAO;
@@ -177,4 +180,61 @@ public class KorisnikService {
 			getKorisnici().blokiranjeKorisnika(username);
 		}
 	}
+
+
+	@POST
+	@Path("/search")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Collection<Korisnik> search(Object upit) {
+		@SuppressWarnings("unchecked")
+		LinkedHashMap<String, String> mapa = (LinkedHashMap<String, String>) upit;
+		Korisnik trenutni = (Korisnik)request.getSession().getAttribute("korisnik");
+		if(! trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername())) && trenutni.getUloga().equals(Uloga.ADMIN)) {
+			//provera da li je admin, ako ne null
+			return null;
+		}
+		KorisniciDAO daokorisnici = getKorisnici();
+		String ime = mapa.get("ime").trim();
+		String prezime = mapa.get("prz").trim();
+		String username = mapa.get("usr").trim();
+		Collection<Korisnik> kolekcija = daokorisnici.getAllUsers();
+		if (!username.equals("")) {
+			//pretraga svih sa datim username
+			Korisnik k = daokorisnici.getByUsername(username);
+			kolekcija.add(k);
+		}
+		if (!ime.equals("")) {
+			kolekcija = daokorisnici.getByName(kolekcija,ime);
+		}
+		if (!prezime.equals("")) {
+			kolekcija = daokorisnici.getBySurname(kolekcija,prezime);
+		}
+		request.setAttribute("sviKorisnici", kolekcija);
+		return kolekcija;
+
+	}
+	
+	
+	@POST
+	@Path("/filter")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Collection<Korisnik> filterKorisnikaAdmin(Collection<String> listaUslova) {
+		//uslovi{admin prodavac kupac zlatni srebrni bronzani}
+		KorisniciDAO daokorisnici = getKorisnici();
+		//uzmi korisnike iz sesije
+		@SuppressWarnings("unchecked")
+		Collection<Korisnik> kolekcija = ((Collection<Korisnik>) request.getSession().getAttribute("sviKorisnici"));
+		//ako ih nema znaci nije radjen search radi sa svima
+		if(kolekcija == null)	kolekcija= daokorisnici.getAllUsers();
+		if (listaUslova.isEmpty()) {
+			return kolekcija;
+		}
+		ArrayList<String> uslovi = (ArrayList<String>) listaUslova;
+		kolekcija = daokorisnici.filtriraj(kolekcija,listaUslova);
+		//nije provereno kasno sam radio ne diraj nista!
+		return kolekcija;
+	}
+
 }
