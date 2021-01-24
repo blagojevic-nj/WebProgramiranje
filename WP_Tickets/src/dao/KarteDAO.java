@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,7 +27,7 @@ import beans.Karta;
 import beans.Kupac;
 import beans.enums.StatusKarte;
 import beans.enums.TipKarte;
-import javafx.util.Pair;
+
 
 
 public class KarteDAO {
@@ -36,8 +37,8 @@ public class KarteDAO {
 	private static final long DUZINASIFRE = 10000000000L;
 	private static long last = 0;
 	private Comparator<Karta> sorterCena,sorterDatum;
-	private Comparator<Pair<Karta, String>>sorterNaziv;
-
+	private Comparator<SimpleEntry<Karta, String>>sorterNaziv;
+	
 	
 	public KarteDAO() {
 		mapaKarata = new HashMap<>();
@@ -153,18 +154,25 @@ public class KarteDAO {
 		
 	}
 	
-	public String generisiId() {
-		
-		String sifra;
-		while(true)
+	public ArrayList<String> generisiId(int numOfIds) {
+		ArrayList<String> result = new ArrayList<String>();
+		for(int i=0;i<numOfIds;i++)
 		{
-			long id = System.currentTimeMillis() % DUZINASIFRE;
-			sifra = String.valueOf(id);
-			if(!mapaKarata.containsKey(sifra)) break;
+			String sifra;
+			while(true)
+			{
+				long id = System.currentTimeMillis() % DUZINASIFRE;
+				sifra = String.valueOf(id);
+				if(!mapaKarata.containsKey(sifra) && id != last) {
+					last = id;
+					break;
+				}
+			}
+			result.add(sifra);
+			System.out.println(sifra);
 		}
-		
-		System.out.println(sifra);
-		return sifra;
+
+		return result;
 
 		
 	}
@@ -349,12 +357,12 @@ public class KarteDAO {
 
 	public List<Karta> sortirajPoImenuManifestacije(List<Karta> kolekcija, ManifestacijeDAO daoManifestacije, boolean opadajuce) {
 
-		ArrayList<Pair<Karta, String>>mapa =new ArrayList<Pair<Karta,String>>();
+		ArrayList<SimpleEntry<Karta, String>>mapa =new ArrayList<SimpleEntry<Karta,String>>();
 		ArrayList<Karta>result = new ArrayList<Karta>();
 		for(Karta k : kolekcija)
 		{
 			String manifestacija = daoManifestacije.getManifestacijaById(k.getManifestacija()).getNaziv();
-			Pair<Karta, String> par = new Pair<Karta, String>(k, manifestacija);
+			SimpleEntry<Karta, String> par = new SimpleEntry<Karta, String>(k, manifestacija);
 			mapa.add(par);
 		}
 		
@@ -362,7 +370,7 @@ public class KarteDAO {
 		if (opadajuce) {
 			Collections.reverse(mapa);
 		}
-		for(Pair<Karta, String> p : mapa )
+		for(SimpleEntry<Karta, String> p : mapa )
 		{
 			result.add(p.getKey());
 		}
@@ -410,10 +418,10 @@ public class KarteDAO {
 
 		};
 		
-		sorterNaziv = new Comparator<Pair<Karta, String>>() {
+		sorterNaziv = new Comparator<SimpleEntry<Karta, String>>() {
 
 			@Override
-			public int compare(Pair<Karta, String> o1, Pair<Karta, String> o2) {
+			public int compare(SimpleEntry<Karta, String> o1, SimpleEntry<Karta, String> o2) {
 				
 				return o1.getValue().toLowerCase().compareTo(o2.getValue().toLowerCase());
 
