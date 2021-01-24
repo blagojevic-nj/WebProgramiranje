@@ -2,9 +2,11 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -16,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import beans.Karta;
 import beans.Korisnik;
 import beans.Kupac;
+import beans.Manifestacija;
 import beans.enums.Uloga;
 import dao.KarteDAO;
 import dao.KorisniciDAO;
@@ -134,6 +137,69 @@ public class KarteService {
 	@Path("/otkazi/{id}")
 	public boolean otkazi(@PathParam("id") String id) {
 		return getKarteDAO().otkazi(id,  getManifestacijeDAO());
+	}
+	
+	@POST
+	@Path("/search")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Collection<Karta> search(Object upit) {
+		@SuppressWarnings("unchecked")
+		LinkedHashMap<String, String> mapa = (LinkedHashMap<String, String>) upit;
+		KarteDAO daoKarte = getKarteDAO();
+		ManifestacijeDAO daoManifestacije = getManifestacijeDAO();
+		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
+		if (!(trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername()))&&trenutni.getUloga() == Uloga.KUPAC))
+		{
+			return null;
+		}
+		//karte datog korisnika
+		Collection<Karta> kolekcija = new ArrayList<Karta>(daoKarte.getKarte(2,trenutni.getUsername()));
+		String naziv = mapa.get("naziv").trim().toLowerCase();
+		String cenaOd = mapa.get("cenaOd").trim().toLowerCase();
+		String cenaDo = mapa.get("cenaDo").trim().toLowerCase();
+		String datumOd = mapa.get("datumOd").trim().toLowerCase();
+		String datumDo = mapa.get("datumDo").trim().toLowerCase();
+
+		if (!naziv.equals("")) {
+			kolekcija = daoKarte.searchNaziv(kolekcija, naziv,daoManifestacije);
+			if (kolekcija.isEmpty()) {
+				request.getSession().setAttribute("trenutneKarte", kolekcija);
+				return kolekcija;
+			}
+		}
+		if (!cenaOd.equals("")) {
+			kolekcija = daoKarte.searchCenaOd(kolekcija, cenaOd);
+			if (kolekcija.isEmpty()) {
+				request.getSession().setAttribute("trenutneKarte", kolekcija);
+				return kolekcija;
+			}
+		}
+		if (!cenaDo.equals("")) {
+			kolekcija = daoKarte.searchCenaDo(kolekcija, cenaDo);
+			if (kolekcija.isEmpty()) {
+				request.getSession().setAttribute("trenutneKarte", kolekcija);
+				return kolekcija;
+			}
+		}
+		if (!datumOd.equals("")) {
+			kolekcija = daoKarte.searchDatumOd(kolekcija, datumOd);
+			if (kolekcija.isEmpty()) {
+				request.getSession().setAttribute("trenutneKarte", kolekcija);
+				return kolekcija;
+			}
+		}
+		if (!datumDo.equals("")) {
+			kolekcija = daoKarte.searchDatumDo(kolekcija, datumDo);
+			if (kolekcija.isEmpty()) {
+				request.getSession().setAttribute("trenutneKarte", kolekcija);
+				return kolekcija;
+			}
+		}
+
+		request.getSession().setAttribute("trenutneKarte", kolekcija);
+		return kolekcija;
+
 	}
 	
 	

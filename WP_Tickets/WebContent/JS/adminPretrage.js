@@ -204,3 +204,11 @@ function sort8Admin(){
 	});
 
 }
+
+
+
+/*Multiselect admin*/
+$('#TipSelectKorisniciAdmin').on('click',function(e)
+{
+e.preventDefault();
+})

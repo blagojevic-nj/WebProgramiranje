@@ -3,14 +3,17 @@ package dao;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -238,4 +241,80 @@ public class KarteDAO {
 		}
 		return false;
 	}
+
+	public Collection<Karta> searchNaziv(Collection<Karta> kolekcija, String naziv, ManifestacijeDAO daoManifestacije) {
+		ArrayList<Karta>result = new ArrayList<Karta>();
+		for(Karta k : kolekcija)
+		{
+			int idManifestacije = k.getManifestacija();
+			String manifestacijaName = daoManifestacije.manifestacije.get(idManifestacije).getNaziv();
+			if(manifestacijaName.toLowerCase().equals(naziv))
+				result.add(k);
+		}
+		
+		return result;
+	}
+
+	public Collection<Karta> searchCenaOd(Collection<Karta> kolekcija, String cenaOd) {
+		try {
+			double cena = Double.parseDouble(cenaOd);
+			List<Karta> rez = kolekcija.stream().filter(k -> k.getCena() > cena ).collect(Collectors.toList());
+			return new ArrayList<Karta>(rez);
+		}catch (Exception e){
+			return kolekcija;
+		}
+
+		
+	}
+
+	public Collection<Karta> searchCenaDo(Collection<Karta> kolekcija, String cenaDo) {
+		try {
+			double cena = Double.parseDouble(cenaDo);
+			List<Karta> rez = kolekcija.stream().filter(k -> k.getCena() < cena ).collect(Collectors.toList());
+			return new ArrayList<Karta>(rez);
+		}catch (Exception e){
+			return kolekcija;
+		}
+	}
+
+	public Collection<Karta> searchDatumOd(Collection<Karta> kolekcija, String datumOd) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dt;
+		try {
+			dt=sdf.parse(datumOd);
+			List<Karta> rez = kolekcija.stream().filter(k -> java.sql.Timestamp.valueOf(k.getDatumVremeManifestacije()).after(dt)).collect(Collectors.toList());
+			return new ArrayList<Karta>(rez);
+		}catch (Exception e){
+			return kolekcija;
+		}
+	}
+
+	public Collection<Karta> searchDatumDo(Collection<Karta> kolekcija, String datumDo) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dt;
+		try {
+			dt=sdf.parse(datumDo);
+			List<Karta> rez = kolekcija.stream().filter(k -> java.sql.Timestamp.valueOf(k.getDatumVremeManifestacije()).before(dt)).collect(Collectors.toList());
+			return new ArrayList<Karta>(rez);
+		}catch (Exception e){
+			return kolekcija;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
