@@ -9,18 +9,26 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.tools.javac.util.Pair;
 
 import beans.Karta;
+import beans.Korisnik;
 import beans.Kupac;
 import beans.enums.StatusKarte;
+import beans.enums.TipKarte;
 
 
 public class KarteDAO {
@@ -29,10 +37,14 @@ public class KarteDAO {
 	private String putanja;
 	private static final long DUZINASIFRE = 10000000000L;
 	private static long last = 0;
+	private Comparator<Karta> sorterCena,sorterDatum;
+	private Comparator<Pair<Karta, String>>sorterNaziv;
+
 	
 	public KarteDAO() {
 		mapaKarata = new HashMap<>();
 		mapaOdustajanja = new HashMap<>();
+		initSortere();
 	}
 
 	public KarteDAO(String path) {
@@ -40,9 +52,10 @@ public class KarteDAO {
 		mapaOdustajanja = new HashMap<>();
 		loadTickets(path);
 		loadOdustajanje(path);
+		initSortere();
 	}
-	
 
+	
 	public HashMap<String, Karta> getMapaKarata() {
 		return mapaKarata;
 	}
@@ -121,7 +134,7 @@ public class KarteDAO {
 		{
 			for(Karta k : mapaKarata.values())
 			{
-				if(k.getProdavac().equals(username))
+				if(k.getProdavac().equals(username) || k.getStatus() == StatusKarte.REZERVISANA)
 				{
 					cardList.add(k);
 				}
@@ -300,21 +313,123 @@ public class KarteDAO {
 			return kolekcija;
 		}
 	}
+
+	public Collection<Karta> filtriraj(Collection<Karta> kolekcija, Collection<String> listaUslova) {
+		//lista vip regular fanpit rezervisana odustanak
+		List<Karta> result = new ArrayList<Karta>();
+		ArrayList<Karta>temp;
+		Set<String>uslovi = new HashSet<String>(listaUslova);
+		if(uslovi.contains("vip"))
+		{
+			temp = (ArrayList<Karta>) kolekcija.stream().filter(k -> k.getTipKarte()==TipKarte.VIP).collect(Collectors.toList());
+			result.addAll(temp);
+		}
+		if(uslovi.contains("regular"))
+		{
+			temp = (ArrayList<Karta>) kolekcija.stream().filter(k -> k.getTipKarte()==TipKarte.REGULAR).collect(Collectors.toList());
+			result.addAll(temp);
+		}
+		if(uslovi.contains("fanpit"))
+		{
+			temp = (ArrayList<Karta>) kolekcija.stream().filter(k -> k.getTipKarte()==TipKarte.FAN_PIT).collect(Collectors.toList());	
+			result.addAll(temp);
+		}
+		if(uslovi.contains("rezervisana"))
+		{
+			temp = (ArrayList<Karta>) kolekcija.stream().filter(k -> k.getStatus()==StatusKarte.REZERVISANA).collect(Collectors.toList());
+			result.addAll(temp);
+		}
+		if(uslovi.contains("rezervisana"))
+		{
+			temp = (ArrayList<Karta>) kolekcija.stream().filter(k -> k.getStatus()==StatusKarte.ODUSTANAK).collect(Collectors.toList());
+			result.addAll(temp);
+		}
+	 
+		
+		return result;
+	}
+
+	public List<Karta> sortirajPoImenuManifestacije(List<Karta> kolekcija, ManifestacijeDAO daoManifestacije, boolean opadajuce) {
+
+		ArrayList<Pair<Karta, String>>mapa =new ArrayList<Pair<Karta,String>>();
+		ArrayList<Karta>result = new ArrayList<Karta>();
+		for(Karta k : kolekcija)
+		{
+			String manifestacija = daoManifestacije.getManifestacijaById(k.getManifestacija()).getNaziv();
+			Pair<Karta, String> par = new Pair<Karta, String>(k, manifestacija);
+			mapa.add(par);
+		}
+		
+		Collections.sort(mapa,sorterNaziv);
+		if (opadajuce) {
+			Collections.reverse(mapa);
+		}
+		for(Pair<Karta, String> p : mapa )
+		{
+			result.add(p.fst);
+		}
+		
+		return result;
+	}
+	
+	public List<Karta> sortirajPoCeniKarte(List<Karta> kolekcija, boolean opadajuce) {
+
+		Collections.sort(kolekcija, sorterCena);
+		if (opadajuce) {
+			Collections.reverse(kolekcija);
+		}
+		ArrayList<Karta> result = new ArrayList<>(kolekcija);
+		return result;
+	}
+	
+	public List<Karta> sortirajPoDatumu(List<Karta> kolekcija, boolean opadajuce) {
+
+		Collections.sort(kolekcija, sorterDatum);
+		if (opadajuce) {
+			Collections.reverse(kolekcija);
+		}
+		ArrayList<Karta> result = new ArrayList<>(kolekcija);
+		return result;
+	}
 	
 	
+	private void initSortere()
+	{
+		sorterCena = new Comparator<Karta>() {
+
+			@Override
+			public int compare(Karta o1, Karta o2) {
+				return  Double.compare(o1.getCena(), o2.getCena());
+			}
+		};
+		
+		sorterDatum = new Comparator<Karta>() {
+
+			@Override
+			public int compare(Karta o1, Karta o2) {
+				return  o1.getDatumVremeManifestacije().compareTo(o2.getDatumVremeManifestacije());
+			}
+
+		};
+		
+		sorterNaziv = new Comparator<Pair<Karta, String>>() {
+
+			@Override
+			public int compare(Pair<Karta, String> o1, Pair<Karta, String> o2) {
+				
+				return o1.snd.toLowerCase().compareTo(o2.snd.toLowerCase());
+
+			}
+
+		
+	};
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}
 	
 	
 	
 	
 }
+
+	

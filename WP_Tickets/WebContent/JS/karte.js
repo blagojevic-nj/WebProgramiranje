@@ -1,5 +1,5 @@
 /// <reference path="C:\Users\PC\Desktop\plugIn\typings\globals\jquery\index.d.ts" />
-$.noConflict()
+
 
 
 function zameniKarte(karte)
@@ -30,7 +30,7 @@ function dodajPretraguKarti()
 	//dugmad
 
 	let divDugmad = $('<div class="input-group-append"></div');
-	let dugmePretragaKarte = $('<button id="dugmePretragaKarte" class="btn btn-outline-secondary" type="submit" ><i class="fas fa-search"></i></button>');
+	let dugmePretragaKarte = $('<button id="dugmePretragaKarte" onclick="pretraziKarte()" class="btn btn-outline-secondary" type="submit" ><i class="fas fa-search"></i></button>');
 
 
 	let divFilterPretraga = $('<div id="filterPretragaKarte" class="dropdown show"></div');
@@ -43,7 +43,7 @@ function dodajPretraguKarti()
 	let rezervisana = $("<option value='rezervisana'>Rezervisane</option>");
 	let odustanak = $("<option value='odustanak'>Otkazane</option>");
 	multiselect.append(vip).append(regular).append(fanpit).append(rezervisana).append(odustanak);
-	let dugmeFilter = $('<button id="filterButtonKarte" class="btn btn-outline-secondary btn-dark"><i class="fas fa-filter"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter</button>');
+	let dugmeFilter = $('<button id="filterButtonKarte" onclick="filtrirajKarte()" class="btn btn-outline-secondary btn-dark"><i class="fas fa-filter"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter</button>');
 	-
 
 	divDropdown.append(multiselect);
