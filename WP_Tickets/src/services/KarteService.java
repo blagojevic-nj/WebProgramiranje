@@ -151,6 +151,7 @@ public class KarteService {
 		KarteDAO daoKarte = getKarteDAO();
 		ManifestacijeDAO daoManifestacije = getManifestacijeDAO();
 		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
+		if(trenutni==null) return null;
 		if (!(trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername()))))
 		{
 			return null;
@@ -173,10 +174,10 @@ public class KarteService {
 		} 
 		//karte datog korisnika
 		String naziv = mapa.get("naziv").trim().toLowerCase();
-		String cenaOd = mapa.get("cenaOd").trim().toLowerCase();
-		String cenaDo = mapa.get("cenaDo").trim().toLowerCase();
-		String datumOd = mapa.get("datumOd").trim().toLowerCase();
-		String datumDo = mapa.get("datumDo").trim().toLowerCase();
+		String cenaOd = mapa.get("cenaod").trim().toLowerCase();
+		String cenaDo = mapa.get("cenado").trim().toLowerCase();
+		String datumOd = mapa.get("datumod").trim().toLowerCase();
+		String datumDo = mapa.get("datumdo").trim().toLowerCase();
 
 		if (!naziv.equals("")) {
 			kolekcija = daoKarte.searchNaziv(kolekcija, naziv,daoManifestacije);
