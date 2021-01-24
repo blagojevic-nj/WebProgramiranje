@@ -236,6 +236,7 @@ $(document).ready(function () {
 					}else{
 						$("PretragaTabele").remove();
 						napraviTabelu(manifestacije);
+
 					}
 				}
 			})
@@ -286,6 +287,7 @@ $(document).ready(function () {
 		} else if(val == "Prodate karte"){
 			$("#formPretraga").remove();
 			$("#tabelaManifestacija").empty()
+			dodajPretraguKarti();
 			$.get({
 				url: "/WP_Tickets/rest/Karte/",
 				contentType: "application/json",
