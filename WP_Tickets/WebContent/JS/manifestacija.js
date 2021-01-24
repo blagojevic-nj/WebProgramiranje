@@ -26,13 +26,18 @@ $(document).ready(function(){
 					})
 				}
 			})
-	podesiMarker([manifestacija.lokacija.geoDuzina, manifestacija.lokacija.geoSirina])
-	$("#img-postera").attr("src", manifestacija.poster)
-	$("#naziv").text(manifestacija.naziv);
-	$("#brojMesta").text("Broj slobodnih mesta: " + manifestacija.brojMesta);
-	$("#datum-vreme").text(getDatumVreme(manifestacija.datumVremeOdrzavanja))
-	$("#cena").text(manifestacija.cenaREGkarte + "din");
-	$("#lokacija").append(manifestacija.lokacija.adresa);
+
+
+				podesiMarker([manifestacija.lokacija.geoDuzina, manifestacija.lokacija.geoSirina])
+				$("#img-postera").attr("src", manifestacija.poster)
+				$("#naziv").text(manifestacija.naziv);
+				$("#brojMesta").text("Broj slobodnih mesta: "+ manifestacija.brojPreostalihMesta+" od " + manifestacija.brojMesta);
+				$("#datum-vreme").text(getDatumVreme(manifestacija.datumVremeOdrzavanja))
+				$("#cena").text(manifestacija.cenaREGkarte + "din");
+				$("#lokacija").append(manifestacija.lokacija.adresa);
+
+				dodajKomentare(manifestacija.id);
+
 			}
 		}
 	})
@@ -106,8 +111,6 @@ function dodajOpcijeZaKorisnika(manifestacija){
 			$("#opcije").append(button);	
 		}
 	} else if(tipKorisnika == "PRODAVAC"){
-		/*Pravicemo se da jeste njegova manifestacija, traba da ima dugme obrisi i  izmeni*/
-		alert("ovde mora provjera da li je njegova manifestacija!")
 		if(!manifestacija.aktivno){
 			let button = $("<button id='izmena-btn' onclick='izmeni()'>Izmena</button>")
 			$("#opcije").append(button);
@@ -120,9 +123,9 @@ function dodajOpcijeZaKorisnika(manifestacija){
 				contentType: "application/json",
 				success: function(type){
 					let cena = $("<span id='cena'>Cena: "+manifestacija.cenaREGkarte * (100-type.popust)/100+"  dinara</span>");
-					let select = $("<select name='tipKarte' onchange='promeniCenu("+manifestacija.cenaREGkarte+")'><option value='1'>Regular</option><option value='FAN_PIT'>2</option><option value='0'>Vip</option></select>")
+					let select = $("<select name='tipKarte' onchange='promeniCenu("+manifestacija.cenaREGkarte+")'><option value='1'>Regular</option><option value='2'>FAN_PIT</option><option value='0'>Vip</option></select>")
 					let button = $("<button id='kupi-btn' onclick='kupi("+manifestacija.brojMesta+","+manifestacija.id+")'>Kupi</button>")
-					let kolicina = $("<input type='number' name='kolicina' min='0' value='0'>")
+					let kolicina = $("<input type='number' name='kolicina' min='0' value='0' onchange='promeniCenu("+manifestacija.cenaREGkarte+")'>")
 					let popust = $("<span id='popust'>Popust: "+type.popust+" %</span>");
 					$("#opcije").append(cena).append(popust).append(button).append(select).append(kolicina);
 				}
@@ -181,16 +184,180 @@ function kupi(brojMesta, idMan){
 
 function promeniCenu(cena){
 	var popust = $("#popust").text();
+	var kol = $("input[name='kolicina']").val();
+	if(kol){
+		kol = parseInt(kol);
+		if(kol == 0)
+			kol = 1;
+	}else{
+		kol=1;
+	}
 	var broj = popust.split(" ")[1];
-	if($("select[name='tipKarte'] option:selected").val() == "REGULAR"){
+	if($("select[name='tipKarte'] option:selected").val() == "1"){
 		
-		$("#cena").text("Cena: " + cena*(100-broj)/100 + "  dinara");
-	}else if($("select[name='tipKarte'] option:selected").val() == "FAN_PIT")
+		$("#cena").text("Cena: " + cena*kol*(100-broj)/100 + "  dinara");
+	}else if($("select[name='tipKarte'] option:selected").val() == "2")
 	{
 	
-		$("#cena").text("Cena: " + cena*2*(100-broj)/100 + " dinara");
+		$("#cena").text("Cena: " + cena*kol*2*(100-broj)/100 + " dinara");
 	}else{
 		
-		$("#cena").text("Cena: " + cena*4*(100-broj)/100 + " dinara");
+		$("#cena").text("Cena: " + cena*kol*4*(100-broj)/100 + " dinara");
 	}
+}
+
+function dodajKomentare(id){
+	$.get({
+		url: "/WP_Tickets/rest/komentari/provera",
+		success: function(broj){
+			if(broj == -2){
+				
+			}else if(broj == -1){
+				$.get({
+					url: "/WP_Tickets/rest/komentari/",
+					contentType: "application/json",
+					success: function(comments){
+						if(comments.length == 0){
+							let tr = $("<tr><td><p>Nema komentara</p></td></tr>");
+							$("#tabela-komentara").append(tr);
+						}else{
+							for(kom of comments){
+								dodajRedKomentara(kom);
+							}
+						}
+
+						dodajOcenu(id);
+					}
+				})
+			}else if(broj == 0){
+				/** kupac, moze da dodaje komentare */
+				$.get({
+					url: "/WP_Tickets/rest/komentari/",
+					contentType: "application/json",
+					success: function(comments){
+						let tr = $("<tr><td colspan='3'><button id='dodajKom' onclick='dodajNoviKomentar("+id+")' style='margin:0'>Dodaj</button><input type='text' name='tekst-komentara' placeholder='Komentar' /><i class='fas fa-star'></i><input type='number' id='inputOcene' min='0' max='5' step='1' id='input-ocena' onchange='proveriOcenu(this)'></td></tr>")
+						$("#tabela-komentara").append(tr);
+						for(kom of comments){
+							dodajRedKomentara(kom);
+						}
+
+						dodajOcenu(id);
+					}
+				})
+				
+			}else if(broj == 1){
+
+				$.get({
+					url: "/WP_Tickets/rest/komentari/",
+					contentType: "application/json",
+					success: function(comments){
+						for(kom of comments){
+							dodajRedKomentaraProdavac(kom);
+						}
+
+						dodajOcenu(id);
+					}
+				})
+				
+			}else if(broj == 2){
+				$.get({
+					url: "/WP_Tickets/rest/komentari/",
+					contentType: "application/json",
+					success: function(comments){
+						for(kom of comments){
+							dodajRedKomentaraAdmin(kom);
+						}
+
+						dodajOcenu(id);
+					}
+				})
+			}
+		}
+	})
+}
+
+function proveriOcenu(input){
+	if(input.val() == ""){
+		input.val(0);
+	}else{
+		var o = parseInt(input.val());
+		if(o > 5)
+			input.val(5);
+		if(o < 0)
+			input.val(0);
+	}
+}
+
+function dodajRedKomentara(komentar){
+	let tr = $("<tr id='"+komentar.id+"'><td class='td-user'><i class='fas fa-user'></i>"+komentar.usernameKupca+"</td><td class='td-tekst'>"+komentar.tekstKomentara+"</td><td class='td-ocena'><i class='fas fa-star'></i>"+komentar.ocena+"</td></tr>")
+	$("#tabela-komentara").append(tr);
+}
+
+function dodajRedKomentaraProdavac(komentar){
+	let tr;
+	if(!komentar.odobren){
+		tr  = $("<tr id='"+komentar.id+"'><td><i class='fas fa-user'></i>"+komentar.usernameKupca+"</td><td>"+komentar.tekstKomentara+"</td><td>Ocena: "+komentar.ocena+"</td><td><button class='odobri-kom' onclick='odobriKom("+komentar.id+")'>Odobri</button><button class='odbij-kom' onclick='odbijKom("+komentar.id+")'>Odbij</button></td></tr>")
+	}
+	else{
+		tr = $("<tr id='"+komentar.id+"'><td><i class='fas fa-user'></i>"+komentar.usernameKupca+"</td><td>"+komentar.tekstKomentara+"</td><td>Ocena: "+komentar.ocena+"</td><td></td></tr>")
+	}
+	$("#tabela-komentara").append(tr);
+}
+
+function dodajRedKomentaraAdmin(komentar){
+	let tr;
+	if(!komentar.odobren){
+		tr  = $("<tr id='"+komentar.id+"'><td><i class='fas fa-user'></i>"+komentar.usernameKupca+"</td><td>"+komentar.tekstKomentara+"</td><td>Ocena: "+komentar.ocena+"</td><td><i class='fas fa-question-circle'></i><span id='status-kom'>NEODOBREN</span></td></tr>")
+	}
+	else{
+		tr = $("<tr id='"+komentar.id+"'><td><i class='fas fa-user'></i>"+komentar.usernameKupca+"</td><td>"+komentar.tekstKomentara+"</td><td>Ocena: "+komentar.ocena+"</td><td><i class='fas fa-check-double'></i><span id='status-kom'>ODOBREN</span></td></tr>")
+	}
+	$("#tabela-komentara").append(tr);
+}
+
+function odobriKom(id){
+	$.post({
+		url: "/WP_Tickets/rest/komentari/odobri/"+id,
+		success: function(){
+			$("#" + kom.id).find('td:last-child').html("");
+		}
+	})
+}
+
+function odbijKom(id){
+	$.post({
+		url: "/WP_Tickets/rest/komentari/odbij/"+id,
+		success: function(){
+			$("#" + id).remove();
+		}
+	})
+}
+
+function dodajOcenu(id){
+	$.get({
+		url: "/WP_Tickets/rest/komentari/ocena/" +id,
+		success: function(ocena){
+			$("#opcije").html("");
+
+			let o = $("<span id='prosecna-ocena'>Prosecna ocena: <i class='fas fa-star'></i> "+ocena+"</span>")
+			$("#opcije").append(o)
+		}
+	})
+}
+
+function dodajNoviKomentar(id){
+	var tekstKom = $("input[name='tekst-komentara']").val();
+	var oc = parseInt($("input[type='number']").val());
+	$.post({
+		url: "/WP_Tickets/rest/komentari/dodaj",
+		contentType: "application/json",
+		data: JSON.stringify({"id": -1, "usernameKupca": "", "manifestacija":id, "tekstKomentara": tekstKom, "ocena": oc, "odobren": false, "obrisan": false}),
+		success: function(ok){
+			if(ok =='true')
+				alert("Dodat kom!");
+			else{
+				alert("Neka greska!")
+			}
+		}
+	})
 }

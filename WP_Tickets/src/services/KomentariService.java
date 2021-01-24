@@ -152,4 +152,10 @@ public class KomentariService {
 			getKomentari().odbijKomentar(id);
 	}
 	
+	@GET
+	@Path("/ocena/{id}")
+	public float ocena(@PathParam("id") int id) {
+		return getKomentari().getOcena(id);
+	}
+	
 }

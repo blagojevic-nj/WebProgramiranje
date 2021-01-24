@@ -169,7 +169,7 @@ function zameniManifestacije(noveManifestacije)
 	}
 }
 
-function reloadManifestacije(){}
+function reloadManifestacije()
 {
 	$("#prazanReturnUpita").remove();
 	$.get("/WP_Tickets/rest/Manifestacije/",function(manifestacije)

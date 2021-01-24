@@ -86,7 +86,7 @@ public class KomentariDAO {
 	
 	public float getOcena(int idMan) {
 		int cnt = 0;
-		int suma = 0;
+		float suma = 0;
 		
 		for(Komentar k:mapaKomentara.values()) {
 			if(!k.getObrisan() && k.getOdobren()) {

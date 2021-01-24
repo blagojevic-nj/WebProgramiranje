@@ -16,19 +16,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.tools.javac.util.Pair;
 
 import beans.Karta;
-import beans.Korisnik;
 import beans.Kupac;
 import beans.enums.StatusKarte;
 import beans.enums.TipKarte;
+import javafx.util.Pair;
 
 
 public class KarteDAO {
@@ -339,7 +337,7 @@ public class KarteDAO {
 			temp = (ArrayList<Karta>) kolekcija.stream().filter(k -> k.getStatus()==StatusKarte.REZERVISANA).collect(Collectors.toList());
 			result.addAll(temp);
 		}
-		if(uslovi.contains("rezervisana"))
+		if(uslovi.contains("odustanak"))
 		{
 			temp = (ArrayList<Karta>) kolekcija.stream().filter(k -> k.getStatus()==StatusKarte.ODUSTANAK).collect(Collectors.toList());
 			result.addAll(temp);
@@ -366,7 +364,7 @@ public class KarteDAO {
 		}
 		for(Pair<Karta, String> p : mapa )
 		{
-			result.add(p.fst);
+			result.add(p.getKey());
 		}
 		
 		return result;
@@ -417,7 +415,7 @@ public class KarteDAO {
 			@Override
 			public int compare(Pair<Karta, String> o1, Pair<Karta, String> o2) {
 				
-				return o1.snd.toLowerCase().compareTo(o2.snd.toLowerCase());
+				return o1.getValue().toLowerCase().compareTo(o2.getValue().toLowerCase());
 
 			}
 
