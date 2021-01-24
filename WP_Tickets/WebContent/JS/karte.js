@@ -91,7 +91,7 @@ function pretraziKarte(){
 	let datumdo = $("#datumDoKarte").val();
 
 
-	let upit = {naziv:naziv,cenaod:cenaod,cenado:cenado,datumdo:datumod,datumdo:datumdo}
+	let upit = {naziv:naziv,cenaod:cenaod,cenado:cenado,datumod:datumod,datumdo:datumdo}
 	$.post({url:'/WP_Tickets/rest/Karte/search/',
         data: JSON.stringify(upit),
         contentType: 'application/json',
