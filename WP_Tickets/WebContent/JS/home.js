@@ -163,6 +163,10 @@ $(document).ready(function () {
 		
 	})
 	
+	function mapaShowToggle(event) {
+		$(this).parent().toggleClass('show');
+	};
+
 	$("#izmena").on('click', function(e){
 		e.preventDefault();
 		$("#forma input[name='password']").attr('disabled', false)
@@ -522,4 +526,3 @@ function obrisiDivPretrage()
 {
 	$("#PretragaTabele").empty();
 }
-

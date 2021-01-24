@@ -19,6 +19,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -594,20 +595,16 @@ public class ManifestacijeDAO {
 	
 	public Collection<Manifestacija> searchNaziv(Collection<Manifestacija> kolekcija, String naziv) {
 		List<Manifestacija>nove = new ArrayList<Manifestacija>();
-		naziv= naziv.trim().toLowerCase();
-		if(naziv.equals("")) return kolekcija;
 		for(Manifestacija m : kolekcija)
 		{
 			if(m.getNaziv().toLowerCase().equals(naziv)) nove.add(m);
 		}
-		
-		
+
 	return nove;	
 	}
 
 	public Collection<Manifestacija> searchCenaOd(Collection<Manifestacija> kolekcija, String CenaOd) {
 		List<Manifestacija>nove = new ArrayList<Manifestacija>();
-
 		try {
 			int cena=Integer.parseInt(CenaOd);
 			for(Manifestacija m : kolekcija)
@@ -623,7 +620,6 @@ public class ManifestacijeDAO {
 
 	public Collection<Manifestacija> searchCenaDo(Collection<Manifestacija> kolekcija, String CenaDo) {
 		List<Manifestacija>nove = new ArrayList<Manifestacija>();
-
 		try {
 			int cena=Integer.parseInt(CenaDo);
 			for(Manifestacija m : kolekcija)
@@ -794,6 +790,12 @@ public class ManifestacijeDAO {
 	public void aktiviraj(int id) {
 		manifestacije.get(id).setAktivno(true);
 		upisiManifestacije();
+	}
+	
+	public List<Manifestacija> nerasprodate(List<Manifestacija>input)
+	{
+		List<Manifestacija> nove = input.stream().filter(m -> m.getBrojPreostalihMesta()>0).collect(Collectors.toList());
+		return new ArrayList<Manifestacija>(nove);
 	}
 }
 

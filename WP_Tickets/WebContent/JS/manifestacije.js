@@ -61,10 +61,8 @@ $(document).ready(function (){
     dodajTipoveManifestacijaUFilterSelect(tipovi)
     }
 
+
 );
-
-
-
 });
 
 
@@ -162,7 +160,7 @@ function zameniManifestacije(noveManifestacije)
 	if(noveManifestacije.length==0)
 	{
 		poruka = $("<p id='nemaRezultata'>Nema rezultata za datu pretragu...</p>");
-		backDugme = $("<button id='reloadManifestacije' class='btn btn-outline-secondary'><i class='fas fa-undo-alt'></i></button>")
+		backDugme = $("<a id='reloadManifestacije' href='home.html' onclick='reloadManifestacije()'><i class='fas fa-undo-alt'></i></button>")
 		div=$("<div id=prazanReturnUpita></div>")
 		div.append(poruka).append(backDugme);
 		$("#content").append(div);
@@ -171,29 +169,15 @@ function zameniManifestacije(noveManifestacije)
 	}
 }
 
-$("#reloadManifestacije").click(function()
+function reloadManifestacije(){}
 {
 	$("#prazanReturnUpita").remove();
-	window.location.href("/WP_Tickets/HTML/home.html");	
 	$.get("/WP_Tickets/rest/Manifestacije/",function(manifestacije)
     {
         napraviTabelu(manifestacije)
     }
     );
-});
-
-
-$("#reloadManifestacije").click(function()
-{
-	$.get("/WP_Tickets/rest/Manifestacije/",function(manifestacije)
-	{
-		napraviTabelu(manifestacije)
-	});
-
-	$("#nemaRezultata").remove();
-	$("#reloadManifestacije").remove();
-	
-});
+};
 
 /* <a id="sort1"class="dropdown-item" href="#">Ceni Rastuće</a>
 <a id="sort2" class="dropdown-item" href="#">Ceni Opadajuće</a>
@@ -206,7 +190,6 @@ $("#reloadManifestacije").click(function()
 
 $("#sort1").click(function()
 {
-	alert("Sortiram cena Rastuce!");
 	$.get("/WP_Tickets/rest/Manifestacije/sort/1",function(manifestacije)
 	{
 		zameniManifestacije(manifestacije);
@@ -216,7 +199,6 @@ $("#sort1").click(function()
 
 $("#sort2").click(function()
 {
-	alert("Sortiram cena Opadajuce!");
 	$.get("/WP_Tickets/rest/Manifestacije/sort/2",function(manifestacije)
 	{
 		zameniManifestacije(manifestacije);
@@ -226,7 +208,6 @@ $("#sort2").click(function()
 
 $("#sort3").click(function()
 {
-	alert("Sortiram Datum Rastuce!");
 	$.get("/WP_Tickets/rest/Manifestacije/sort/3",function(manifestacije)
 	{
 		zameniManifestacije(manifestacije);
@@ -236,7 +217,6 @@ $("#sort3").click(function()
 
 $("#sort4").click(function()
 {
-	alert("Sortiram Datum Opadajuce!");
 	$.get("/WP_Tickets/rest/Manifestacije/sort/4",function(manifestacije)
 	{
 		zameniManifestacije(manifestacije);
@@ -246,7 +226,6 @@ $("#sort4").click(function()
 
 $("#sort5").click(function()
 {
-	alert("Sortiram Naziv Rastuce!");
 	$.get("/WP_Tickets/rest/Manifestacije/sort/5",function(manifestacije)
 	{
 		zameniManifestacije(manifestacije);
@@ -256,7 +235,6 @@ $("#sort5").click(function()
 
 $("#sort6").click(function()
 {
-	alert("Sortiram Naziv Opadajuce!");
 	$.get("/WP_Tickets/rest/Manifestacije/sort/6",function(manifestacije)
 	{
 		zameniManifestacije(manifestacije);
@@ -266,7 +244,6 @@ $("#sort6").click(function()
 
 $("#sort7").click(function()
 {
-	alert("Sortiram Lokaciji Rastuce!");
 	$.get("/WP_Tickets/rest/Manifestacije/sort/7",function(manifestacije)
 	{
 		zameniManifestacije(manifestacije);
@@ -276,7 +253,6 @@ $("#sort7").click(function()
 
 $("#sort8").click(function()
 {
-	alert("Sortiram Lokaciji Opadajuce!");
 	$.get("/WP_Tickets/rest/Manifestacije/sort/8",function(manifestacije)
 	{
 		zameniManifestacije(manifestacije);
@@ -284,9 +260,13 @@ $("#sort8").click(function()
 
 })
 
+$("#filterPretraga").stopPropagation();
 
-$("#filterButton").click(function(e){
+function filtriranjeManifestacija(e){
 	e.preventDefault();
+	e.stopPropagation();
+	alert("Filtriram");
+	$("#prazanReturnUpita").remove();
 	let select = $("#TipSelect").prop("selectedOptions");
 	let lista=[];
 	for(s of select)
@@ -303,7 +283,7 @@ $("#filterButton").click(function(e){
 	
 	
 
-});
+};
 
 $('#lokaciijaSelectMapa').on('click',function(e)
 	{
@@ -312,7 +292,6 @@ $('#lokaciijaSelectMapa').on('click',function(e)
 
 $("#mapaButton").click(function(e){
 	e.preventDefault();
-	alert(mapaKoordinate);
 	$("#lokacijaPretraga").val(mapaKoordinate);
 	tipLokacije = 'koordinate';
 
@@ -321,8 +300,9 @@ $("#mapaButton").click(function(e){
 
 /*****************************************************    PRETRAGA    ********************************************************************/
 
-$("#formPretraga").submit(function(e){
+function pretragaSubmit(e){
 	e.preventDefault();
+	$("#prazanReturnUpita").remove();
 	let naziv = $("#nazivPretraga").val();
 	let lokacija = $("#lokacijaPretraga").val();
 	let cenaOd = $("#cenaOdPretraga").val();
@@ -331,7 +311,6 @@ $("#formPretraga").submit(function(e){
 	let datumDo = $("#datumDo").val();
 
 
-	alert(lokacija);
 	if(tipLokacije !='koordinate')
 	{
 		tipLokacije='adresa'
@@ -341,16 +320,16 @@ $("#formPretraga").submit(function(e){
         data: JSON.stringify(upit),
         contentType: 'application/json',
 			success: function(obj){
-				alert("sucess");
 				zameniManifestacije(obj);
 			}
         })
 	tipLokacije='adresa'
-});
+	return false;
+};
 
 
-$("#dugmePretraga").click(function()
-{
+$("#dugmePretraga").click(function(){
+	$('#formPretraga').trigger('submit');
 });
 
 /*******************************************************    PREGLED     ********************************************************************/

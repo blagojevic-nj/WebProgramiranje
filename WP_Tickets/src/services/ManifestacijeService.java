@@ -76,7 +76,7 @@ public class ManifestacijeService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Manifestacija> getAllManifestacije() {
 		ManifestacijeDAO dao = getManifestacije();
-		Collection<Manifestacija> sveManifestacije = dao.getManifestacije().values();
+		Collection<Manifestacija> sveManifestacije = dao.getHomePageManifestacije().values();
 		request.getSession().setAttribute("manifestacijeList", sveManifestacije);
 		return sveManifestacije;
 
@@ -152,17 +152,12 @@ public class ManifestacijeService {
 		List<Manifestacija> filtrirano = null;
 		if (uslovi.get(0) == -1) {
 			uslovi.remove(0);
-			// filtriraj nerasprodate
-			filtrirano = dao.filtriranjePoTipu(filtrirano, uslovi);
-
-		} else {
-			filtrirano = dao.filtriranjePoTipu(manifestacije, uslovi);
+			filtrirano = dao.nerasprodate(filtrirano);
 		}
+		//po ostalim uslovima
+		filtrirano = dao.filtriranjePoTipu(manifestacije, uslovi);
 		request.setAttribute("manifestacije", filtrirano);
-
-		/**/
 		return filtrirano;
-		// Ne radi jos al nije ni zavrseno fali mi funkcija za nerasprodate iz karteDAO
 	}
 
 	@GET
@@ -241,22 +236,19 @@ public class ManifestacijeService {
 	public Collection<Manifestacija> search(Object upit) {
 		@SuppressWarnings("unchecked")
 		LinkedHashMap<String, String> mapa = (LinkedHashMap<String, String>) upit;
-		@SuppressWarnings("unchecked")
-		Collection<Manifestacija> kolekcija = ((Collection<Manifestacija>) request.getSession()
-				.getAttribute("manifestacijeList"));
 		ManifestacijeDAO dao = getManifestacije();
-		boolean empty = true;
+		Collection<Manifestacija> kolekcija = new ArrayList<Manifestacija>(dao.getHomePageManifestacije().values());
 		// let upit = {naziv:naziv, lokacija:lokacija,
 		// tipLokacije:"adresa",cenaOd:cenaOd,
 		// cenaDo:cenaDo,datumOd:datumOd,datumDo:datumDo}
 
-		String naziv = mapa.get("naziv").trim();
-		String cenaOd = mapa.get("cenaOd").trim();
-		String cenaDo = mapa.get("cenaDo").trim();
-		String datumOd = mapa.get("datumOd").trim();
-		String datumDo = mapa.get("datumDo").trim();
-		String lokacija = mapa.get("lokacija").trim();
-		String tipLokacije = mapa.get("tipLokacije").trim();
+		String naziv = mapa.get("naziv").trim().toLowerCase();
+		String cenaOd = mapa.get("cenaOd").trim().toLowerCase();
+		String cenaDo = mapa.get("cenaDo").trim().toLowerCase();
+		String datumOd = mapa.get("datumOd").trim().toLowerCase();
+		String datumDo = mapa.get("datumDo").trim().toLowerCase();
+		String lokacija = mapa.get("lokacija").trim().toLowerCase();
+		String tipLokacije = mapa.get("tipLokacije").trim().toLowerCase();
 
 		if (!naziv.equals("")) {
 			kolekcija = dao.searchNaziv(kolekcija, naziv);

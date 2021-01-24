@@ -132,7 +132,7 @@
 				</div>
 			</nav>
 			<div id="PretragaContainer">
-                <form id="formPretraga">
+                <form id="formPretraga" onsubmit="return pretragaSubmit(event)"">
                 <div class="input-group">
 					<input id="nazivPretraga" type="text" class="form-control" placeholder="Naziv Manifestacije" aria-label="Naziv Manifestacije" aria-describedby="basic-addon2">
 					<div id="mapaDropdown" class="dropdown show">
@@ -153,6 +153,7 @@
                     <input class="form-control col-10" type="date" aria-label="Datum Do:" id="datumDo">
 
 
+
                     <!--Dugmad...-->
                     <div class="input-group-append">
                         <!--Search...-->
@@ -163,7 +164,7 @@
                         <button  class="btn btn-outline-secondary" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-filter"></i></button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <select id="TipSelect"  class="multiselect-ui form-control" multiple="multiple"></select>
-                            <button id="filterButton" class="btn btn-outline-secondary btn-dark"><i class="fas fa-filter"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter</button>
+                            <button id="filterButton" type="button" onclick="filtriranjeManifestacija()" class="btn btn-outline-secondary btn-dark"><i class="fas fa-filter"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter</button>
                         </div>
                       </div>
 
