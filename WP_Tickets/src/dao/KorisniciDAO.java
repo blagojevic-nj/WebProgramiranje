@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,27 +16,28 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import beans.Karta;
 import beans.Korisnik;
 import beans.Kupac;
+import beans.Manifestacija;
 import beans.Prodavac;
 import beans.TipKupca;
 import beans.enums.ImeTipa;
 import beans.enums.Uloga;
-import sun.nio.cs.ext.ISCII91;
 
 public class KorisniciDAO {
 	private HashMap<String, Korisnik> mapaKorisnika;
 	private ArrayList<Korisnik> sviKorisnici;
 	private HashMap<Integer, TipKupca> tipoviKupaca;
 	private String putanja;
-
+	private Comparator<Korisnik> sorterBodovi,sorterIme,sorterPrezime,sorterUsername;
 	public KorisniciDAO() {
 		mapaKorisnika = new HashMap<>();
+		initSorter();
 	}
 	
 	public KorisniciDAO(String path) {
 		mapaKorisnika = new HashMap<>();
 		sviKorisnici = new ArrayList<>();
 		tipoviKupaca = new HashMap<>();
-		
+		initSorter();
 		loadUsers(path);
 		loadUsersTypes();
 		
@@ -278,6 +281,7 @@ public class KorisniciDAO {
 		}
 		
 	}
+	
 	public boolean kupiKarte(double cenaREGKarte) {
 
 		return false;
@@ -393,14 +397,10 @@ public class KorisniciDAO {
 		return;
 	}
 	
-	public void upisiKorisnike() {
-		
-	}
-
 	public Collection<Korisnik> getByName(Collection<Korisnik> kolekcija, String name) {
 		ArrayList<Korisnik>filteredList = new ArrayList<Korisnik>(); 
 		for(Korisnik k : kolekcija) {
-			if(k.getIme().equals(name))
+			if(k.getIme().toLowerCase().equals(name))
 			{
 				filteredList.add(k);
 			}
@@ -411,7 +411,7 @@ public class KorisniciDAO {
 	public Collection<Korisnik> getBySurname(Collection<Korisnik> kolekcija, String prezime) {
 		ArrayList<Korisnik>filteredList = new ArrayList<Korisnik>(); 
 		for(Korisnik k : kolekcija) {
-			if(k.getPrezime().equals(prezime))
+			if(k.getPrezime().toLowerCase().equals(prezime))
 			{
 				filteredList.add(k);
 			}
@@ -458,21 +458,21 @@ public class KorisniciDAO {
 						else {
 							if(zlatni)
 							{
-								if(kupac1.getTip()==0)
+								if(tipoviKupaca.get(kupac1.getTip()).getImeTipa()==ImeTipa.ZLATNI)
 								{
 									filtrirano.add(k);
 								}
 							}
 							if(srebrni)
 							{
-								if(kupac1.getTip()==1)
+								if(tipoviKupaca.get(kupac1.getTip()).getImeTipa()==ImeTipa.SREBRNI)
 								{
 									filtrirano.add(k);
 								}
 							}
 							if(bronzani)
 							{
-								if(kupac1.getTip()==2)
+								if(tipoviKupaca.get(kupac1.getTip()).getImeTipa()==ImeTipa.BRONZANI)
 								{
 									filtrirano.add(k);
 								}
@@ -494,5 +494,82 @@ public class KorisniciDAO {
 		
 		return false;
 	}
+
+	public List<Korisnik> sortirajPoImenu(List<Korisnik> result, boolean opadajuce) {
+
+		Collections.sort(result, sorterIme);
+		if (opadajuce) {
+			Collections.reverse(result);
+		}
+		return result;
+	}
+
+	public List<Korisnik> sortirajPoPrezimenu(List<Korisnik> result, boolean opadajuce) {
+		Collections.sort(result, sorterPrezime);
+		if (opadajuce) {
+			Collections.reverse(result);
+		}
+		return result;
+	}
+
+	public List<Korisnik> sortirajPoBodovima(List<Korisnik> result, boolean opadajuce) {
+		result.removeIf(k -> k.getUloga() != Uloga.KUPAC);
+		Collections.sort(result, sorterBodovi);
+		if (opadajuce) {
+			Collections.reverse(result);
+		}
+		return result;
+	}
+	
+	public List<Korisnik> sortirajPoUsername(List<Korisnik> result, boolean opadajuce) {
+		Collections.sort(result, sorterUsername);
+		if (opadajuce) {
+			Collections.reverse(result);
+		}
+		return result;
+	}
+
+	private void initSorter()
+{
+	/*----------------------sorteri------------------*/
+	sorterBodovi = new Comparator<Korisnik>() {
+
+		@Override
+		public int compare(Korisnik o1, Korisnik o2) {
+			Kupac k1 = (Kupac)o1;
+			Kupac k2 = (Kupac)o2;
+			return  Integer.compare(k1.getBrojBodova(), k2.getBrojBodova());
+		}
+
+	};
+	
+	
+	sorterIme = new Comparator<Korisnik>() {
+
+		@Override
+		public int compare(Korisnik o1, Korisnik o2) {
+			return  o1.getIme().toLowerCase().compareTo(o2.getIme().toLowerCase());
+		}
+
+	};
+	
+	sorterPrezime = new Comparator<Korisnik>() {
+
+		@Override
+		public int compare(Korisnik o1, Korisnik o2) {
+			return  o1.getPrezime().toLowerCase().compareTo(o2.getPrezime().toLowerCase());
+		}
+
+	};
+	
+	sorterUsername = new Comparator<Korisnik>() {
+
+		@Override
+		public int compare(Korisnik o1, Korisnik o2) {
+			return  o1.getUsername().toLowerCase().compareTo(o2.getUsername().toLowerCase());
+		}
+
+	};
+}
 	
 }

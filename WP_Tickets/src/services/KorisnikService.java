@@ -3,6 +3,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import beans.Manifestacija;
 import beans.TipKupca;
 import beans.enums.Uloga;
 import dao.KorisniciDAO;
+import dao.ManifestacijeDAO;
 
 @Path("/korisnici")
 public class KorisnikService {
@@ -189,30 +191,26 @@ public class KorisnikService {
 	public Collection<Korisnik> search(Object upit) {
 		@SuppressWarnings("unchecked")
 		LinkedHashMap<String, String> mapa = (LinkedHashMap<String, String>) upit;
-		Korisnik trenutni = (Korisnik)request.getSession().getAttribute("korisnik");
-		if(! trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername())) && trenutni.getUloga().equals(Uloga.ADMIN)) {
-			//provera da li je admin, ako ne null
-			return null;
-		}
 		KorisniciDAO daokorisnici = getKorisnici();
-		String ime = mapa.get("ime").trim();
-		String prezime = mapa.get("prz").trim();
+		String ime = mapa.get("ime").trim().toLowerCase();
+		String prezime = mapa.get("prz").trim().toLowerCase();
 		String username = mapa.get("usr").trim();
-		Collection<Korisnik> kolekcija = daokorisnici.getAllUsers();
+		Collection<Korisnik> result = new ArrayList<Korisnik>(daokorisnici.getAllUsers());
 		if (!username.equals("")) {
 			//pretraga svih sa datim username
 			Korisnik k = daokorisnici.getByUsername(username);
-			kolekcija.add(k);
+			result.clear();
+			if(k != null)			result.add(k);
+
 		}
 		if (!ime.equals("")) {
-			kolekcija = daokorisnici.getByName(kolekcija,ime);
+			result = daokorisnici.getByName(result,ime);
 		}
 		if (!prezime.equals("")) {
-			kolekcija = daokorisnici.getBySurname(kolekcija,prezime);
+			result = daokorisnici.getBySurname(result,prezime);
 		}
-		request.setAttribute("sviKorisnici", kolekcija);
-		return kolekcija;
-
+		request.getSession().setAttribute("KorisniciIspis", result);
+		return result;
 	}
 	
 	
@@ -225,16 +223,66 @@ public class KorisnikService {
 		KorisniciDAO daokorisnici = getKorisnici();
 		//uzmi korisnike iz sesije
 		@SuppressWarnings("unchecked")
-		Collection<Korisnik> kolekcija = ((Collection<Korisnik>) request.getSession().getAttribute("sviKorisnici"));
+		Collection<Korisnik> kolekcija = ((Collection<Korisnik>) request.getSession().getAttribute("KorisniciIspis"));
+		Collection<Korisnik> result;
 		//ako ih nema znaci nije radjen search radi sa svima
-		if(kolekcija == null)	kolekcija= daokorisnici.getAllUsers();
+		if(kolekcija == null)	result= new ArrayList<Korisnik>(daokorisnici.getAllUsers());
+		else result= new ArrayList<Korisnik>(kolekcija);
 		if (listaUslova.isEmpty()) {
-			return kolekcija;
+			return result;
 		}
 		ArrayList<String> uslovi = (ArrayList<String>) listaUslova;
-		kolekcija = daokorisnici.filtriraj(kolekcija,listaUslova);
+		result = daokorisnici.filtriraj(result,listaUslova);
 		//nije provereno kasno sam radio ne diraj nista!
-		return kolekcija;
+		return result;
 	}
 
+	@GET
+	@Path("/sort/{idSorta}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Korisnik> sortAdmin(@PathParam("idSorta") int idSorta) {
+		KorisniciDAO dao = getKorisnici();
+		@SuppressWarnings("unchecked")
+		Collection<Korisnik> kolekcija = ((Collection<Korisnik>) request.getSession().getAttribute("KorisniciIspis"));
+		List<Korisnik> result;
+		//ako ih nema znaci nije radjen search radi sa svima
+		if(kolekcija == null)	result= new ArrayList<Korisnik>(dao.getAllUsers());
+		else result= new ArrayList<Korisnik>(kolekcija);
+		
+		
+		switch (idSorta) {
+		case 1:
+			result = dao.sortirajPoImenu(result, false);
+			break;
+		case 2:
+			result = dao.sortirajPoImenu(result, true);
+			break;
+		case 3:
+			result = dao.sortirajPoPrezimenu(result, false);
+			break;
+		case 4:
+			result = dao.sortirajPoPrezimenu(result, true);
+			break;
+		case 5:
+			result = dao.sortirajPoUsername(result, false);
+			break;
+		case 6:
+			result = dao.sortirajPoUsername(result, true);
+			break;
+		case 7:
+			result = dao.sortirajPoBodovima(result, false);
+			break;
+		case 8:
+			result = dao.sortirajPoBodovima(result, true);
+			break;
+		default:
+			result = new ArrayList<Korisnik>();
+			break;
+		}
+		return result;
+	}
+	
+	
+	
+	
 }
