@@ -741,10 +741,10 @@ public class ManifestacijeDAO {
 	  {
 		  ArrayList<Karta>noveKarte = new ArrayList<Karta>();
 		  TipKarte tip = getTipFromInt(tipKarte);
+		  ArrayList<String> newIds =daoKarte.generisiId(brojKarata);
 		  for(int i=0;i<brojKarata;i++) 
 		  { 
-			  String newId=daoKarte.generisiId();
-			  Karta k = new Karta(newId,prodavac.getUsername(),m.getId(),m.getDatumVremeOdrzavanja(),cena,kupac.getUsername(),StatusKarte.REZERVISANA,tip);		  
+			  Karta k = new Karta(newIds.get(i),prodavac.getUsername(),m.getId(),m.getDatumVremeOdrzavanja(),cena,kupac.getUsername(),StatusKarte.REZERVISANA,tip);		  
 			  noveKarte.add(k);
 		  }
 		  
