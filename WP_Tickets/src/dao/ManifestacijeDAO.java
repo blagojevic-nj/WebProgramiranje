@@ -411,6 +411,7 @@ public class ManifestacijeDAO {
 
 	/*manifestacije i lista id-ova svih tipova koje ukljucujes*/
 	public List<Manifestacija> filtriranjePoTipu(List<Manifestacija> manifestacije, ArrayList<Integer> idoviTipaManifestacija) {
+		if(idoviTipaManifestacija.isEmpty()) return manifestacije;
 		ArrayList<Manifestacija> list = new ArrayList<Manifestacija>();
 		for(Integer id : idoviTipaManifestacija)
 		{
@@ -555,7 +556,7 @@ public class ManifestacijeDAO {
 
 			@Override
 			public int compare(Manifestacija o1, Manifestacija o2) {
-				return o1.getLokacija().getAdresa().compareTo(o2.getLokacija().getAdresa());
+				return o1.getNaziv().toLowerCase().compareTo(o2.getNaziv().toLowerCase());
 			}
 		};
 

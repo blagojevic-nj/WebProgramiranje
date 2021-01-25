@@ -294,24 +294,26 @@ public class KarteService {
 		}
 		List<Karta> result = new ArrayList<Karta>(kolekcija);
 		switch (idSorta) {
-		case 1:
-			result = daoKarte.sortirajPoImenuManifestacije(result, daoManifestacije, false);
-			break;
-		case 2:
-			result = daoKarte.sortirajPoImenuManifestacije(result, daoManifestacije, true);
-			break;
-		case 3:
+		case 1:		
 			result = daoKarte.sortirajPoCeniKarte(result, false);
 			break;
-		case 4:
+		case 2:
 			result = daoKarte.sortirajPoCeniKarte(result, true);
 			break;
-		case 5:
+		case 3:
 			result = daoKarte.sortirajPoDatumu(result, false);
 			break;
-		case 6:
+		case 4:
 			result = daoKarte.sortirajPoDatumu(result, true);
 			break;
+		case 5:
+			result = daoKarte.sortirajPoImenuManifestacije(result, daoManifestacije, false);
+
+			break;
+		case 6:
+			result = daoKarte.sortirajPoImenuManifestacije(result, daoManifestacije, true);
+			break;
+
 		default:
 			result = new ArrayList<Karta>();
 			break;

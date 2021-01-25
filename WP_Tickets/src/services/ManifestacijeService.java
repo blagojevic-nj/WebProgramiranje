@@ -152,7 +152,7 @@ public class ManifestacijeService {
 		List<Manifestacija> filtrirano = null;
 		if (uslovi.get(0) == -1) {
 			uslovi.remove(0);
-			filtrirano = dao.nerasprodate(filtrirano);
+			filtrirano = dao.nerasprodate(manifestacije);
 		}
 		//po ostalim uslovima
 		filtrirano = dao.filtriranjePoTipu(manifestacije, uslovi);

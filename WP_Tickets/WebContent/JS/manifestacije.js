@@ -260,6 +260,10 @@ $("#sort8").click(function()
 
 })
 
+$("#filterButton").on('click',function(e){
+	filtriranjeManifestacija(e);
+})
+
 function filtriranjeManifestacija(e){
 	e.preventDefault();
 	e.stopPropagation();
