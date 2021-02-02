@@ -2,6 +2,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -76,10 +77,9 @@ public class ManifestacijeService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Manifestacija> getAllManifestacije() {
 		ManifestacijeDAO dao = getManifestacije();
-		Collection<Manifestacija> sveManifestacije = dao.getHomePageManifestacije().values();
+		Collection<Manifestacija> sveManifestacije = dao.getHomePageManifestacije();
 		request.getSession().setAttribute("manifestacijeList", sveManifestacije);
 		return sveManifestacije;
-
 	}
 
 	@GET
@@ -89,6 +89,18 @@ public class ManifestacijeService {
 		ManifestacijeDAO manifestacije = getManifestacije();
 		return manifestacije.getAllManifestacijeTipovi();
 
+	}
+	
+	@GET
+	@Path("/nazivi")
+	@Produces(MediaType.APPLICATION_JSON)
+	public HashMap<Integer, String> naziv() {
+		ManifestacijeDAO manifestacije = getManifestacije();
+		HashMap<Integer, String> nazivi = new HashMap<>();
+		for(int i : manifestacije.getManifestacije().keySet()) {
+			nazivi.put(i, manifestacije.getManifestacije().get(i).getNaziv());
+		}
+		return nazivi;
 	}
 
 	@GET
@@ -237,7 +249,7 @@ public class ManifestacijeService {
 		@SuppressWarnings("unchecked")
 		LinkedHashMap<String, String> mapa = (LinkedHashMap<String, String>) upit;
 		ManifestacijeDAO dao = getManifestacije();
-		Collection<Manifestacija> kolekcija = new ArrayList<Manifestacija>(dao.getHomePageManifestacije().values());
+		Collection<Manifestacija> kolekcija = new ArrayList<Manifestacija>(dao.getHomePageManifestacije());
 		// let upit = {naziv:naziv, lokacija:lokacija,
 		// tipLokacije:"adresa",cenaOd:cenaOd,
 		// cenaDo:cenaDo,datumOd:datumOd,datumDo:datumDo}

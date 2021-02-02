@@ -16,7 +16,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-
 import beans.Karta;
 import beans.Korisnik;
 import beans.Kupac;
@@ -26,7 +25,6 @@ import dao.KarteDAO;
 import dao.KorisniciDAO;
 import dao.ManifestacijeDAO;
 
-
 @Path("/Karte")
 public class KarteService {
 
@@ -35,7 +33,7 @@ public class KarteService {
 
 	@Context
 	HttpServletRequest request;
-	
+
 	private KarteDAO getKarteDAO() {
 		KarteDAO dao = (KarteDAO) ctx.getAttribute("karte");
 		if (dao == null) {
@@ -44,7 +42,7 @@ public class KarteService {
 		}
 		return dao;
 	}
-	
+
 	private ManifestacijeDAO getManifestacijeDAO() {
 		ManifestacijeDAO manifestacije = (ManifestacijeDAO) ctx.getAttribute("manifestacije");
 		if (manifestacije == null) {
@@ -53,7 +51,7 @@ public class KarteService {
 		}
 		return manifestacije;
 	}
-	
+
 	private KorisniciDAO getKorisniciDAO() {
 		KorisniciDAO korisnici = (KorisniciDAO) ctx.getAttribute("KorisniciDAO");
 		if (korisnici == null) {
@@ -62,85 +60,76 @@ public class KarteService {
 		}
 		return korisnici;
 	}
-	
-	
+
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Karta> getAllManifestacije() {
 		KarteDAO dao = getKarteDAO();
-		Collection<Karta>karte;
+		Collection<Karta> karte;
 		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
 		if (trenutni == null) {
 			return null;
 		}
 
-		if (trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername()))&& trenutni.getUloga() == Uloga.KUPAC)
-		{
+		if (trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername()))
+				&& trenutni.getUloga() == Uloga.KUPAC) {
 			karte = dao.getKarte(2, trenutni.getUsername());
-		} 
-		else if (trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername()))&& trenutni.getUloga() == Uloga.PRODAVAC)
-		{
-			karte = dao.getKarte(1, trenutni.getUsername());		
-		}
-		else if(trenutni.getUloga() == Uloga.ADMIN)
-		{
-			karte = dao.getKarte(1, "ADMIN");		
+		} else if (trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername()))
+				&& trenutni.getUloga() == Uloga.PRODAVAC) {
+			karte = dao.getKarte(1, trenutni.getUsername());
+		} else if (trenutni.getUloga() == Uloga.ADMIN) {
+			karte = dao.getKarte(0, "ADMIN");
 
-		}else {
+		} else {
 			return null;
 		}
-	
+		request.getSession().setAttribute("trenutneKarte", karte);
 		return karte;
 
 	}
+
 	@GET
 	@Path("/kupi/{idManifestacije}/{broj}/{tipKarte}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean otkaziKartu(@PathParam("idManifestacije")String idManifestacije,@PathParam("broj")int broj,@PathParam("tipKarte")int tipKarte)
-	{
+	public boolean otkaziKartu(@PathParam("idManifestacije") String idManifestacije, @PathParam("broj") int broj,
+			@PathParam("tipKarte") int tipKarte) {
 		KarteDAO daoKarte = getKarteDAO();
 		ManifestacijeDAO daoManifestacije = getManifestacijeDAO();
-		
+
 		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
-		//provera trenutnog
-		if (!(trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername()))&&trenutni.getUloga() == Uloga.KUPAC))
-		{
+		if (!(trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername()))
+				&& trenutni.getUloga() == Uloga.KUPAC)) {
 			return false;
 		}
-		//ako je blokiran nema kupovine
-		if(((Kupac)trenutni).getBlokiran())
+		if (((Kupac) trenutni).getBlokiran())
 			return false;
-		
-		//Ako nije blokiran, dobavi cenu reg karte
-		double cenaForKupac = getKorisniciDAO().getCenaForKupac(trenutni,daoManifestacije.getCenaZaManifestaciju(idManifestacije),tipKarte);
-		//dobavi ko prodaje
+
+		double cenaForKupac = getKorisniciDAO().getCenaForKupac(trenutni,
+				daoManifestacije.getCenaZaManifestaciju(idManifestacije), tipKarte);
 		Korisnik prodavac = getKorisniciDAO().getProdavacZaManifestaciju(idManifestacije);
-		//obavi kupovinu u manifestacije dao i napravi sve karte
-		ArrayList<Karta>noveKarte = daoManifestacije.kupiKarte(idManifestacije,broj,daoKarte,trenutni,prodavac,tipKarte,cenaForKupac);
-		if(noveKarte==null)
-			{
-			//doslo je do greske, prekini kupovinu
-				return false;
-			}
-		//dodaj nove karte u mapu karata
+		ArrayList<Karta> noveKarte = daoManifestacije.kupiKarte(idManifestacije, broj, daoKarte, trenutni, prodavac,
+				tipKarte, cenaForKupac);
+		if (noveKarte == null) {
+
+			return false;
+		}
+
+		getKorisniciDAO().azurirajTip(noveKarte, ((Kupac) trenutni).getTip());
 		daoKarte.DodajNoveKarte(noveKarte);
-		//dodaj nove karte kupcu
-		getKorisniciDAO().dodajKarteKupcu(trenutni,noveKarte);
+		// dodaj nove karte kupcu
+		getKorisniciDAO().dodajKarteKupcu(trenutni, noveKarte);
 		getKorisniciDAO().dodajKarteProdavcu(noveKarte);
-		//dodaj kupcu bodove i proveri status
-		//getKorisniciDAO().dodajBodove(broj,cenaForKupac,trenutni);
 
 		return true;
 	}
-	
-	
+
 	@POST
 	@Path("/otkazi/{id}")
 	public boolean otkazi(@PathParam("id") String id) {
-		return getKarteDAO().otkazi(id,  getManifestacijeDAO());
+		return getKarteDAO().otkazi(id, getManifestacijeDAO(), getKorisniciDAO());
 	}
-	
+
 	@POST
 	@Path("/search")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -151,28 +140,28 @@ public class KarteService {
 		KarteDAO daoKarte = getKarteDAO();
 		ManifestacijeDAO daoManifestacije = getManifestacijeDAO();
 		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
-		if(trenutni==null) return null;
-		if (!(trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername()))))
-		{
+		if (trenutni == null)
+			return null;
+		if (!(trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername())))) {
 			return null;
 		}
 		Collection<Karta> kolekcija;
 		int tip;
 		switch (trenutni.getUloga()) {
 		case ADMIN:
-			kolekcija = new ArrayList<Karta>(daoKarte.getKarte(0,trenutni.getUsername()));
+			kolekcija = new ArrayList<Karta>(daoKarte.getKarte(0, trenutni.getUsername()));
 			break;
 		case PRODAVAC:
-			kolekcija = new ArrayList<Karta>(daoKarte.getKarte(1,trenutni.getUsername()));
+			kolekcija = new ArrayList<Karta>(daoKarte.getKarte(1, trenutni.getUsername()));
 			break;
 		case KUPAC:
-			kolekcija = new ArrayList<Karta>(daoKarte.getKarte(2,trenutni.getUsername()));
+			kolekcija = new ArrayList<Karta>(daoKarte.getKarte(2, trenutni.getUsername()));
 			break;
 		default:
 			return null;
 
-		} 
-		//karte datog korisnika
+		}
+		// karte datog korisnika
 		String naziv = mapa.get("naziv").trim().toLowerCase();
 		String cenaOd = mapa.get("cenaod").trim().toLowerCase();
 		String cenaDo = mapa.get("cenado").trim().toLowerCase();
@@ -180,7 +169,7 @@ public class KarteService {
 		String datumDo = mapa.get("datumdo").trim().toLowerCase();
 
 		if (!naziv.equals("")) {
-			kolekcija = daoKarte.searchNaziv(kolekcija, naziv,daoManifestacije);
+			kolekcija = daoKarte.searchNaziv(kolekcija, naziv, daoManifestacije);
 			if (kolekcija.isEmpty()) {
 				request.getSession().setAttribute("trenutneKarte", kolekcija);
 				return kolekcija;
@@ -220,34 +209,32 @@ public class KarteService {
 
 	}
 
-	
 	@POST
 	@Path("/filter")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Collection<Karta> filterKarti(Collection<String> listaUslova) {
 		KarteDAO daoKarte = getKarteDAO();
-		//uzmi karte iz sesije
+		// uzmi karte iz sesije
 		@SuppressWarnings("unchecked")
 		Collection<Karta> kolekcija = ((Collection<Karta>) request.getSession().getAttribute("trenutneKarte"));
 		Collection<Karta> result;
 		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
-		if (!(trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername()))))
-		{
+		if (!(trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername())))) {
 			return null;
 		}
-		//ako ih nema znaci nije radjen search radi sa svima
-		if(kolekcija == null) {
+		// ako ih nema znaci nije radjen search radi sa svima
+		if (kolekcija == null) {
 			int tip;
 			switch (trenutni.getUloga()) {
 			case ADMIN:
-				kolekcija = new ArrayList<Karta>(daoKarte.getKarte(0,trenutni.getUsername()));
+				kolekcija = new ArrayList<Karta>(daoKarte.getKarte(0, trenutni.getUsername()));
 				break;
 			case PRODAVAC:
-				kolekcija = new ArrayList<Karta>(daoKarte.getKarte(1,trenutni.getUsername()));
+				kolekcija = new ArrayList<Karta>(daoKarte.getKarte(1, trenutni.getUsername()));
 				break;
 			case KUPAC:
-				kolekcija = new ArrayList<Karta>(daoKarte.getKarte(2,trenutni.getUsername()));
+				kolekcija = new ArrayList<Karta>(daoKarte.getKarte(2, trenutni.getUsername()));
 				break;
 			default:
 				return null;
@@ -257,11 +244,10 @@ public class KarteService {
 			return kolekcija;
 		}
 		ArrayList<String> uslovi = (ArrayList<String>) listaUslova;
-		result =daoKarte.filtriraj(kolekcija,listaUslova);
+		result = daoKarte.filtriraj(kolekcija, listaUslova);
 		return result;
 	}
-	
-	
+
 	@GET
 	@Path("/sort/{idSorta}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -271,22 +257,21 @@ public class KarteService {
 		@SuppressWarnings("unchecked")
 		Collection<Karta> kolekcija = ((Collection<Karta>) request.getSession().getAttribute("trenutneKarte"));
 		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
-		if (!(trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername()))))
-		{
+		if (!(trenutni.equals(getKorisniciDAO().getByUsername(trenutni.getUsername())))) {
 			return null;
 		}
-		//ako ih nema znaci nije radjen search radi sa svima
-		if(kolekcija == null) {
+		// ako ih nema znaci nije radjen search radi sa svima
+		if (kolekcija == null) {
 			int tip;
 			switch (trenutni.getUloga()) {
 			case ADMIN:
-				kolekcija = new ArrayList<Karta>(daoKarte.getKarte(0,trenutni.getUsername()));
+				kolekcija = new ArrayList<Karta>(daoKarte.getKarte(0, trenutni.getUsername()));
 				break;
 			case PRODAVAC:
-				kolekcija = new ArrayList<Karta>(daoKarte.getKarte(1,trenutni.getUsername()));
+				kolekcija = new ArrayList<Karta>(daoKarte.getKarte(1, trenutni.getUsername()));
 				break;
 			case KUPAC:
-				kolekcija = new ArrayList<Karta>(daoKarte.getKarte(2,trenutni.getUsername()));
+				kolekcija = new ArrayList<Karta>(daoKarte.getKarte(2, trenutni.getUsername()));
 				break;
 			default:
 				return null;
@@ -294,7 +279,7 @@ public class KarteService {
 		}
 		List<Karta> result = new ArrayList<Karta>(kolekcija);
 		switch (idSorta) {
-		case 1:		
+		case 1:
 			result = daoKarte.sortirajPoCeniKarte(result, false);
 			break;
 		case 2:
@@ -320,6 +305,5 @@ public class KarteService {
 		}
 		return result;
 	}
-	
-	
+
 }

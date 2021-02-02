@@ -302,7 +302,7 @@ $("#mapaButton").click(function(e){
 
 /*****************************************************    PRETRAGA    ********************************************************************/
 
-function pretragaSubmit(e){
+$("#dugmePretraga").click(function(e){
 	e.preventDefault();
 	$("#prazanReturnUpita").remove();
 	let naziv = $("#nazivPretraga").val();
@@ -326,12 +326,6 @@ function pretragaSubmit(e){
 			}
         })
 	tipLokacije='adresa'
-	return false;
-};
-
-
-$("#dugmePretraga").click(function(){
-	$('#formPretraga').trigger('submit');
 });
 
 /*******************************************************    PREGLED     ********************************************************************/

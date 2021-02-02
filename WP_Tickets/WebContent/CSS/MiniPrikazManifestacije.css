@@ -1,13 +1,17 @@
-#tabelaManifestacija tr td{
+/* #tabelaManifestacija tr td{
 padding-left: 10%;
 padding-right: 10%;
 padding-top: 5vh;
 padding-bottom: 5vh;
 
+} */
+
+#tabelaManifestacija{
+    margin: auto;
+    margin-top:50px;
 }
 .manifestacija{
-    background-color: rgb(130, 0, 0);
-    border-radius: 15px;
+    background-color: rgb(122, 122, 122);
     border-style: groove;
     border-color: white;
     border-width: 5px;
@@ -15,13 +19,17 @@ padding-bottom: 5vh;
     height: 50vh;
     width: 20vw;
     font-family: sans-serif;
+    position: relative;
+    box-shadow: 5px 10px 18px #888888;
+    margin-top: 10px;
+    margin-right: 10px;
 }
 
 .manifestacija:hover{
  	transition: 0.5s ease;
  	cursor: pointer;
- 	
- 	background-color:  rgb(226, 176, 147);
+ 	color: black;
+ 	background-color:  rgb(150, 150, 150);
 }
 
 .slikaContainer{
@@ -30,6 +38,7 @@ padding-bottom: 5vh;
     background-color: darkslateblue;
     height: 50%;
     /*width: 80%;*/
+    overflow: hidden;
 }
 .slikaContainer div{
     margin-top: -15%;
@@ -37,6 +46,7 @@ padding-bottom: 5vh;
     font: bolder;
     margin-left: 5%;
     color: black;
+    overflow: hidden;
 }
 .slika{
     border-radius: 10px;
@@ -44,6 +54,12 @@ padding-bottom: 5vh;
     width: 100%;
 
 }
+
+.slika:hover{
+	transition: 0.5s ease;
+	transform: scale(1.2);
+}
+
 .cena{
    border-radius: 5px;
 /*    background-color: rgba(255, 255, 255,0.7);
@@ -97,5 +113,8 @@ padding-bottom: 5vh;
 }
 
 #tabelaDole{
-    margin-left: -5%;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 10px;
+    margin-left: 10px;
 }

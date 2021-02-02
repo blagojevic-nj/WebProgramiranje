@@ -21,6 +21,7 @@ import beans.Korisnik;
 import beans.Manifestacija;
 import beans.TipKupca;
 import beans.enums.Uloga;
+import dao.KarteDAO;
 import dao.KorisniciDAO;
 import dao.ManifestacijeDAO;
 
@@ -41,7 +42,16 @@ public class KorisnikService {
 		}
 		return korisnici;
 	}
-
+	
+	private KarteDAO getKarteDAO() {
+		KarteDAO dao = (KarteDAO) ctx.getAttribute("karte");
+		if (dao == null) {
+			dao = new KarteDAO(ctx.getRealPath("."));
+			ctx.setAttribute("karte", dao);
+		}
+		return dao;
+	}
+	
 	@GET
 	@Path("/prijava")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -144,6 +154,7 @@ public class KorisnikService {
 		Korisnik trenutni = (Korisnik)request.getSession().getAttribute("korisnik");
 		if(trenutni != null && trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername()))) {
 			if(trenutni.getUloga() == Uloga.ADMIN) {
+				request.getSession().setAttribute("KorisniciIspis", getKorisnici().getAllUsers());
 				return getKorisnici().getAllUsers();
 			}else if(trenutni.getUloga() == Uloga.PRODAVAC) {
 				return getKorisnici().zaProdavca(trenutni.getUsername());
@@ -231,8 +242,7 @@ public class KorisnikService {
 		if (listaUslova.isEmpty()) {
 			return result;
 		}
-		ArrayList<String> uslovi = (ArrayList<String>) listaUslova;
-		result = daokorisnici.filtriraj(result,listaUslova);
+		result = daokorisnici.filtriraj(result, listaUslova, getKarteDAO());
 		//nije provereno kasno sam radio ne diraj nista!
 		return result;
 	}

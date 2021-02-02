@@ -39,7 +39,7 @@ a:focus {
 }
 
 #sidebarCollapse{
-    background-color: rgb(130, 0, 0);
+   background-color: rgb(122, 122, 122);
     color: white;
 }
 /* Meni**********************************************************************************************/
@@ -307,7 +307,7 @@ scrollbar-width: none;  /* Firefox */
 /*iz tabela karata.css*/
 
 #tabela-karata{
-    width: 80%;
+    width: 95%;
     padding: 0;
     margin: auto;
     text-align: center;

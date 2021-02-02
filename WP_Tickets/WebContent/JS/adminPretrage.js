@@ -1,4 +1,3 @@
-/// <reference path="C:\Users\PC\Desktop\plugIn\typings\globals\jquery\index.d.ts" />
 function prevent(e) {
 	e.preventDefault();
 	return false;
@@ -23,13 +22,14 @@ function dodajPretraguKorisnikaAdminu()
 	let dugmeFilterGornje = $('<button  class="btn btn-outline-secondary" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-filter"></i></button>')
 	let divDropdown = $('<div class="dropdown-menu" aria-labelledby="dropdownMenuLink"></div');
 	let multiselect = $('<select id="TipSelectKorisniciAdmin"  class="multiselect-ui form-control" multiple="multiple"></select>')
+	let sumnjivi = $("<option value='sumnjivi'>Sumnjivi</option>");
 	let admin = $("<option value='admin'>Admin</option>");
 	let prodavac = $("<option value='prodavac'>Prodavac</option>");
 	let kupac = $("<option value='kupac'>Kupac</option>");
 	let zlatni = $("<option value='zlatni'>Zlatni</option>");
 	let srebrni = $("<option value='srebrni'>Srebrni</option>");
 	let bronzani = $("<option value='bronzani'>Bronzani</option>");
-	multiselect.append(admin).append(prodavac).append(kupac).append(zlatni).append(srebrni).append(bronzani);
+	multiselect.append(sumnjivi).append(admin).append(prodavac).append(kupac).append(zlatni).append(srebrni).append(bronzani);
 	let dugmeFilter = $('<button id="filterButtonKorisnikAdmin" onclick="filtrirajAdmin()" class="btn btn-outline-secondary btn-dark"><i class="fas fa-filter"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter</button>');
 	-
 

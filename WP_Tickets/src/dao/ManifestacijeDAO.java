@@ -1,18 +1,17 @@
 package dao;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,8 +46,15 @@ public class ManifestacijeDAO {
 		return manifestacije;
 	}
 	
-	public HashMap<Integer, Manifestacija> getHomePageManifestacije() {
-		return filtrirajPoAktivnom(neobrisaneManifestacije, true);
+	public List<Manifestacija> getHomePageManifestacije() {
+		ArrayList<Manifestacija> tmp = new ArrayList<>(filtrirajPoAktivnom(neobrisaneManifestacije, true).values());
+		Collections.sort(tmp, sorterDatum);
+		LocalDateTime now = LocalDateTime.now();
+		List<Manifestacija> nove = tmp.stream().filter(m -> m.getDatumVremeOdrzavanja().isAfter(now)).collect(Collectors.toList());	
+		for(Manifestacija man: tmp) {
+			if(!nove.contains(man)) nove.add(man);
+		}
+		return nove;
 	}
 
 	public void setManifestacije(HashMap<Integer, Manifestacija> manifestacije) {
@@ -81,11 +87,8 @@ public class ManifestacijeDAO {
 		}
 		
 		m.setId(manifestacije.values().size()+1);
-		//String putanja = prebaciSliku(m.getPoster(), m.getId());
-		System.out.println("Putanja do slike: " + m.getPoster());
-//		if(putanja == null) {
-//			return false;
-//		}
+		String putanja = prebaciSliku(m.getPoster(), m.getId());
+		m.setPoster(putanja);
 		manifestacije.put(m.getId(), m);
 		neobrisaneManifestacije.put(m.getId(), m);
 		Prodavac p = (Prodavac) dao.getByUsername(prodavac);
@@ -107,9 +110,7 @@ public class ManifestacijeDAO {
 	}
 	
 	private void dodajLokaciju(Lokacija lok) {
-		System.out.println("Ne mogu da dodam lokaciju!");
 		sveLokacije.add(lok);
-		System.out.println("...Ipak mogy");
 		ObjectMapper maper = new ObjectMapper();
 		try {
 			maper.writeValue(Paths.get(putanja+File.separator + "data" + File.separator + "lokacije.json").toFile(), sveLokacije);
@@ -120,27 +121,19 @@ public class ManifestacijeDAO {
 	
 	private String prebaciSliku(String poster, int id) {
 		String images = putanja + File.separator + "images" + File.separator;
-		FileInputStream fileInputStream = null;
-		FileOutputStream fileOutputStream = null;
-		try {
-			fileInputStream = new FileInputStream(new File(poster));
-			fileOutputStream = new FileOutputStream(new File(images+id+".png"));
-		} catch (FileNotFoundException e) {
-			return null;
-		}
-		int bufferSize;
-		byte[] buffer = new byte[1024];
-		try {
-			while ((bufferSize = fileInputStream.read(buffer)) > 0) {
-			    fileOutputStream.write(buffer, 0, bufferSize);
-			}
-			fileInputStream.close();
-			fileOutputStream.close();
-		} catch (IOException e) {
-			return null;
+		String imageDataBytes = poster.substring(poster.indexOf(",")+1);
+		
+	   byte[] data = Base64.getDecoder().decode(imageDataBytes);
+	   
+	   	try(OutputStream stream = new FileOutputStream(images + "/Manifestacije/"+id +".jpg")) {
+	   		stream.write(data);
+		} catch (Exception e) {
+			System.out.println("Greska prilikom upisa slike!");
 		}
 		
-		return images+id+".png";
+	 
+		
+		return "../images/Manifestacije/"+id+".jpg";
 	}
 	
 	private void upisiManifestacije() {
@@ -598,7 +591,7 @@ public class ManifestacijeDAO {
 		List<Manifestacija>nove = new ArrayList<Manifestacija>();
 		for(Manifestacija m : kolekcija)
 		{
-			if(m.getNaziv().toLowerCase().equals(naziv)) nove.add(m);
+			if(m.getNaziv().toLowerCase().contains(naziv)) nove.add(m);
 		}
 
 	return nove;	
@@ -676,18 +669,13 @@ public class ManifestacijeDAO {
 		if(tipLokacije.equals("koordinate"))
 		{
 			try {
-			     DecimalFormat df = new DecimalFormat("#.###");		//greska oko 50m
 					double prvaKoordinata = Double.parseDouble(lokacija.split(",")[0]);
 					double drugaKoordinata = Double.parseDouble(lokacija.split(",")[1]);
-					String prva = df.format(prvaKoordinata);
-					String druga = df.format(drugaKoordinata);
 					
 					for(Manifestacija m : kolekcija)
 					{				
 						 
-						String prviDuzina =df.format( m.getLokacija().getGeoDuzina());
-						String drugiDuzina =df.format( m.getLokacija().getGeoSirina());
-						if(prviDuzina.equals(prva)&& drugiDuzina.equals(drugiDuzina)) {
+						if(Math.abs(prvaKoordinata - m.getLokacija().getGeoDuzina()) < 0.0005 && Math.abs(drugaKoordinata - m.getLokacija().getGeoSirina()) < 0.0005) {
 							nove.add(m);
 						}
 					}
@@ -730,6 +718,7 @@ public class ManifestacijeDAO {
 		  {
 			  m.setBrojPreostalihMesta(m.getBrojPreostalihMesta()-brojKarata); 
 			  //vrati sve nove karte
+			  upisiManifestacije();
 			  return napraviKarte(brojKarata,daoKarte,m,kupac,prodavac,tipKarte,cena);
 		  } 
 		  return null;

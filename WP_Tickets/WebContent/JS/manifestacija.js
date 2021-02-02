@@ -22,6 +22,10 @@ $(document).ready(function(){
 						success: function(tips){
 							tipovi = tips
 							$("#tip").append(getTip(manifestacija.tip));
+							if(manifestacija.aktivno == true)
+								$("#status").append("Aktivna");
+							else
+								$("#status").append("Neaktivna");
 						}
 					})
 				}
@@ -142,7 +146,8 @@ function aktiviraj(manId){
 	$.post({
 		url: "/WP_Tickets/rest/Manifestacije/aktivacija/"+manId,
 		success: function(){
-			window.location.href == "../HTML/manifestacija.html";
+			$("#status").html("<i class='fas fa-calendar-check' id='logo-stat'></i>Aktivna");
+			$("#opcije").html("")
 		}
 	})
 }

@@ -1,4 +1,5 @@
 var globalLokacije = [];
+var fileContent;
 
 var map = new ol.Map({
         view: new ol.View({center: ol.proj.transform([19.84, 45.25], 'EPSG:4326', 'EPSG:3857'), zoom:14}),
@@ -153,7 +154,7 @@ $(document).ready(function() {
 			greska = true;
 		}
 		
-		if(!brojMesta){
+		if(!brojMesta || parseInt(brojMesta) < 0){
 			$("input[name='brojMesta']").css("border-bottom", "2px solid red");
 			greska = true;
 		}
@@ -163,7 +164,7 @@ $(document).ready(function() {
 			greska = true;
 		}
 		
-		if(!cena){
+		if(!cena || parseInt(cena) < 0){
 			$("input[name='cena']").css("border-bottom", "2px solid red");
 			greska = true;
 		}
@@ -200,10 +201,9 @@ $(document).ready(function() {
 				lok = {"id": globalLokacije.length+1, "geoDuzina": coor[0], "geoSirina": coor[1], "adresa": novaLokacija, "obrisana": false };
 			}
 			
-			
 			$.post({
 				url: "/WP_Tickets/rest/Manifestacije/registracija",
-				data: JSON.stringify({"id": -1, "naziv": naziv, "tip": tip, "brojMesta": brojMesta, "brojPreostalihMesta": brojMesta, "datumVremeOdrzavanja": datumVreme, "cenaREGkarte":cena, "aktivno":false, "lokacija":lok, "poster": poster, "obrisana":false}),
+				data: JSON.stringify({"id": -1, "naziv": naziv, "tip": tip, "brojMesta": brojMesta, "brojPreostalihMesta": brojMesta, "datumVremeOdrzavanja": datumVreme, "cenaREGkarte":cena, "aktivno":false, "lokacija":lok, "poster": fileContent, "obrisana":false}),
 				contentType: "application/json",
 				success: function(bul){
 					if(bul == "false")
@@ -216,4 +216,18 @@ $(document).ready(function() {
 		}
 	})
 })
+
+function readFile(input) {
+  let file = input.files[0];
+
+  let reader = new FileReader();
+
+  reader.readAsDataURL(file);
+
+  reader.onload = function() {
+    console.log(reader.result);
+    fileContent = reader.result;
+  };
+
+}
 

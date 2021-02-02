@@ -1,12 +1,13 @@
-/// <reference path="C:\Users\PC\Desktop\plugIn\typings\globals\jquery\index.d.ts" />
-
-
-
 function zameniKarte(karte)
 {
     $("#tabela-karata").empty();
-        for(let kart of karte)
-            dodajRedKarte(kart);
+    $.get({
+		url: "/WP_Tickets/rest/Manifestacije/nazivi",
+		success: function(nazivi){
+			for(let kart of karte)
+				dodajRedKarte(nazivi, kart);
+		}
+	})
 }
 
 function prevent(e) {
@@ -98,9 +99,9 @@ function pretraziKarte(){
 			success: function(karte){
 				ocistiPretraguAdmin();
 				if(!karte || karte.length == 0){
-					alert("Nema ni jedne karte!")
+					let tr = $("<tr><td><p class='error'>Nema nijedna karta!</p></td><tr>")
+					$("#tabela-karata").append(tr);
 				}else{						
-                    alert("UspesnoPretrazene karte")
                     zameniKarte(karte);
 				}
 			}

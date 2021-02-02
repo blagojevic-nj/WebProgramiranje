@@ -111,7 +111,8 @@ public class KarteDAO {
 	public ArrayList<Integer> getManifestacijeZaKarte(Collection<String> lista){
 		ArrayList<Integer> retVal = new ArrayList<Integer>();
 		for(String s : lista) {
-			retVal.add(mapaKarata.get(s).getManifestacija());
+			if(!retVal.contains(mapaKarata.get(s).getManifestacija()) && mapaKarata.get(s).getStatus() == StatusKarte.REZERVISANA)
+				retVal.add(mapaKarata.get(s).getManifestacija());
 		}
 		return retVal;
 	}
@@ -133,7 +134,7 @@ public class KarteDAO {
 		{
 			for(Karta k : mapaKarata.values())
 			{
-				if(k.getProdavac().equals(username) || k.getStatus() == StatusKarte.REZERVISANA)
+				if(k.getProdavac().equals(username) && k.getStatus() == StatusKarte.REZERVISANA)
 				{
 					cardList.add(k);
 				}
@@ -183,6 +184,7 @@ public class KarteDAO {
 		for(Karta k : noveKarte)
 		{
 			mapaKarata.put(k.getId(), k);
+			
 		}
 		
 		upisiKarte();
@@ -198,17 +200,16 @@ public class KarteDAO {
 		}
 	}
 	
-	public boolean otkazi(String id, ManifestacijeDAO dao) {
+	public boolean otkazi(String id, ManifestacijeDAO dao, KorisniciDAO korisnici) {
 		
 		Karta k = mapaKarata.get(id);
 		LocalDateTime now = LocalDateTime.now();
 
-	    if(k.getDatumVremeManifestacije().isAfter(now)) {
+	    if(k.getDatumVremeManifestacije().isAfter(now) && now.until(k.getDatumVremeManifestacije(), ChronoUnit.DAYS) >= 7) {
 	    	dao.proveriKartu(k.getManifestacija());
 	    	k.setStatus(StatusKarte.ODUSTANAK);
+	    	korisnici.otkazi(k);
 			upisiKarte();
-			
-			System.out.println(mapaKarata.get(id).getStatus());
 			// ovde ide ono za sredjivanje tipa
 			if(mapaOdustajanja.containsKey(k.getKupac())) {
 				mapaOdustajanja.get(k.getKupac()).add(now.toString());
@@ -233,7 +234,7 @@ public class KarteDAO {
 		}
 	}
 	
-	public Collection<Kupac> getSumljiviKorisnici(Collection<Kupac> kupci) {
+	public Collection<Kupac> getSumnjiviKorisnici(Collection<Kupac> kupci) {
 		ArrayList<Kupac> retVal = new ArrayList<Kupac>();
 		for(Kupac k: kupci) {
 			if(sumnjivKupac(k.getUsername()))

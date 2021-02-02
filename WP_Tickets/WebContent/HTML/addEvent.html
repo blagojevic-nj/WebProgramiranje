@@ -33,7 +33,7 @@
                 <tr><td><label>Datum i vreme:</label><input type="datetime-local" name="datum-vreme"/></td><td></td></tr>
                 <tr><td><label>Cena karte: </label><input type="number" step="0.5" name="cena" placeholder="Cena REG karte"></td><td></td></tr>
                 <tr><td><label class="text-labela">Lokacija:</label><select name="lokacija"><option value="">Nova lokacija</option></select></td><td></td></tr>
-                 <tr><td><label class="text-labela">Poster:</label><input type="file" id="poster" name="poster" accept="image/png, image/jpeg"></td><td></td></tr>
+                 <tr><td><label class="text-labela">Poster:</label><input type="file" id="poster" name="poster" accept="image/png, image/jpeg, image/jpg" onchange='readFile(this)'></td><td></td></tr>
                 <tr><td><input type="submit" value="Potvrdi"></td><td id="nova-lok-td"><label style="margin-left:100px">Unesite novu lokaciju:</label><input type="text" name="nova-lokacija"/></td></tr>
             </table>            
         </form>
