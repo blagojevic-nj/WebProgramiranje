@@ -18,4 +18,8 @@
   "id" : 4,
   "nazivTipa" : "Film",
   "obrisan" : false
-} ]
+}, {
+  "id" : 5,
+  "nazivTipa" : "Ostalo",
+  "obrisan" : false
+}]

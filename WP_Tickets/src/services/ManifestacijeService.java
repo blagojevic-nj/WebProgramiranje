@@ -236,7 +236,13 @@ public class ManifestacijeService {
 
 		if (trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername()))
 				&& trenutni.getUloga() == Uloga.PRODAVAC) {
-			return getManifestacije().RegistracijaNoveManifestacije(m, getKorisnici(), trenutni.getUsername());
+			if(request.getSession().getAttribute("zaIzmenu") == null)
+				return getManifestacije().RegistracijaNoveManifestacije(m, getKorisnici(), trenutni.getUsername());
+			else{
+				boolean retVal = getManifestacije().izmenaManifestacije(m, (Manifestacija) request.getSession().getAttribute("zaIzmenu"));
+				request.getSession().setAttribute("zaIzmenu", null);
+				return retVal;
+			}
 		}
 		return false;
 	}
@@ -336,5 +342,35 @@ public class ManifestacijeService {
 		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
 		if(trenutni != null && trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername())) && trenutni.getUloga() == Uloga.ADMIN)
 			getManifestacije().aktiviraj(id);
+	}
+	
+	@POST
+	@Path("/brisanje/{id}")
+	public void obrisi(@PathParam("id") int id) {
+		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
+		if(trenutni != null && trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername())) && trenutni.getUloga() == Uloga.ADMIN)
+			getManifestacije().obrisi(id);
+	}
+	
+	@POST
+	@Path("/izmena/{id}")
+	public void zaIzmenu(@PathParam("id") int id) {
+		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
+		if(trenutni != null && trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername())) && trenutni.getUloga() == Uloga.PRODAVAC)
+		{
+			request.getSession().setAttribute("zaIzmenu", getManifestacije().getManifestacijaById(id));
+		}
+	}
+	
+	@GET
+	@Path("/izmena/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Manifestacija zaIzmenu() {
+		Korisnik trenutni = (Korisnik) request.getSession().getAttribute("korisnik");
+		if(trenutni != null && trenutni.equals(getKorisnici().getByUsername(trenutni.getUsername())) && trenutni.getUloga() == Uloga.PRODAVAC)
+		{
+			return (Manifestacija)request.getSession().getAttribute("zaIzmenu");
+		}
+		return null;
 	}
 }

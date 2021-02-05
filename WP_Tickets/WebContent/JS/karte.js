@@ -122,9 +122,8 @@ function filtrirajKarte(){
 			success: function(karte){
 				ocistiPretraguAdmin();
 				if(!karte || karte.length == 0){
-					alert("Nema ni jedne karte!")
+					
 				}else{
-                        alert("FILTER KARTE")
                         zameniKarte(karte);
                     }
 

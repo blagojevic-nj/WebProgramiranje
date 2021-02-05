@@ -72,19 +72,31 @@ $(document).ready(function() {
 				window.location.href = "../HTML/home.html";
 			}else{
 				$.get({
-					url: "/WP_Tickets/rest/Manifestacije/Tipovi",
+					url: "/WP_Tickets/rest/Manifestacije/izmena/",
 					contentType: "application/json",
-					success: function(tipovi){
-						dodajTipove(tipovi)
-					}
-				})
-				
-				$.get({
-					url: "/WP_Tickets/rest/Manifestacije/Lokacije",
-					contentType: "application/json",
-					success: function(lokacije){
-						dodajLokacije(lokacije)
-						globalLokacije = lokacije;
+					success: function(manifestacija){
+					
+						$.get({
+							url: "/WP_Tickets/rest/Manifestacije/Tipovi",
+							contentType: "application/json",
+							success: function(tipovi){
+								dodajTipove(tipovi)
+								
+								$.get({
+									url: "/WP_Tickets/rest/Manifestacije/Lokacije",
+									contentType: "application/json",
+									success: function(lokacije){
+										dodajLokacije(lokacije)
+										globalLokacije = lokacije;
+										
+										if(manifestacija!=null){						
+											dodajPoljaManifestacije(manifestacija);
+										}
+									}
+								})
+							}
+						})
+						
 					}
 				})
 			}
@@ -168,10 +180,6 @@ $(document).ready(function() {
 			$("input[name='cena']").css("border-bottom", "2px solid red");
 			greska = true;
 		}
-		if(!poster){
-			$("input[name='poster']").css("border-bottom", "2px solid red");
-			greska = true;
-		}
 		
 		if(!lokacija){
 		
@@ -231,3 +239,30 @@ function readFile(input) {
 
 }
 
+function dodajPoljaManifestacije(manifestacija){
+	$("input[name='naziv']").val(manifestacija.naziv);
+	$("input[name='brojMesta']").val(manifestacija.brojMesta);
+	$("input[name='datum-vreme']").val(manifestacija.datumVremeOdrzavanja);
+	$("input[name='cena']").val(manifestacija.cenaREGkarte);
+	$("select[name='lokacija']").val(String(manifestacija.lokacija.id)).change();
+	$("select[name='tip']").val(manifestacija.tip).change();
+	
+	podesiMarker(manifestacija.lokacija)
+}
+
+function podesiMarker(lokacija){
+   	map.removeLayer(markerVectorLayer);
+		
+	marker = new ol.Feature({
+	    geometry: new ol.geom.Point(ol.proj.transform([lokacija.geoDuzina, lokacija.geoSirina], 'EPSG:4326', 'EPSG:3857')),
+	});
+	
+	markers = new ol.source.Vector({
+	    features: [marker]
+	});
+	
+	markerVectorLayer = new ol.layer.Vector({
+	    source: markers,
+	});
+	map.addLayer(markerVectorLayer);
+}

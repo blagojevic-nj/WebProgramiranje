@@ -89,7 +89,7 @@ public class KomentariDAO {
 		float suma = 0;
 		
 		for(Komentar k:mapaKomentara.values()) {
-			if(!k.getObrisan() && k.getOdobren()) {
+			if(!k.getObrisan() && k.getOdobren() && k.getManifestacija() == idMan) {
 				cnt++;
 				suma+=k.getOcena();
 			}

@@ -444,40 +444,42 @@ function dodajPodatkeOTipu(b, tip){
 }
 
 function dodajRedKorisnika(korisnik){
-    let tr;
-    if(korisnik.uloga == "PRODAVAC")
-        tr = $("<tr class='td-korisnik prodavac' id='"+korisnik.username+"'></tr>");
-    else
-        tr = $("<tr class='td-korisnik kupac' id='"+korisnik.username+"'></tr>");
-    let slika = $("<td><img class='slika-user' src='../images/"+korisnik.pol+".png' height='50px'></td>")
-    let username = $("<td><p class='username'>"+korisnik.username+"</p></td>")
-    let imePrezime =  $("<td><p class='imepre'>"+korisnik.ime + " " + korisnik.prezime+"</p></td>")
-    let rodjen = $("<td><p class='rodjen'>Rodjen:"+ korisnik.datumRodjenja+"</p></td>")
-    let uloga =  $("<td><p class='uloga'>"+ korisnik.uloga+"</p></td>")
-    if(korisnik.uloga =='KUPAC' && korisnik.brojBodova)
-    	uloga = $("<td><p class='uloga'>"+ korisnik.uloga+"</p><img src='../images/coin.png' height='30px'>"+ korisnik.brojBodova +"</td>")
-    let blok = $("<td></td>");
-    if(korisnik.blokiran){
-		if(korisnik.uloga != "ADMIN")
-        	blok =  $("<td><button class='odblok' onclick='blok(\""+korisnik.username+"\")'>Odblokiraj</button></td>")
-    } else{
-    	if(korisnik.uloga != "ADMIN")
-       		 blok =  $("<td><button class='blok' onclick='blok(\""+korisnik.username+"\")'>Blokiraj</button></td>")
-    }
-
-    let brisi = $("<td></td>");
-    if(korisnik.uloga != "ADMIN")
-   		brisi =  $("<td><button class='brisi' onclick='brisi(\""+korisnik.username+"\")'>Obrisi</button></td>")
-
-    
-    tr.append(slika);
-    tr.append(username);
-    tr.append(imePrezime)
-    tr.append(rodjen);
-    tr.append(uloga);
-    tr.append(blok);
-    tr.append(brisi);
-    $("#tabela-karata").append(tr);
+	if(!korisnik.obrisan){
+		let tr;
+	    if(korisnik.uloga == "PRODAVAC")
+	        tr = $("<tr class='td-korisnik prodavac' id='"+korisnik.username+"'></tr>");
+	    else
+	        tr = $("<tr class='td-korisnik kupac' id='"+korisnik.username+"'></tr>");
+	    let slika = $("<td><img class='slika-user' src='../images/"+korisnik.pol+".png' height='50px'></td>")
+	    let username = $("<td><p class='username'>"+korisnik.username+"</p></td>")
+	    let imePrezime =  $("<td><p class='imepre'>"+korisnik.ime + " " + korisnik.prezime+"</p></td>")
+	    let rodjen = $("<td><p class='rodjen'>Rodjen:"+ korisnik.datumRodjenja+"</p></td>")
+	    let uloga =  $("<td><p class='uloga'>"+ korisnik.uloga+"</p></td>")
+	    if(korisnik.uloga =='KUPAC' && korisnik.brojBodova)
+	    	uloga = $("<td><p class='uloga'>"+ korisnik.uloga+"</p><img src='../images/coin.png' height='30px'>"+ korisnik.brojBodova +"</td>")
+	    let blok = $("<td></td>");
+	    if(korisnik.blokiran){
+			if(korisnik.uloga != "ADMIN")
+	        	blok =  $("<td><button class='odblok' onclick='blok(\""+korisnik.username+"\")'>Odblokiraj</button></td>")
+	    } else{
+	    	if(korisnik.uloga != "ADMIN")
+	       		 blok =  $("<td><button class='blok' onclick='blok(\""+korisnik.username+"\")'>Blokiraj</button></td>")
+	    }
+	
+	    let brisi = $("<td></td>");
+	    if(korisnik.uloga != "ADMIN")
+	   		brisi =  $("<td><button class='brisi' onclick='brisi(\""+korisnik.username+"\")'>Obrisi</button></td>")
+	
+	    
+	    tr.append(slika);
+	    tr.append(username);
+	    tr.append(imePrezime)
+	    tr.append(rodjen);
+	    tr.append(uloga);
+	    tr.append(blok);
+	    tr.append(brisi);
+	    $("#tabela-karata").append(tr);
+	}
 }
 
 function blok(username){
@@ -485,8 +487,10 @@ function blok(username){
         url: "/WP_Tickets/rest/korisnici/blokiranje?username=" + username,
         contentType: "application/json",
         success: function(){
-
-            alert("uspesno smo blokirali korisnika")
+        		if($("#"+username).find('td:last-child').prev().text() == "Odblokiraj")
+					$("#"+username).find('td:last-child').prev().html("<button class='odblok' onclick='blok(\""+username+"\")'>Blokiraj</button>");
+				else
+					$("#"+username).find('td:last-child').prev().html("<button class='odblok' onclick='blok(\""+username+"\")'>Odblokiraj</button>");
         }
    })
 }
@@ -496,11 +500,11 @@ function brisi(username){
         url: "/WP_Tickets/rest/korisnici/brisanje?username=" + username,
         contentType: "application/json",
         success: function(){
-
-            alert("uspesno smo obrisali korisnika")
+			$("#"+ username).remove();
         }
    })
 }
+
 function obrisiDivPretrage()
 {
 	$("#PretragaTabele").empty();

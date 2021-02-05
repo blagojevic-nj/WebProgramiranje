@@ -87,13 +87,43 @@ public class ManifestacijeDAO {
 		}
 		
 		m.setId(manifestacije.values().size()+1);
-		String putanja = prebaciSliku(m.getPoster(), m.getId());
-		m.setPoster(putanja);
+		if(m.getPoster() == null || m.getPoster().equals("")) {
+			m.setPoster("../images/default.png");
+		}else {
+			String putanja = prebaciSliku(m.getPoster(), m.getId());
+			m.setPoster(putanja);
+		}
 		manifestacije.put(m.getId(), m);
 		neobrisaneManifestacije.put(m.getId(), m);
 		Prodavac p = (Prodavac) dao.getByUsername(prodavac);
 		p.getManifestacije().add(m.getId());
 		dao.izmena(p);
+		upisiManifestacije();
+		
+		return true;
+	}
+	
+	public boolean izmenaManifestacije(Manifestacija m, Manifestacija original) {
+		Manifestacija man = manifestacije.get(original.getId());
+		man.setNaziv(m.getNaziv());
+		man.setBrojMesta(m.getBrojMesta());
+		man.setBrojPreostalihMesta(m.getBrojPreostalihMesta());
+		man.setCenaREGkarte(m.getCenaREGkarte());
+		man.setDatumVremeOdrzavanja(m.getDatumVremeOdrzavanja());
+		if(!postojiLokacija(m.getLokacija().getId())) {
+			dodajLokaciju(m.getLokacija());
+		}
+		
+		man.setTip(m.getTip());
+		man.setLokacija(m.getLokacija());
+		
+		if(m.getPoster() == null || m.getPoster().trim().equals("")) {
+			man.setPoster(original.getPoster());
+		}else {
+			String putanja = prebaciSliku(m.getPoster(), m.getId());
+			man.setPoster(putanja);
+		}
+		
 		upisiManifestacije();
 		
 		return true;
@@ -374,7 +404,7 @@ public class ManifestacijeDAO {
 
 	}
 
-//*********************************************	
+
 
 	// Filtriranje
 
@@ -418,21 +448,6 @@ public class ManifestacijeDAO {
 		return list;
 	}
 
-	/** Prikaz slobodnih karata uraditi u karte dao!!!! */
-	/*
-	 * public List<Manifestacija> nerasprodateManifestacije(boolean ukljuciObrisane)
-	 * { Collection<Manifestacija>kolekcija = ukljuciObrisane ?
-	 * manifestacije.values() : neobrisaneManifestacije.values() ;
-	 * List<Manifestacija> list = new ArrayList<Manifestacija>(kolekcija);
-	 * 
-	 * for(Manifestacija m : kolekcija) { if(m.getBrojMesta()==0) list.add(m); }
-	 * 
-	 * return list;
-	 * 
-	 * }
-	 */
-
-	/** Iz liste svih uzmi samo one koje su Aktivne(T) ili neaktivne (F)! */
 	public HashMap<Integer, Manifestacija> filtrirajPoAktivnom(HashMap<Integer, Manifestacija> manifestacije, boolean aktivna)
 
 	{
@@ -687,7 +702,7 @@ public class ManifestacijeDAO {
 		}else {
 			for(Manifestacija m : kolekcija)
 			{		
-			if(m.getLokacija().getAdresa().toLowerCase().equals(lokacija))
+			if(m.getLokacija().getAdresa().toLowerCase().contains(lokacija))
 				{
 					nove.add(m);
 				}
@@ -779,6 +794,13 @@ public class ManifestacijeDAO {
 	
 	public void aktiviraj(int id) {
 		manifestacije.get(id).setAktivno(true);
+		upisiManifestacije();
+	}
+	
+	public void obrisi(int id) {
+		manifestacije.get(id).setAktivno(false);
+		manifestacije.get(id).setObrisana(true);
+		neobrisaneManifestacije.remove(id);
 		upisiManifestacije();
 	}
 	

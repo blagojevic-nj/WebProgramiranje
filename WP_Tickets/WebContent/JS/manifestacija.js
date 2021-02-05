@@ -111,15 +111,17 @@ function dodajOpcijeZaKorisnika(manifestacija){
 		$("#opcije").append(button);
 	}else if(tipKorisnika == "ADMIN"){
 		if(!manifestacija.aktivno){
-			let button = $("<button id='prijava-btn' onclick='aktiviraj("+manifestacija.id+")'>Aktivirajte ovu manifestaciju</button>")
-			$("#opcije").append(button);	
+			let button = $("<button id='brisanje-btn' onclick='aktiviraj("+manifestacija.id+")'>Aktivacija</button>")
+			let button2 = $("<button id='brisanje-btn' onclick='obrisi("+manifestacija.id+")'>Brisanje</button>")
+			$("#opcije").append(button).append(button2);	
+		}else{
+			let button2 = $("<button id='brisanje-btn' onclick='obrisi("+manifestacija.id+")'>Brisanje</button>")
+			$("#opcije").append(button2);	
 		}
 	} else if(tipKorisnika == "PRODAVAC"){
 		if(!manifestacija.aktivno){
-			let button = $("<button id='izmena-btn' onclick='izmeni()'>Izmena</button>")
+			let button = $("<button id='izmena-btn' onclick='izmeni("+manifestacija.id+")'>Izmena</button>")
 			$("#opcije").append(button);
-			let button2 = $("<button id='brisanje-btn' onclick='obrisi()'>Obrisi</button>")
-			$("#opcije").append(button2);
 		}
 	} else if(tipKorisnika == "KUPAC"){
 		$.get({
@@ -152,12 +154,22 @@ function aktiviraj(manId){
 	})
 }
 
-function izmeni(){
-	alert("Sad saljemo za izmenu zahtev");
+function izmeni(id){
+	$.post({
+		url: "/WP_Tickets/rest/Manifestacije/izmena/"+id,
+		success: function(){
+			window.location.href = "../HTML/addEvent.html";
+		}
+	})
 }
 
-function obrisi(){
-	alert("Sad saljemo za brisanje zahtev");
+function obrisi(id){
+	$.post({
+		url: "/WP_Tickets/rest/Manifestacije/brisanje/"+id,
+		success: function(){
+			window.location.href = '../HTML/home.html'
+		}
+	})
 }
 
 function kupi(brojMesta, idMan){
@@ -223,7 +235,7 @@ function dodajKomentare(id){
 					contentType: "application/json",
 					success: function(comments){
 						if(comments.length == 0){
-							let tr = $("<tr><td><p>Nema komentara</p></td></tr>");
+							let tr = $("<tr><td><label id='poruka'>Nema komentara</label></td></tr>");
 							$("#tabela-komentara").append(tr);
 						}else{
 							for(kom of comments){
@@ -282,14 +294,14 @@ function dodajKomentare(id){
 }
 
 function proveriOcenu(input){
-	if(input.val() == ""){
-		input.val(0);
+	if(input.value == ""){
+		input.value = 0;
 	}else{
-		var o = parseInt(input.val());
+		var o = parseInt(input.value);
 		if(o > 5)
-			input.val(5);
+			input.value=5;
 		if(o < 0)
-			input.val(0);
+			input.value=0;
 	}
 }
 
@@ -359,7 +371,7 @@ function dodajNoviKomentar(id){
 		data: JSON.stringify({"id": -1, "usernameKupca": "", "manifestacija":id, "tekstKomentara": tekstKom, "ocena": oc, "odobren": false, "obrisan": false}),
 		success: function(ok){
 			if(ok =='true')
-				alert("Dodat kom!");
+				alert("Vas komentar je registrovan!");
 			else{
 				alert("Neka greska!")
 			}
