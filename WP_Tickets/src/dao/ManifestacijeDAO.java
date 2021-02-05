@@ -120,7 +120,7 @@ public class ManifestacijeDAO {
 		if(m.getPoster() == null || m.getPoster().trim().equals("")) {
 			man.setPoster(original.getPoster());
 		}else {
-			String putanja = prebaciSliku(m.getPoster(), m.getId());
+			String putanja = prebaciSliku(m.getPoster(), original.getId());
 			man.setPoster(putanja);
 		}
 		
