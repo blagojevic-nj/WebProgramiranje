@@ -267,7 +267,6 @@ $("#filterButton").on('click',function(e){
 function filtriranjeManifestacija(e){
 	e.preventDefault();
 	e.stopPropagation();
-	alert("Filtriram");
 	$("#prazanReturnUpita").remove();
 	let select = $("#TipSelect").prop("selectedOptions");
 	let lista=[];
