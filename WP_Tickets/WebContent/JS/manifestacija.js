@@ -324,10 +324,10 @@ function dodajRedKomentaraProdavac(komentar){
 function dodajRedKomentaraAdmin(komentar){
 	let tr;
 	if(!komentar.odobren){
-		tr  = $("<tr id='"+komentar.id+"'><td><i class='fas fa-user'></i>"+komentar.usernameKupca+"</td><td>"+komentar.tekstKomentara+"</td><td>Ocena: "+komentar.ocena+"</td><td><i class='fas fa-question-circle'></i><span id='status-kom'>NEODOBREN</span></td></tr>")
+		tr  = $("<tr id='"+komentar.id+"'><td><i class='fas fa-user'></i>"+komentar.usernameKupca+"</td><td>"+komentar.tekstKomentara+"</td><td>Ocena: "+komentar.ocena+"</td><td><i class=\"far fa-question-circle\"></i><span id='status-kom'>NEODOBREN</span></td></tr>")
 	}
 	else{
-		tr = $("<tr id='"+komentar.id+"'><td><i class='fas fa-user'></i>"+komentar.usernameKupca+"</td><td>"+komentar.tekstKomentara+"</td><td>Ocena: "+komentar.ocena+"</td><td><i class='fas fa-check-double'></i><span id='status-kom'>ODOBREN</span></td></tr>")
+		tr = $("<tr id='"+komentar.id+"'><td><i class='fas fa-user'></i>"+komentar.usernameKupca+"</td><td>"+komentar.tekstKomentara+"</td><td>Ocena: "+komentar.ocena+"</td><td><i class=\"fas fa-thumbs-up\"></i><span id='status-kom'>ODOBREN</span></td></tr>")
 	}
 	$("#tabela-komentara").append(tr);
 }

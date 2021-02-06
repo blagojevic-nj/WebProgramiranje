@@ -1,1 +1,1 @@
-[{"id":1,"usernameKupca":"user1","manifestacija":6,"tekstKomentara":"Odlicna predstava!","ocena":2,"odobren":false,"obrisan":false}]
+[{"id":1,"usernameKupca":"user1","manifestacija":6,"tekstKomentara":"Odlicna predstava!","ocena":2,"odobren":true,"obrisan":false},{"id":2,"usernameKupca":"user1","manifestacija":6,"tekstKomentara":"nije lose","ocena":5,"odobren":true,"obrisan":false}]

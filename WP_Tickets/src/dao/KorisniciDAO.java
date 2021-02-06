@@ -414,7 +414,7 @@ public class KorisniciDAO {
 	public Collection<Korisnik> getByName(Collection<Korisnik> kolekcija, String name) {
 		ArrayList<Korisnik> filteredList = new ArrayList<Korisnik>();
 		for (Korisnik k : kolekcija) {
-			if (k.getIme().toLowerCase().equals(name)) {
+			if (k.getIme().toLowerCase().contains(name)) {
 				filteredList.add(k);
 			}
 		}
@@ -424,7 +424,7 @@ public class KorisniciDAO {
 	public Collection<Korisnik> getBySurname(Collection<Korisnik> kolekcija, String prezime) {
 		ArrayList<Korisnik> filteredList = new ArrayList<Korisnik>();
 		for (Korisnik k : kolekcija) {
-			if (k.getPrezime().toLowerCase().equals(prezime)) {
+			if (k.getPrezime().toLowerCase().contains(prezime)) {
 				filteredList.add(k);
 			}
 		}

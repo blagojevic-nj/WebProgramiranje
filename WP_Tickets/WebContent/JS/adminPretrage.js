@@ -76,7 +76,7 @@ function pretraziAdmin(){
 			success: function(korisnici){
 				ocistiPretraguAdmin();
 				if(!korisnici || korisnici.length == 0){
-					alert("Nema nijednog reg korisnika!")
+					
 				}else{
 						for(let kor of korisnici)
 						dodajRedKorisnika(kor)
@@ -99,7 +99,7 @@ function filtrirajAdmin(){
 			success: function(filtrirani){
 				ocistiPretraguAdmin();
 				if(!filtrirani || filtrirani.length == 0){
-					alert("Nema nijednog korisnika!")
+					
 				}else{
 					 for(let kor of filtrirani)
 						dodajRedKorisnika(kor)
